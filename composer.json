@@ -1,0 +1,22 @@
+{
+    "name": "donatj/flags",
+    "description": "Commandline Flag Parser",
+    "require-dev": {
+        "donatj/drop": "*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jesse Donat",
+            "email": "donatj@gmail.com"
+        }
+    ],
+    "require": {
+
+    },
+	"autoload": {
+		"psr-0": {
+			"donatj": "src/"
+		}
+	}
+}

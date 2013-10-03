@@ -13,7 +13,7 @@ $verbose = & $flags->short('v', 'verbosity');
 try {
 	$flags->parse();
 } catch(Exception $e) {
-	die($e->getMessage());
+	die($e->getMessage() . PHP_EOL . $flags->getDefaults() . PHP_EOL );
 }
 
 drop($sponges, $what, $cat, $verbose, $sponges);

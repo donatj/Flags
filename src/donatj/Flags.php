@@ -64,9 +64,24 @@ class Flags {
 
 	public function getDefaults() {
 
-		foreach( $this->defined_flags as $flag ) {
+		$output = '';
+		$final  = array();
+		$max    = 0;
 
+		foreach( $this->defined_short_flags as $char => $data ) {
+			$final["-{$char}"] = $data['usage'];
 		}
+
+		foreach( $this->defined_flags as $flag => $data ) {
+			$final["--{$flag}"] = $data['usage'];
+			$max                = max($max, strlen($flag));
+		}
+
+		foreach( $final as $flag => $usage ) {
+			$output .= sprintf('%' . ($max + 5) . 's', $flag) . "   {$usage}" . PHP_EOL;
+		}
+
+		return $output;
 
 	}
 

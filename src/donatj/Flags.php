@@ -12,13 +12,15 @@ class Flags {
 	private $arguments = array();
 
 	public function arg( $index ) {
-
+		return isset($this->arguments[$index]) ? $this->arguments[$index] : null;
 	}
 
+	/**
+	 * @return string[]
+	 */
 	public function args() {
-
+		return $this->arguments;
 	}
-
 
 	public function &short( $letter, $usage = '' ) {
 		$this->defined_short_flags[$letter[0]] = array(
@@ -151,7 +153,7 @@ class Flags {
 		foreach( $shortParams as $char => $value ) {
 			if( !isset($this->defined_short_flags[$char]) ) {
 				throw new InvalidFlagParamException('Unknown option: -' . $char);
-			}else{
+			} else {
 				$this->defined_short_flags[$char]['value'] = $value;
 			}
 		}

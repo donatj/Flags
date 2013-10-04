@@ -94,8 +94,15 @@ class Flags {
 		}
 
 		foreach( $this->defined_flags as $flag => $data ) {
-			$final["--{$flag}"] = $data['usage'];
-			$max                = max($max, strlen($flag));
+			see(var_export($data, true));
+			$key         = "--{$flag}";
+			$final[$key] = ($data['required'] ?
+					"<{$data['type']}> " :
+					($data['type'] == 'bool' ?
+						'' :
+						"[{$data['type']}] "
+					)) . $data['usage'];
+			$max         = max($max, strlen($key));
 		}
 
 		foreach( $final as $flag => $usage ) {

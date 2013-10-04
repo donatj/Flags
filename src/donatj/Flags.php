@@ -208,7 +208,7 @@ class Flags {
 				return false;
 			},
 			'uint'   => function ( &$val ) {
-				if( ctype_digit((string)$val) ) {
+				if( abs(floatval($val)) == intval($val) ) {
 					$val = intval($val);
 
 					return true;
@@ -217,7 +217,7 @@ class Flags {
 				return false;
 			},
 			'int'    => function ( &$val ) {
-				if( is_numeric($val) ) {
+				if( is_numeric($val) && floatval($val) == intval($val) ) {
 					$val = intval($val);
 
 					return true;
@@ -235,9 +235,13 @@ class Flags {
 				return false;
 			},
 			'string' => function ( &$val ) {
-				$val = (string)$val;
+				if( $val !== true ) {
+					$val = (string)$val;
 
-				return true;
+					return true;
+				}
+
+				return false;
 			},
 		);
 

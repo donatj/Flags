@@ -177,17 +177,17 @@ class Flags {
 			}
 		}
 
-		foreach( $this->defined_flags as $name => $data ) {
-			if( $data['value'] === null ) {
-				throw new MissingFlagParamException('Expected option --' . $name . ' missing.');
-			}
-		}
-
 		foreach( $shortParams as $char => $value ) {
 			if( !isset($this->defined_short_flags[$char]) ) {
 				throw new InvalidFlagParamException('Unknown option: -' . $char);
 			} else {
 				$this->defined_short_flags[$char]['value'] = $value;
+			}
+		}
+
+		foreach( $this->defined_flags as $name => $data ) {
+			if( $data['value'] === null ) {
+				throw new MissingFlagParamException('Expected option --' . $name . ' missing.');
 			}
 		}
 

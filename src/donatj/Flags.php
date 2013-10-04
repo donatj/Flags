@@ -4,6 +4,7 @@ namespace donatj;
 
 use donatj\Exceptions\InvalidFlagParamException;
 use donatj\Exceptions\InvalidFlagTypeException;
+use donatj\Exceptions\MissingFlagParamException;
 
 class Flags {
 
@@ -20,6 +21,24 @@ class Flags {
 	 */
 	public function args() {
 		return $this->arguments;
+	}
+
+	public function longs() {
+		$out = array();
+		foreach($this->defined_flags as $key => $data) {
+			$out[$key] = $data['value'];
+		}
+
+		return $out;
+	}
+
+	public function shorts() {
+		$out = array();
+		foreach($this->defined_short_flags as $key => $data) {
+			$out[ $key ] = $data['value'];
+		}
+
+		return $out;
 	}
 
 	public function &short( $letter, $usage = '' ) {
@@ -89,6 +108,7 @@ class Flags {
 
 	/**
 	 * @param array $args
+	 * @throws Exceptions\MissingFlagParamException
 	 * @throws Exceptions\InvalidFlagParamException
 	 * @throws Exceptions\InvalidFlagTypeException
 	 */
@@ -147,6 +167,12 @@ class Flags {
 				} else {
 					throw new InvalidFlagTypeException('Option --' . $name . ' expected type: "' . $defined_flag['type'] . '"');
 				}
+			}
+		}
+
+		foreach( $this->defined_flags as $name => $data ) {
+			if($data['value'] === null) {
+				throw new MissingFlagParamException('Expected option --' . $name . ' missing.');
 			}
 		}
 

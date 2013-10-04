@@ -25,7 +25,7 @@ class Flags {
 
 	public function longs() {
 		$out = array();
-		foreach($this->defined_flags as $key => $data) {
+		foreach( $this->defined_flags as $key => $data ) {
 			$out[$key] = $data['value'];
 		}
 
@@ -34,8 +34,8 @@ class Flags {
 
 	public function shorts() {
 		$out = array();
-		foreach($this->defined_short_flags as $key => $data) {
-			$out[ $key ] = $data['value'];
+		foreach( $this->defined_short_flags as $key => $data ) {
+			$out[$key] = $data['value'];
 		}
 
 		return $out;
@@ -171,7 +171,7 @@ class Flags {
 		}
 
 		foreach( $this->defined_flags as $name => $data ) {
-			if($data['value'] === null) {
+			if( $data['value'] === null ) {
 				throw new MissingFlagParamException('Expected option --' . $name . ' missing.');
 			}
 		}

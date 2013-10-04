@@ -131,22 +131,32 @@ class Flags {
 
 		$cmd = array_shift($args);
 
-		$get_val = false;
+		$forceValue = false;
+		$getValue   = false;
 		foreach( $args as $arg ) {
-			if( $arg == '--' ) {
-				$startArgs = true;
-			} elseif( $arg[0] == '-' && !$startArgs ) {
+			if( $arg[0] == '-' && !$startArgs && !$forceValue ) {
 				$cleanArg = ltrim($arg, '- ');
 
-				$get_val = false;
+				if( $getValue ) {
+					$longParams[$getValue] = true;
+				}
 
-				if( $arg[1] == '-' ) {
+				$getValue = false;
+
+				if( $arg == '--' ) {
+					$startArgs = true;
+				} elseif( $arg[1] == '-' ) {
 					$split = explode('=', $arg, 2);
 
 					if( count($split) > 1 ) {
 						$longParams[ltrim(reset($split), '- ')] = end($split);
 					} else {
-						$get_val = $cleanArg;
+						$getValue = $cleanArg;
+
+						if( isset($this->defined_flags[$cleanArg]) && $this->defined_flags[$cleanArg]['type'] != 'bool' ) {
+							$forceValue = true;
+						}
+
 					}
 				} else {
 					$split = str_split($cleanArg);
@@ -154,12 +164,17 @@ class Flags {
 						$shortParams[$char] = isset($shortParams[$char]) ? $shortParams[$char] + 1 : 1;
 					}
 				}
-			} elseif( $get_val !== false && !$startArgs ) {
-				$longParams[$get_val] = $arg;
-				$get_val              = false;
+			} elseif( ($getValue !== false && !$startArgs) || $forceValue ) {
+				$longParams[$getValue] = $arg;
+				$getValue              = false;
+				$forceValue            = false;
 			} else {
 				$this->arguments[] = $arg;
 			}
+		}
+
+		if( $getValue ) {
+			$longParams[$getValue] = true;
 		}
 
 		foreach( $longParams as $name => $value ) {

@@ -94,7 +94,6 @@ class Flags {
 		}
 
 		foreach( $this->defined_flags as $flag => $data ) {
-			see(var_export($data, true));
 			$key         = "--{$flag}";
 			$final[$key] = ($data['required'] ?
 					"<{$data['type']}> " :

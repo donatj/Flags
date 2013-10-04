@@ -1,20 +1,29 @@
 {
-    "name": "donatj/flags",
-    "description": "Commandline Flag Parser",
-    "require-dev": {
-        "donatj/drop": "*",
-		"phpunit/phpunit" : "3.7.*"
-    },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Jesse Donat",
-            "email": "donatj@gmail.com"
-        }
-    ],
-    "require": {
+	"name": "donatj/flags",
+	"type": "library",
+	"description": "Go-lang `Flags` inspired command-line flag/option parser",
+	"keywords": [
+		"cli",
+		"arguments",
+		"options",
+		"flags"
+	],
+	"require-dev": {
+		"donatj/drop": "*",
+		"phpunit/phpunit": "3.7.*"
+	},
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Jesse Donat",
+			"email": "donatj@gmail.com"
+			"homepage": "http://donatstudios.com",
+			"role": "Developer"
+		}
+	],
+	"require": {
 		"php": ">=5.3.0"
-    },
+	},
 	"autoload": {
 		"psr-0": {
 			"donatj": "src/"

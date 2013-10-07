@@ -114,11 +114,12 @@ class Flags {
 
 	/**
 	 * @param array $args
+	 * @param bool  $ignoreExceptions
 	 * @throws Exceptions\MissingFlagParamException
 	 * @throws Exceptions\InvalidFlagParamException
 	 * @throws Exceptions\InvalidFlagTypeException
 	 */
-	public function parse( array $args = null ) {
+	public function parse( array $args = null, $ignoreExceptions = false ) {
 
 		if( $args === null ) {
 			$args = $GLOBALS['argv'];
@@ -178,7 +179,9 @@ class Flags {
 
 		foreach( $longParams as $name => $value ) {
 			if( !isset($this->defined_flags[$name]) ) {
-				throw new InvalidFlagParamException('Unknown option: --' . $name);
+				if( !$ignoreExceptions ) {
+					throw new InvalidFlagParamException('Unknown option: --' . $name);
+				}
 			} else {
 				$defined_flag =& $this->defined_flags[$name];
 
@@ -186,14 +189,18 @@ class Flags {
 					$defined_flag['value']  = $value;
 					$defined_flag['parsed'] = true;
 				} else {
-					throw new InvalidFlagTypeException('Option --' . $name . ' expected type: "' . $defined_flag['type'] . '"');
+					if( !$ignoreExceptions ) {
+						throw new InvalidFlagTypeException('Option --' . $name . ' expected type: "' . $defined_flag['type'] . '"');
+					}
 				}
 			}
 		}
 
 		foreach( $shortParams as $char => $value ) {
 			if( !isset($this->defined_short_flags[$char]) ) {
-				throw new InvalidFlagParamException('Unknown option: -' . $char);
+				if( !$ignoreExceptions ) {
+					throw new InvalidFlagParamException('Unknown option: -' . $char);
+				}
 			} else {
 				$this->defined_short_flags[$char]['value'] = $value;
 			}
@@ -201,7 +208,9 @@ class Flags {
 
 		foreach( $this->defined_flags as $name => $data ) {
 			if( $data['value'] === null ) {
-				throw new MissingFlagParamException('Expected option --' . $name . ' missing.');
+				if( !$ignoreExceptions ) {
+					throw new MissingFlagParamException('Expected option --' . $name . ' missing.');
+				}
 			}
 		}
 

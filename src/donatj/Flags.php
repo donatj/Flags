@@ -32,20 +32,6 @@ class Flags {
 	}
 
 	/**
-	 * Returns an array of long-flag values indexed by flag name
-	 *
-	 * @return array
-	 */
-	public function longs() {
-		$out = array();
-		foreach( $this->defined_flags as $key => $data ) {
-			$out[$key] = $data['value'];
-		}
-
-		return $out;
-	}
-
-	/**
 	 * Returns an array of short-flag call-counts indexed by character
 	 *
 	 * `-v` would set the 'v' index to 1, whereas `-vvv` will set the 'v' index to 3
@@ -55,6 +41,20 @@ class Flags {
 	public function shorts() {
 		$out = array();
 		foreach( $this->defined_short_flags as $key => $data ) {
+			$out[$key] = $data['value'];
+		}
+
+		return $out;
+	}
+
+	/**
+	 * Returns an array of long-flag values indexed by flag name
+	 *
+	 * @return array
+	 */
+	public function longs() {
+		$out = array();
+		foreach( $this->defined_flags as $key => $data ) {
 			$out[$key] = $data['value'];
 		}
 

@@ -253,7 +253,7 @@ class Flags {
 	}
 
 	/**
-	 * Parses flag definitions from the argument list, which should not include the command name.
+	 * Parses flag definitions from the argument list, which should include the command name.
 	 * Must be called after all flags are defined and before flags are accessed by the program.
 	 *
 	 * Will throw exceptions on Missing Require Flags, Unknown Flags or Incorrect Flag Types

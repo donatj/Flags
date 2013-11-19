@@ -3,15 +3,24 @@
 [![Build Status](https://travis-ci.org/donatj/Flags.png?branch=master)](https://travis-ci.org/donatj/Flags)
 
 Flags is an argument parser inspired by the Go-lang [Flag](http://golang.org/pkg/flag/#Parsed) package, taking its methodology but attaching a **GNU-style** flag parser.
-   
+
+---
+
 It supports the following style of parameters:
 
-Long flags `--key=value` / `--key value`  
-Short flags `-v`
-Multiple of the same short flag `-vvv` 
-GNU style multi-short-flag `-Xasd`  
+Long-Flags  
+`--key=value` / `--key value`
 
-It also features ` -- ` for absolute separation of arguments from options.
+Short-Flags  
+`-v`
+
+GNU Style Multi-Short-Flags  
+`-Xasd`
+
+Multiple of the Same Short-Flag  
+`-vvv`
+
+As well as the ` -- ` operator for absolute separation of arguments from options.
 
 ## Requirements
 
@@ -28,6 +37,8 @@ Flags is available through Packagist via Composer
     }
 }
 ```
+
+## Example
 
 Here is a simple example.
 

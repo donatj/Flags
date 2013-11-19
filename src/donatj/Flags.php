@@ -11,6 +11,7 @@ class Flags {
 	private $defined_flags = array();
 	private $defined_short_flags = array();
 	private $arguments = array();
+	private $parsed = false;
 
 	/**
 	 * Returns the n'th command-line argument. `arg(0)` is the first remaining argument after flags have been processed.
@@ -358,6 +359,17 @@ class Flags {
 			}
 		}
 
+		$this->parsed = true;
+
+	}
+
+	/**
+	 * Returns true if the command-line flags have been parsed.
+	 *
+	 * @return bool
+	 */
+	function parsed() {
+		return $this->parsed;
 	}
 
 	/**

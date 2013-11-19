@@ -265,6 +265,20 @@ class FlagsTest extends \PHPUnit_Framework_TestCase {
 
 	}
 
+	public function testParsed() {
+		$flags = new Flags();
+		$this->assertSame(false, $flags->parsed());
+
+		try{
+			$flags->parse(explode(' ', 'test.php --failtoparse=true'));
+		}catch (\Exception $e) {}
+
+		$this->assertSame(false, $flags->parsed());
+
+		$flags->parse(explode(' ', 'test.php a b c'));
+		$this->assertSame(true, $flags->parsed());
+	}
+
 	/**
 	 * @expectedException \donatj\Exceptions\InvalidFlagParamException
 	 */

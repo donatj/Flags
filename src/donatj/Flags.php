@@ -102,8 +102,8 @@ class Flags {
 	 *      --mybool [false|f|0]
 	 *        [not calling --mybool and having the default false]
 	 *
-	 * @param string $name The name of the long-flag to define.
-	 * @param mixed  $value The default value - usually false.
+	 * @param string $name The name of the long-flag to define
+	 * @param mixed  $value The default value - usually false for bool - which if null marks the flag required
 	 * @param string $usage The usage description
 	 * @return mixed A reference to the flags value
 	 */
@@ -120,8 +120,8 @@ class Flags {
 	 *     --myfloat=1.1
 	 *     --myfloat 1.1
 	 *
-	 * @param string $name The name of the long-flag to define.
-	 * @param mixed  $value The default value
+	 * @param string $name The name of the long-flag to define
+	 * @param mixed  $value The default value which if null marks the flag required
 	 * @param string $usage The usage description
 	 * @return mixed A reference to the flags value
 	 */
@@ -140,8 +140,8 @@ class Flags {
 	 *     --myinteger=1
 	 *     --myinteger 1
 	 *
-	 * @param string $name The name of the long-flag to define.
-	 * @param mixed  $value The default value
+	 * @param string $name The name of the long-flag to define
+	 * @param mixed  $value The default value which if null marks the flag required
 	 * @param string $usage The usage description
 	 * @return mixed A reference to the flags value
 	 */
@@ -160,8 +160,8 @@ class Flags {
 	 *     --myinteger=1
 	 *     --myinteger 1
 	 *
-	 * @param string $name The name of the long-flag to define.
-	 * @param mixed  $value The default value
+	 * @param string $name The name of the long-flag to define
+	 * @param mixed  $value The default value which if null marks the flag required
 	 * @param string $usage The usage description
 	 * @return mixed A reference to the flags value
 	 */
@@ -180,8 +180,8 @@ class Flags {
 	 *     --mystring vermouth
 	 *     --mystring "blind jazz singers"
 	 *
-	 * @param string $name The name of the long-flag to define.
-	 * @param mixed  $value The default value
+	 * @param string $name The name of the long-flag to define
+	 * @param mixed  $value The default value which if null marks the flag required
 	 * @param string $usage The usage description
 	 * @return mixed A reference to the flags value
 	 */
@@ -259,7 +259,7 @@ class Flags {
 	 * Will throw exceptions on Missing Require Flags, Unknown Flags or Incorrect Flag Types
 	 *
 	 * @param array $args The arguments to parse, defaults to $GLOBALS['argv']
-	 * @param bool  $ignoreExceptions
+	 * @param bool  $ignoreExceptions Setting to true causes parsing to continue even after an exception has been thrown.
 	 * @throws Exceptions\MissingFlagParamException
 	 * @throws Exceptions\InvalidFlagParamException
 	 * @throws Exceptions\InvalidFlagTypeException

@@ -1,12 +1,13 @@
 {
 	"name": "donatj/flags",
 	"type": "library",
-	"description": "Go-lang `Flags` inspired command-line flag/option parser",
+	"description": "GNU-style PHP command line argument parser",
 	"keywords": [
 		"cli",
 		"arguments",
 		"options",
-		"flags"
+		"flags",
+		"gnu-style"
 	],
 	"require-dev": {
 		"donatj/drop": "*",

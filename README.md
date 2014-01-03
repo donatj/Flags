@@ -33,7 +33,7 @@ Flags is available through Packagist via Composer
 ```json
 {
     "require": { 
-        "donatj/flags": "dev-master"
+        "donatj/flags": "1.*"
     }
 }
 ```

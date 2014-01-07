@@ -24,13 +24,10 @@ GNU Style Multi-Short-Flags
 Multiple of the Same Short-Flag  
 `-vvv`
 
-As well as the ` -- ` operator for absolute separation of arguments from options.
-
-## Requirements
-
-- PHP 5.3+
-
-			]]></text>
+As well as the ` -- ` operator for absolute separation of arguments from options.]]></text>
+			<section title="Requirements">
+				<text>- PHP 5.3+</text>
+			</section>
 			<section title="Installing">
 				<text><![CDATA[
 

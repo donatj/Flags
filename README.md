@@ -40,8 +40,6 @@ Flags is available through Packagist via Composer
 }
 ```
 
-
-
 ## Example
 
 Here is a simple example script:
@@ -71,8 +69,6 @@ try {
 ```
 
 The by-reference `= &` allows the value to be updated from the *default* to the argument value once the `parse()` method has been triggered.
-
-
 
 ## Documentation
 
@@ -344,11 +340,6 @@ Returns true if the command-line flags have been parsed.
 ##### Returns
 
 - ***bool***
-
-
-
-
-
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/donatj/flags/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 

@@ -1,0 +1,57 @@
+<mddoc>
+	<docpage target="README.md" autoloader="psr0" autoloader-root="src">
+		<section title="Flags">
+			<text><![CDATA[
+[![Build Status](https://travis-ci.org/donatj/Flags.png?branch=master)](https://travis-ci.org/donatj/Flags)
+
+Flags is an argument parser inspired by the Go-lang [Flag](http://golang.org/pkg/flag/#Parsed) package, taking its methodology but attaching a **GNU-style** flag parser.
+
+---
+
+It supports the following style of parameters:
+
+Long-Flags  
+`--key=value` / `--key value`
+
+Short-Flags  
+`-v`
+
+GNU Style Multi-Short-Flags  
+`-Xasd`
+
+Multiple of the Same Short-Flag  
+`-vvv`
+
+As well as the ` -- ` operator for absolute separation of arguments from options.
+
+## Requirements
+
+- PHP 5.3+
+
+			]]></text>
+			<section title="Installing">
+				<text><![CDATA[
+
+Flags is available through Packagist via Composer
+
+```json
+{
+    "require": {
+        "donatj/flags": "1.*"
+    }
+}
+```
+				]]></text>
+			</section>
+			<section title="Example">
+				<text>Here is a simple example script:</text>
+				<source name="example/example.php" lang="php" />
+				<text><![CDATA[The by-reference `= &` allows the value to be updated from the *default* to the argument value once the `parse()` method has been triggered.]]></text>
+			</section>
+			<section title="Documentation">
+				<file name="src/donatj/Flags.php" />
+			</section>
+		</section>
+		<text>[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/donatj/flags/trend.png)](https://bitdeli.com/free "Bitdeli Badge")</text>
+	</docpage>
+</mddoc>

@@ -1,5 +1,7 @@
 # Flags
 
+[![Latest Stable Version](https://poser.pugx.org/donatj/flags/v/stable.png)](https://packagist.org/packages/donatj/flags)
+[![Total Downloads](https://poser.pugx.org/donatj/flags/downloads.png)](https://packagist.org/packages/donatj/flags)
 [![Build Status](https://travis-ci.org/donatj/Flags.png?branch=master)](https://travis-ci.org/donatj/Flags)
 
 Flags is an argument parser inspired by the Go-lang [Flag](http://golang.org/pkg/flag/#Parsed) package, taking its methodology but attaching a **GNU-style** flag parser.

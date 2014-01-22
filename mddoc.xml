@@ -10,7 +10,7 @@ Flags is an argument parser inspired by the Go-lang [Flag](http://golang.org/pkg
 
 ---
 
-It supports the following style of parameters:
+Flags supports the following style of parameters:
 
 Long-Flags  
 `--key=value` / `--key value`

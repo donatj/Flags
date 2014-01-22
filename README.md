@@ -8,7 +8,7 @@ Flags is an argument parser inspired by the Go-lang [Flag](http://golang.org/pkg
 
 ---
 
-It supports the following style of parameters:
+Flags supports the following style of parameters:
 
 Long-Flags  
 `--key=value` / `--key value`
@@ -72,7 +72,7 @@ The by-reference `= &` allows the value to be updated from the *default* to the 
 
 ## Documentation
 
-### Class: Flags - `\donatj\Flags`
+### Class: Flags \[ `\donatj` \]
 
 #### Method: `Flags`->`arg($index)`
 
@@ -80,12 +80,12 @@ Returns the n'th command-line argument. `arg(0)` is the first remaining argument
   
 
 
-##### Parameters
+##### Parameters:
 
 - ***int*** `$index`
 
 
-##### Returns
+##### Returns:
 
 - ***string***
 
@@ -98,7 +98,7 @@ Returns the non-flag command-line arguments.
   
 
 
-##### Returns
+##### Returns:
 
 - ***string[]*** - Array of argument strings
 
@@ -111,7 +111,7 @@ Returns an array of short-flag call-counts indexed by character
 `-v` would set the 'v' index to 1, whereas `-vvv` will set the 'v' index to 3  
 
 
-##### Returns
+##### Returns:
 
 - ***array***
 
@@ -124,7 +124,7 @@ Returns an array of long-flag values indexed by flag name
   
 
 
-##### Returns
+##### Returns:
 
 - ***array***
 
@@ -142,13 +142,13 @@ This means the value of the reference for v would be the following.
     -vvv => 3  
 
 
-##### Parameters
+##### Parameters:
 
 - ***string*** `$letter` - The character of the short-flag to define
 - ***string*** `$usage` - The usage description
 
 
-##### Returns
+##### Returns:
 
 - ***int***
 
@@ -175,14 +175,14 @@ The return value is a reference to a variable that stores the value of the flag.
        [not calling --mybool and having the default false]  
 
 
-##### Parameters
+##### Parameters:
 
 - ***string*** `$name` - The name of the long-flag to define
 - ***mixed*** `$value` - The default value - usually false for bool - which if null marks the flag required
 - ***string*** `$usage` - The usage description
 
 
-##### Returns
+##### Returns:
 
 - ***mixed*** - A reference to the flags value
 
@@ -200,14 +200,14 @@ The return value is a reference to a variable that stores the value of the flag.
     --myfloat 1.1  
 
 
-##### Parameters
+##### Parameters:
 
 - ***string*** `$name` - The name of the long-flag to define
 - ***mixed*** `$value` - The default value which if null marks the flag required
 - ***string*** `$usage` - The usage description
 
 
-##### Returns
+##### Returns:
 
 - ***mixed*** - A reference to the flags value
 
@@ -227,14 +227,14 @@ Note: Float values trigger an error, rather than casting.
     --myinteger 1  
 
 
-##### Parameters
+##### Parameters:
 
 - ***string*** `$name` - The name of the long-flag to define
 - ***mixed*** `$value` - The default value which if null marks the flag required
 - ***string*** `$usage` - The usage description
 
 
-##### Returns
+##### Returns:
 
 - ***mixed*** - A reference to the flags value
 
@@ -254,14 +254,14 @@ Note: Negative values trigger an error, rather than casting.
     --myinteger 1  
 
 
-##### Parameters
+##### Parameters:
 
 - ***string*** `$name` - The name of the long-flag to define
 - ***mixed*** `$value` - The default value which if null marks the flag required
 - ***string*** `$usage` - The usage description
 
 
-##### Returns
+##### Returns:
 
 - ***mixed*** - A reference to the flags value
 
@@ -281,14 +281,14 @@ Examples
     --mystring "blind jazz singers"  
 
 
-##### Parameters
+##### Parameters:
 
 - ***string*** `$name` - The name of the long-flag to define
 - ***mixed*** `$value` - The default value which if null marks the flag required
 - ***string*** `$usage` - The usage description
 
 
-##### Returns
+##### Returns:
 
 - ***mixed*** - A reference to the flags value
 
@@ -307,7 +307,7 @@ Returns the default values of all defined command-line flags as a formatted stri
        --version   Display this applications version.  
 
 
-##### Returns
+##### Returns:
 
 - ***string***
 
@@ -322,7 +322,7 @@ Must be called after all flags are defined and before flags are accessed by the 
 Will throw exceptions on Missing Require Flags, Unknown Flags or Incorrect Flag Types  
 
 
-##### Parameters
+##### Parameters:
 
 - ***array*** `$args` - The arguments to parse, defaults to $GLOBALS['argv']
 - ***bool*** `$ignoreExceptions` - Setting to true causes parsing to continue even after an exception has been thrown.
@@ -337,7 +337,7 @@ Returns true if the command-line flags have been parsed.
   
 
 
-##### Returns
+##### Returns:
 
 - ***bool***
 

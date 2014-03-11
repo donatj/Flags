@@ -341,5 +341,3 @@ Returns true if the command-line flags have been parsed.
 
 - ***bool***
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/donatj/flags/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-

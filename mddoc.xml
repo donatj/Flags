@@ -51,6 +51,5 @@ Flags is available through Packagist via Composer
 				<file name="src/donatj/Flags.php" />
 			</section>
 		</section>
-		<text>[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/donatj/flags/trend.png)](https://bitdeli.com/free "Bitdeli Badge")</text>
 	</docpage>
 </mddoc>

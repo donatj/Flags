@@ -275,7 +275,7 @@ class Flags {
 		$shortParams = array();
 		$startArgs   = false;
 
-		if( $skipCmdFirst ) {
+		if( $skipFirstArgument ) {
 			$cmd = array_shift($args);
 		}
 

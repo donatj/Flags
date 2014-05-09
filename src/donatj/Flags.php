@@ -260,11 +260,12 @@ class Flags {
 	 *
 	 * @param array $args The arguments to parse, defaults to $GLOBALS['argv']
 	 * @param bool  $ignoreExceptions Setting to true causes parsing to continue even after an exception has been thrown.
+	 * @param bool  $skipCmdFirst Setting to false causes the first argument to be parsed as an argument rather than the command.
 	 * @throws Exceptions\MissingFlagParamException
 	 * @throws Exceptions\InvalidFlagParamException
 	 * @throws Exceptions\InvalidFlagTypeException
 	 */
-	public function parse( array $args = null, $ignoreExceptions = false ) {
+	public function parse( array $args = null, $ignoreExceptions = false, $skipCmdFirst = true ) {
 
 		if( $args === null ) {
 			$args = $GLOBALS['argv'];
@@ -274,7 +275,9 @@ class Flags {
 		$shortParams = array();
 		$startArgs   = false;
 
-		$cmd = array_shift($args);
+		if( $skipCmdFirst ) {
+			$cmd = array_shift($args);
+		}
 
 		$forceValue = false;
 		$getValue   = false;

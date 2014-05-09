@@ -177,55 +177,61 @@ class FlagsTest extends \PHPUnit_Framework_TestCase {
 
 	public function testParse() {
 
-		$flags   = new Flags();
-		$sponges = & $flags->bool('sponges');
-		$what    = & $flags->uint('what');
-		$int1    = & $flags->int('int1');
-		$int2    = & $flags->int('int2');
-		$pie     = & $flags->string('pie');
-		$cat     = & $flags->string('cat', 'Maine Coon');
-		$help    = & $flags->bool('help', false);
-		$last    = & $flags->bool('last', false);
-		$verbose = & $flags->short('v');
-		$all     = & $flags->short('a');
+		$testCases = array(
+			array( 'test.php --sponges=false --help -v argument1 --pie 59 argument2 --what=14 -vv --int1 7 --int2=-4 --last -- --argument_that_looks_like_a_param', true ),
+			array( '--sponges=false --help -v argument1 --pie 59 argument2 --what=14 -vv --int1 7 --int2=-4 --last -- --argument_that_looks_like_a_param', false ),
+		);
 
-		$flags->parse(explode(' ', 'test.php --sponges=false --help -v argument1 --pie 59 argument2 --what=14 -vv --int1 7 --int2=-4 --last -- --argument_that_looks_like_a_param'));
+		foreach($testCases as $testCase) {
+			$flags   = new Flags();
+			$sponges = & $flags->bool('sponges');
+			$what    = & $flags->uint('what');
+			$int1    = & $flags->int('int1');
+			$int2    = & $flags->int('int2');
+			$pie     = & $flags->string('pie');
+			$cat     = & $flags->string('cat', 'Maine Coon');
+			$help    = & $flags->bool('help', false);
+			$last    = & $flags->bool('last', false);
+			$verbose = & $flags->short('v');
+			$all     = & $flags->short('a');
 
-		$longs = $flags->longs();
-		$this->assertSame($sponges, false);
-		$this->assertSame($longs['sponges'], false);
-		$this->assertSame($what, 14);
-		$this->assertSame($longs['what'], 14);
-		$this->assertSame($int1, 7);
-		$this->assertSame($longs['int1'], 7);
-		$this->assertSame($int2, -4);
-		$this->assertSame($longs['int2'], -4);
-		$this->assertSame($pie, '59');
-		$this->assertSame($longs['pie'], '59');
-		$this->assertSame($cat, 'Maine Coon');
-		$this->assertSame($longs['cat'], 'Maine Coon');
-		$this->assertSame($help, true);
-		$this->assertSame($longs['help'], true);
-		$this->assertSame($last, true);
-		$this->assertSame($longs['last'], true);
+			$flags->parse(explode(' ', $testCase[0]), false, $testCase[1]);
 
-		$shorts = $flags->shorts();
-		$this->assertSame($verbose, 3);
-		$this->assertSame($shorts['v'], 3);
-		$this->assertSame($all, 0);
-		$this->assertSame($shorts['a'], 0);
+			$longs = $flags->longs();
+			$this->assertSame($sponges, false);
+			$this->assertSame($longs['sponges'], false);
+			$this->assertSame($what, 14);
+			$this->assertSame($longs['what'], 14);
+			$this->assertSame($int1, 7);
+			$this->assertSame($longs['int1'], 7);
+			$this->assertSame($int2, -4);
+			$this->assertSame($longs['int2'], -4);
+			$this->assertSame($pie, '59');
+			$this->assertSame($longs['pie'], '59');
+			$this->assertSame($cat, 'Maine Coon');
+			$this->assertSame($longs['cat'], 'Maine Coon');
+			$this->assertSame($help, true);
+			$this->assertSame($longs['help'], true);
+			$this->assertSame($last, true);
+			$this->assertSame($longs['last'], true);
 
+			$shorts = $flags->shorts();
+			$this->assertSame($verbose, 3);
+			$this->assertSame($shorts['v'], 3);
+			$this->assertSame($all, 0);
+			$this->assertSame($shorts['a'], 0);
 
-		$this->assertEquals(array(
-			0 => 'argument1',
-			1 => 'argument2',
-			2 => '--argument_that_looks_like_a_param',
-		), $flags->args());
+			$this->assertEquals(array(
+				0 => 'argument1',
+				1 => 'argument2',
+				2 => '--argument_that_looks_like_a_param',
+			), $flags->args());
 
-		$this->assertSame($flags->arg(0), 'argument1');
-		$this->assertSame($flags->arg(1), 'argument2');
-		$this->assertSame($flags->arg(2), '--argument_that_looks_like_a_param');
-		$this->assertSame($flags->arg(3), null);
+			$this->assertSame($flags->arg(0), 'argument1');
+			$this->assertSame($flags->arg(1), 'argument2');
+			$this->assertSame($flags->arg(2), '--argument_that_looks_like_a_param');
+			$this->assertSame($flags->arg(3), null);
+		}
 
 
 		# ====

@@ -46,6 +46,17 @@ Flags is available through Packagist via Composer
 				<text>Here is a simple example script:</text>
 				<source name="example/example.php" lang="php" />
 				<text><![CDATA[The by-reference `= &` allows the value to be updated from the *default* to the argument value once the `parse()` method has been triggered.]]></text>
+				<source><![CDATA[
+bash-3.2$ php example/example.php
+Expected option --qux missing.
+        -v   verbosity
+     --foo   Enable the foo
+     --bar   [uint] Number of bars
+     --baz   [string] What to name the baz
+     --qux   <bool>
+
+]]>
+				</source>
 			</section>
 			<section title="Documentation">
 				<file name="src/donatj/Flags.php" />

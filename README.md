@@ -70,6 +70,20 @@ try {
 
 The by-reference `= &` allows the value to be updated from the *default* to the argument value once the `parse()` method has been triggered.
 
+```
+
+bash-3.2$ php example/example.php
+Expected option --qux missing.
+        -v   verbosity
+     --foo   Enable the foo
+     --bar   [uint] Number of bars
+     --baz   [string] What to name the baz
+     --qux   <bool>
+
+
+				
+```
+
 ## Documentation
 
 ### Class: Flags \[ `\donatj` \]
@@ -314,7 +328,7 @@ Returns the default values of all defined command-line flags as a formatted stri
 
 ---
 
-#### Method: `Flags->parse([ $args = null [, $ignoreExceptions = false]])`
+#### Method: `Flags->parse([ $args = null [, $ignoreExceptions = false [, $skipCmdFirst = true]]])`
 
 Parses flag definitions from the argument list, which should include the command name.  
 Must be called after all flags are defined and before flags are accessed by the program.  
@@ -326,6 +340,7 @@ Will throw exceptions on Missing Require Flags, Unknown Flags or Incorrect Flag 
 
 - ***array*** `$args` - The arguments to parse, defaults to $GLOBALS['argv']
 - ***bool*** `$ignoreExceptions` - Setting to true causes parsing to continue even after an exception has been thrown.
+- ***bool*** `$skipCmdFirst` - Setting to false causes the first argument to be parsed as an parameter rather than the command.
 
 
 

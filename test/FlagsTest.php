@@ -277,7 +277,10 @@ class FlagsTest extends \PHPUnit_Framework_TestCase {
 
 		try{
 			$flags->parse(explode(' ', 'test.php --failtoparse=true'));
-		}catch (\Exception $e) {}
+			$this->fail('An exception should have been thrown.');
+		}catch (\Exception $e) {
+			//This is expected to fail. We're simply making sure it didn't parse.
+		}
 
 		$this->assertSame(false, $flags->parsed());
 

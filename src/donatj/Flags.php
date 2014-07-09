@@ -276,7 +276,7 @@ class Flags {
 		$startArgs   = false;
 
 		if( $skipFirstArgument ) {
-			$cmd = array_shift($args);
+			array_shift($args);
 		}
 
 		$forceValue = false;

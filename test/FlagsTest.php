@@ -298,7 +298,7 @@ class FlagsTest extends \PHPUnit_Framework_TestCase {
 
 	function testNotParseExceptionInvalidFlagParamException() {
 		$flags = new Flags();
-		$flags->parse(explode(' ', 'test.php --fake=what', true));
+		$flags->parse(explode(' ', 'test.php --fake=what'), true);
 	}
 
 	/**

@@ -271,59 +271,11 @@ class Flags {
 			$args = $GLOBALS['argv'];
 		}
 
-		$longParams  = array();
-		$shortParams = array();
-		$startArgs   = false;
-
 		if( $skipFirstArgument ) {
 			array_shift($args);
 		}
 
-		$forceValue = false;
-		$getValue   = false;
-		foreach( $args as $arg ) {
-			if( $arg[0] == '-' && !$startArgs && !$forceValue ) {
-				$cleanArg = ltrim($arg, '- ');
-
-				if( $getValue ) {
-					$longParams[$getValue] = true;
-				}
-
-				$getValue = false;
-
-				if( $arg == '--' ) {
-					$startArgs = true;
-				} elseif( $arg[1] == '-' ) {
-					$split = explode('=', $arg, 2);
-
-					if( count($split) > 1 ) {
-						$longParams[ltrim(reset($split), '- ')] = end($split);
-					} else {
-						$getValue = $cleanArg;
-
-						if( isset($this->defined_flags[$cleanArg]) && $this->defined_flags[$cleanArg]['type'] != 'bool' ) {
-							$forceValue = true;
-						}
-
-					}
-				} else {
-					$split = str_split($cleanArg);
-					foreach( $split as $char ) {
-						$shortParams[$char] = isset($shortParams[$char]) ? $shortParams[$char] + 1 : 1;
-					}
-				}
-			} elseif( ($getValue !== false && !$startArgs) || $forceValue ) {
-				$longParams[$getValue] = $arg;
-				$getValue              = false;
-				$forceValue            = false;
-			} else {
-				$this->arguments[] = $arg;
-			}
-		}
-
-		if( $getValue ) {
-			$longParams[$getValue] = true;
-		}
+		list($longParams, $shortParams) = $this->splitArguments($args);
 
 		foreach( $longParams as $name => $value ) {
 			if( !isset($this->defined_flags[$name]) ) {
@@ -437,6 +389,66 @@ class Flags {
 		$test = $validate[$type];
 
 		return $test($value);
+	}
+
+	/**
+	 * @param array $args
+	 * @return array
+	 */
+	protected function splitArguments( array $args ) {
+		$longParams  = array();
+		$shortParams = array();
+
+		$forceValue = false;
+		$getValue   = false;
+		$startArgs  = false;
+		foreach( $args as $arg ) {
+			if( $arg[0] == '-' && !$startArgs && !$forceValue ) {
+				$cleanArg = ltrim($arg, '- ');
+
+				if( $getValue ) {
+					$longParams[$getValue] = true;
+				}
+
+				$getValue = false;
+
+				if( $arg == '--' ) {
+					$startArgs = true;
+				} elseif( $arg[1] == '-' ) {
+					$split = explode('=', $arg, 2);
+
+					if( count($split) > 1 ) {
+						$longParams[ltrim(reset($split), '- ')] = end($split);
+					} else {
+						$getValue = $cleanArg;
+
+						if( isset($this->defined_flags[$cleanArg]) && $this->defined_flags[$cleanArg]['type'] != 'bool' ) {
+							$forceValue = true;
+						}
+
+					}
+				} else {
+					$split = str_split($cleanArg);
+					foreach( $split as $char ) {
+						$shortParams[$char] = isset($shortParams[$char]) ? $shortParams[$char] + 1 : 1;
+					}
+				}
+			} elseif( ($getValue !== false && !$startArgs) || $forceValue ) {
+				$longParams[$getValue] = $arg;
+				$getValue              = false;
+				$forceValue            = false;
+			} else {
+				$this->arguments[] = $arg;
+			}
+		}
+
+		if( $getValue ) {
+			$longParams[$getValue] = true;
+
+			return array( $longParams, $shortParams );
+		}
+
+		return array( $longParams, $shortParams );
 	}
 
 }

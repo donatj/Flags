@@ -275,7 +275,7 @@ class Flags {
 			array_shift($args);
 		}
 
-		list($longParams, $shortParams) = $this->splitArguments($args);
+		list($longParams, $shortParams, $this->arguments) = $this->splitArguments($args, $this->defined_flags);
 
 		foreach( $longParams as $name => $value ) {
 			if( !isset($this->defined_flags[$name]) ) {
@@ -393,11 +393,13 @@ class Flags {
 
 	/**
 	 * @param array $args
+	 * @param array $definedFlags
 	 * @return array
 	 */
-	protected function splitArguments( array $args ) {
+	protected function splitArguments( array $args, array $definedFlags ) {
 		$longParams  = array();
 		$shortParams = array();
+		$arguments   = array();
 
 		$forceValue = false;
 		$getValue   = false;
@@ -422,10 +424,9 @@ class Flags {
 					} else {
 						$getValue = $cleanArg;
 
-						if( isset($this->defined_flags[$cleanArg]) && $this->defined_flags[$cleanArg]['type'] != 'bool' ) {
+						if( isset($definedFlags[$cleanArg]) && $definedFlags[$cleanArg]['type'] != 'bool' ) {
 							$forceValue = true;
 						}
-
 					}
 				} else {
 					$split = str_split($cleanArg);
@@ -438,17 +439,17 @@ class Flags {
 				$getValue              = false;
 				$forceValue            = false;
 			} else {
-				$this->arguments[] = $arg;
+				$arguments[] = $arg;
 			}
 		}
 
 		if( $getValue ) {
 			$longParams[$getValue] = true;
 
-			return array( $longParams, $shortParams );
+			return array( $longParams, $shortParams, $arguments );
 		}
 
-		return array( $longParams, $shortParams );
+		return array( $longParams, $shortParams, $arguments );
 	}
 
 }

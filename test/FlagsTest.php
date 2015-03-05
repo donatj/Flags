@@ -405,7 +405,7 @@ class FlagsTest extends \PHPUnit_Framework_TestCase {
 		);
 
 		foreach( $longs as $data ) {
-			$flags->$data[0]($data[1], $data[2], $data[3]);
+			$flags->{$data[0]}($data[1], $data[2], $data[3]);
 		}
 
 		$shorts = array(

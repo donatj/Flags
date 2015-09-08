@@ -68,7 +68,7 @@ try {
 }
 ```
 
-The by-reference `= &` allows the value to be updated from the *default* to the argument value once the `parse()` method has been triggered.
+The by-reference `= &` allows the value to be updated from the *default* to the argument value once the `parse()` method has been triggered. This is inspired by the Go Flag packages use of pointers
 
 ```
 
@@ -90,58 +90,46 @@ Expected option --qux missing.
 
 #### Method: `Flags->arg($index)`
 
-Returns the n'th command-line argument. `arg(0)` is the first remaining argument after flags have been processed.  
-  
-
+Returns the n'th command-line argument. `arg(0)` is the first remaining argument after flags have been processed.
 
 ##### Parameters:
 
 - ***int*** `$index`
 
-
 ##### Returns:
 
 - ***string***
-
 
 ---
 
 #### Method: `Flags->args()`
 
-Returns the non-flag command-line arguments.  
-  
-
+Returns the non-flag command-line arguments.
 
 ##### Returns:
 
 - ***string[]*** - Array of argument strings
-
 
 ---
 
 #### Method: `Flags->shorts()`
 
 Returns an array of short-flag call-counts indexed by character  
-`-v` would set the 'v' index to 1, whereas `-vvv` will set the 'v' index to 3  
-
+`-v` would set the 'v' index to 1, whereas `-vvv` will set the 'v' index to 3
 
 ##### Returns:
 
 - ***array***
-
 
 ---
 
 #### Method: `Flags->longs()`
 
-Returns an array of long-flag values indexed by flag name  
-  
-
+Returns an array of long-flag values indexed by flag name
 
 ##### Returns:
 
 - ***array***
-
 
 ---
 
@@ -153,19 +141,16 @@ The return value is a reference to an integer variable that stores the number of
 This means the value of the reference for v would be the following.  
   
     -v => 1  
-    -vvv => 3  
-
+    -vvv => 3
 
 ##### Parameters:
 
 - ***string*** `$letter` - The character of the short-flag to define
 - ***string*** `$usage` - The usage description
 
-
 ##### Returns:
 
 - ***int***
-
 
 ---
 
@@ -173,21 +158,20 @@ This means the value of the reference for v would be the following.
 
 Defines a bool long-flag of specified name, default value, and usage string.  
 The return value is a reference to a variable that stores the value of the flag.  
-  
-##### Examples  
-  
-##### Truth-y  
-  
+
+##### Examples
+
+##### Truth-y
+
      --mybool=[true|t|1]  
      --mybool [true|t|1]  
      --mybool  
-  
-##### False-y  
-  
+
+##### False-y
+
      --mybool=[false|f|0]  
      --mybool [false|f|0]  
-       [not calling --mybool and having the default false]  
-
+       [not calling --mybool and having the default false]
 
 ##### Parameters:
 
@@ -195,11 +179,9 @@ The return value is a reference to a variable that stores the value of the flag.
 - ***mixed*** `$value` - The default value - usually false for bool - which if null marks the flag required
 - ***string*** `$usage` - The usage description
 
-
 ##### Returns:
 
 - ***mixed*** - A reference to the flags value
-
 
 ---
 
@@ -207,12 +189,11 @@ The return value is a reference to a variable that stores the value of the flag.
 
 Defines a float long-flag of specified name, default value, and usage string.  
 The return value is a reference to a variable that stores the value of the flag.  
-  
-##### Examples  
-  
-    --myfloat=1.1  
-    --myfloat 1.1  
 
+##### Examples
+
+    --myfloat=1.1  
+    --myfloat 1.1
 
 ##### Parameters:
 
@@ -220,11 +201,9 @@ The return value is a reference to a variable that stores the value of the flag.
 - ***mixed*** `$value` - The default value which if null marks the flag required
 - ***string*** `$usage` - The usage description
 
-
 ##### Returns:
 
 - ***mixed*** - A reference to the flags value
-
 
 ---
 
@@ -234,12 +213,11 @@ Defines an integer long-flag of specified name, default value, and usage string.
 The return value is a reference to a variable that stores the value of the flag.  
   
 Note: Float values trigger an error, rather than casting.  
-  
-##### Examples  
-  
-    --myinteger=1  
-    --myinteger 1  
 
+##### Examples
+
+    --myinteger=1  
+    --myinteger 1
 
 ##### Parameters:
 
@@ -247,11 +225,9 @@ Note: Float values trigger an error, rather than casting.
 - ***mixed*** `$value` - The default value which if null marks the flag required
 - ***string*** `$usage` - The usage description
 
-
 ##### Returns:
 
 - ***mixed*** - A reference to the flags value
-
 
 ---
 
@@ -261,12 +237,11 @@ Defines a unsigned integer long-flag of specified name, default value, and usage
 The return value is a reference to a variable that stores the value of the flag.  
   
 Note: Negative values trigger an error, rather than casting.  
-  
-##### Examples  
-  
-    --myinteger=1  
-    --myinteger 1  
 
+##### Examples
+
+    --myinteger=1  
+    --myinteger 1
 
 ##### Parameters:
 
@@ -274,11 +249,9 @@ Note: Negative values trigger an error, rather than casting.
 - ***mixed*** `$value` - The default value which if null marks the flag required
 - ***string*** `$usage` - The usage description
 
-
 ##### Returns:
 
 - ***mixed*** - A reference to the flags value
-
 
 ---
 
@@ -292,8 +265,7 @@ Examples
     --mystring=vermouth  
     --mystring="blind jazz singers"  
     --mystring vermouth  
-    --mystring "blind jazz singers"  
-
+    --mystring "blind jazz singers"
 
 ##### Parameters:
 
@@ -301,30 +273,27 @@ Examples
 - ***mixed*** `$value` - The default value which if null marks the flag required
 - ***string*** `$usage` - The usage description
 
-
 ##### Returns:
 
 - ***mixed*** - A reference to the flags value
-
 
 ---
 
 #### Method: `Flags->getDefaults()`
 
-Returns the default values of all defined command-line flags as a formatted string.  
-##### Example  
-  
+Returns the default values of all defined command-line flags as a formatted string.
+
+##### Example
+
               -v   Output in verbose mode  
      --testsuite   [string] Which test suite to run.  
      --bootstrap   [string] A "bootstrap" PHP file that is run before the specs.  
           --help   Display this help message.  
-       --version   Display this applications version.  
-
+       --version   Display this applications version.
 
 ##### Returns:
 
 - ***string***
-
 
 ---
 
@@ -333,8 +302,7 @@ Returns the default values of all defined command-line flags as a formatted stri
 Parses flag definitions from the argument list, which should include the command name.  
 Must be called after all flags are defined and before flags are accessed by the program.  
   
-Will throw exceptions on Missing Require Flags, Unknown Flags or Incorrect Flag Types  
-
+Will throw exceptions on Missing Require Flags, Unknown Flags or Incorrect Flag Types
 
 ##### Parameters:
 
@@ -342,17 +310,12 @@ Will throw exceptions on Missing Require Flags, Unknown Flags or Incorrect Flag 
 - ***bool*** `$ignoreExceptions` - Setting to true causes parsing to continue even after an exception has been thrown.
 - ***bool*** `$skipFirstArgument` - Setting to false causes the first argument to be parsed as an parameter rather than the command.
 
-
-
 ---
 
 #### Method: `Flags->parsed()`
 
-Returns true if the command-line flags have been parsed.  
-  
-
+Returns true if the command-line flags have been parsed.
 
 ##### Returns:
 
 - ***bool***
-

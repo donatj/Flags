@@ -45,7 +45,7 @@ Flags is available through Packagist via Composer
 			<section title="Example">
 				<text>Here is a simple example script:</text>
 				<source name="example/example.php" lang="php" />
-				<text><![CDATA[The by-reference `= &` allows the value to be updated from the *default* to the argument value once the `parse()` method has been triggered.]]></text>
+				<text><![CDATA[The by-reference `= &` allows the value to be updated from the *default* to the argument value once the `parse()` method has been triggered. This is inspired by the Go Flag packages use of pointers]]></text>
 				<source><![CDATA[
 bash-3.2$ php example/example.php
 Expected option --qux missing.

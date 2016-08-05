@@ -6,6 +6,24 @@ use donatj\Flags;
 
 class FlagsTest extends \PHPUnit_Framework_TestCase {
 
+	public function testSet() {
+		$flags = new Flags();
+		$nameList = & $flags->set('string', 'name');
+
+		$flags->parse(explode(' ', 'test.php --name hi --name bye'));
+
+		$this->assertSame($nameList, array('hi', 'bye'));
+	}
+
+	/**
+	 * @expectedException \donatj\Exceptions\InvalidFlagTypeException
+	 */
+	public function testSetException() {
+		$flags = new Flags();
+		$flags->set('int', 'name');
+		$flags->parse(explode(' ', 'test.php --name hi --name bye'));
+	}
+
 	public function testBool() {
 		$flags = new Flags();
 		$bool  = & $flags->bool('bool');

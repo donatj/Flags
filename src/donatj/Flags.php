@@ -189,6 +189,19 @@ class Flags {
 		return $this->_storeFlag('string', $name, $value, $usage);
 	}
 
+	/**
+	 * Defines a long-flag of specified type, name, default value and usage string
+	 * The return value is a reference to a set of variables that stores the values of all matched flags
+	 *
+	 * @param string $type The type of the items in this list, available options are: string, uint, int or float
+	 * @param string $name The name of the long-flag to define
+	 * @param mixed  $value The default value which if null marks the flag required
+	 * @param string $usage The usage description
+	 * @return mixed A reference to the flags value
+	 */
+	public function &set( $type, $name, $value = null, $usage = '' ) {
+		return $this->_storeFlag(array($type), $name, $value, $usage);
+	}
 
 	/**
 	 * @param string $type
@@ -277,7 +290,9 @@ class Flags {
 
 		list($longParams, $shortParams, $this->arguments) = $this->splitArguments($args, $this->defined_flags);
 
-		foreach( $longParams as $name => $value ) {
+		foreach( $longParams as $param) {
+			list($name, $value) = $param;
+
 			if( !isset($this->defined_flags[$name]) ) {
 				if( !$ignoreExceptions ) {
 					throw new InvalidFlagParamException('Unknown option: --' . $name);
@@ -286,23 +301,28 @@ class Flags {
 				$defined_flag =& $this->defined_flags[$name];
 
 				if( $this->validateType($defined_flag['type'], $value) ) {
-					$defined_flag['value']  = $value;
+					if (is_array($defined_flag['type'])) {
+						$defined_flag['value'][] = $value;
+					} else {
+						$defined_flag['value'] = $value;
+					}
 					$defined_flag['parsed'] = true;
 				} else {
 					if( !$ignoreExceptions ) {
-						throw new InvalidFlagTypeException('Option --' . $name . ' expected type: "' . $defined_flag['type'] . '"');
+						throw new InvalidFlagTypeException('Option --' . $name . ' expected type: "' . (is_array($defined_flag['type']) ? reset($defined_flag['type']) : $defined_flag['type']) . '"');
 					}
 				}
 			}
 		}
 
-		foreach( $shortParams as $char => $value ) {
+		foreach( $shortParams as $param) {
+			list($char, $value) = $param;
 			if( !isset($this->defined_short_flags[$char]) ) {
 				if( !$ignoreExceptions ) {
 					throw new InvalidFlagParamException('Unknown option: -' . $char);
 				}
 			} else {
-				$this->defined_short_flags[$char]['value'] = $value;
+				$this->defined_short_flags[$char]['value']++;
 			}
 		}
 
@@ -386,6 +406,10 @@ class Flags {
 				},
 		);
 
+		if (is_array($type)) {
+			$type = $type[0];
+		}
+
 		$test = $validate[$type];
 
 		return $test($value);
@@ -404,12 +428,13 @@ class Flags {
 		$forceValue = false;
 		$getValue   = false;
 		$startArgs  = false;
+
 		foreach( $args as $arg ) {
 			if( $arg[0] == '-' && !$startArgs && !$forceValue ) {
 				$cleanArg = ltrim($arg, '- ');
 
 				if( $getValue ) {
-					$longParams[$getValue] = true;
+					$longParams[] = array($getValue, true);
 				}
 
 				$getValue = false;
@@ -420,7 +445,7 @@ class Flags {
 					$split = explode('=', $arg, 2);
 
 					if( count($split) > 1 ) {
-						$longParams[ltrim(reset($split), '- ')] = end($split);
+						$longParams[] = array(ltrim(reset($split), '- '), end($split));
 					} else {
 						$getValue = $cleanArg;
 
@@ -431,11 +456,11 @@ class Flags {
 				} else {
 					$split = str_split($cleanArg);
 					foreach( $split as $char ) {
-						$shortParams[$char] = isset($shortParams[$char]) ? $shortParams[$char] + 1 : 1;
+						$shortParams[] = array($char, isset($shortParams[$char]) ? $shortParams[$char] + 1 : 1);
 					}
 				}
 			} elseif( ($getValue !== false && !$startArgs) || $forceValue ) {
-				$longParams[$getValue] = $arg;
+				$longParams[] = array($getValue, $arg);
 				$getValue              = false;
 				$forceValue            = false;
 			} else {
@@ -444,7 +469,7 @@ class Flags {
 		}
 
 		if( $getValue ) {
-			$longParams[$getValue] = true;
+			$longParams[] = array($getValue, true);
 
 			return array( $longParams, $shortParams, $arguments );
 		}

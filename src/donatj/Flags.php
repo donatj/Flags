@@ -207,7 +207,6 @@ class Flags {
 		);
 
 		return $this->defined_flags[$name]['value'];
-
 	}
 
 	/**
@@ -249,7 +248,6 @@ class Flags {
 		}
 
 		return $output;
-
 	}
 
 	/**
@@ -315,7 +313,6 @@ class Flags {
 		}
 
 		$this->parsed = true;
-
 	}
 
 	/**
@@ -335,55 +332,55 @@ class Flags {
 	private function validateType( $type, &$value ) {
 		$validate = array(
 			'bool'   => function ( &$val ) {
-					$val = strtolower((string)$val);
-					if( $val == "0" || $val == 'f' || $val == 'false' ) {
-						$val = false;
+				$val = strtolower((string)$val);
+				if( $val == "0" || $val == 'f' || $val == 'false' ) {
+					$val = false;
 
-						return true;
-					} elseif( $val == "1" || $val == 't' || $val == 'true' ) {
-						$val = true;
+					return true;
+				} elseif( $val == "1" || $val == 't' || $val == 'true' ) {
+					$val = true;
 
-						return true;
-					}
+					return true;
+				}
 
-					return false;
-				},
+				return false;
+			},
 			'uint'   => function ( &$val ) {
-					if( abs(floatval($val)) == intval($val) ) {
-						$val = intval($val);
+				if( abs(floatval($val)) == intval($val) ) {
+					$val = intval($val);
 
-						return true;
-					}
+					return true;
+				}
 
-					return false;
-				},
+				return false;
+			},
 			'int'    => function ( &$val ) {
-					if( is_numeric($val) && floatval($val) == intval($val) ) {
-						$val = intval($val);
+				if( is_numeric($val) && floatval($val) == intval($val) ) {
+					$val = intval($val);
 
-						return true;
-					}
+					return true;
+				}
 
-					return false;
-				},
+				return false;
+			},
 			'float'  => function ( &$val ) {
-					if( is_numeric($val) ) {
-						$val = floatval($val);
+				if( is_numeric($val) ) {
+					$val = floatval($val);
 
-						return true;
-					}
+					return true;
+				}
 
-					return false;
-				},
+				return false;
+			},
 			'string' => function ( &$val ) {
-					if( $val !== true ) {
-						$val = (string)$val;
+				if( $val !== true ) {
+					$val = (string)$val;
 
-						return true;
-					}
+					return true;
+				}
 
-					return false;
-				},
+				return false;
+			},
 		);
 
 		$test = $validate[$type];

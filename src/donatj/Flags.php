@@ -13,6 +13,12 @@ class Flags {
 	private $arguments = array();
 	private $parsed = false;
 
+	const DEF_TYPE     = 'type';
+	const DEF_USAGE    = 'usage';
+	const DEF_REQUIRED = 'required';
+	const DEF_VALUE    = 'value';
+	const DEF_PARSED   = 'parsed';
+
 	const TYPE_BOOL   = 'bool';
 	const TYPE_UINT   = 'uint';
 	const TYPE_INT    = 'int';
@@ -48,7 +54,7 @@ class Flags {
 	public function shorts() {
 		$out = array();
 		foreach( $this->defined_short_flags as $key => $data ) {
-			$out[$key] = $data['value'];
+			$out[$key] = $data[self::DEF_VALUE];
 		}
 
 		return $out;
@@ -62,7 +68,7 @@ class Flags {
 	public function longs() {
 		$out = array();
 		foreach( $this->defined_flags as $key => $data ) {
-			$out[$key] = $data['value'];
+			$out[$key] = $data[self::DEF_VALUE];
 		}
 
 		return $out;
@@ -83,8 +89,8 @@ class Flags {
 	 */
 	public function &short( $letter, $usage = '' ) {
 		$this->defined_short_flags[$letter[0]] = array(
-			'value' => 0,
-			'usage' => $usage,
+			self::DEF_VALUE => 0,
+			self::DEF_USAGE => $usage,
 		);
 
 		return $this->defined_short_flags[$letter[0]]['value'];
@@ -205,13 +211,13 @@ class Flags {
 	private function &_storeFlag( $type, $name, $value, $usage ) {
 
 		$this->defined_flags[$name] = array(
-			'type'     => $type,
-			'usage'    => $usage,
-			'required' => $value === null,
-			'value'    => $value,
+			self::DEF_TYPE     => $type,
+			self::DEF_USAGE    => $usage,
+			self::DEF_REQUIRED => $value === null,
+			self::DEF_VALUE    => $value,
 		);
 
-		return $this->defined_flags[$name]['value'];
+		return $this->defined_flags[$name][self::DEF_VALUE];
 	}
 
 	/**
@@ -234,17 +240,17 @@ class Flags {
 		$max    = 0;
 
 		foreach( $this->defined_short_flags as $char => $data ) {
-			$final["-{$char}"] = $data['usage'];
+			$final["-{$char}"] = $data[self::DEF_USAGE];
 		}
 
 		foreach( $this->defined_flags as $flag => $data ) {
 			$key         = "--{$flag}";
-			$final[$key] = ($data['required'] ?
-					"<{$data['type']}> " :
-					($data['type'] == self::TYPE_BOOL ?
+			$final[$key] = ($data[self::DEF_REQUIRED] ?
+					"<{$data[self::DEF_TYPE]}> " :
+					($data[self::DEF_TYPE] == self::TYPE_BOOL ?
 						'' :
-						"[{$data['type']}] "
-					)) . $data['usage'];
+						"[{$data[self::DEF_TYPE]}] "
+					)) . $data[self::DEF_USAGE];
 			$max         = max($max, strlen($key));
 		}
 
@@ -288,12 +294,12 @@ class Flags {
 			} else {
 				$defined_flag =& $this->defined_flags[$name];
 
-				if( $this->validateType($defined_flag['type'], $value) ) {
-					$defined_flag['value']  = $value;
-					$defined_flag['parsed'] = true;
+				if( $this->validateType($defined_flag[self::DEF_TYPE], $value) ) {
+					$defined_flag[self::DEF_VALUE]  = $value;
+					$defined_flag[self::DEF_PARSED] = true;
 				} else {
 					if( !$ignoreExceptions ) {
-						throw new InvalidFlagTypeException('Option --' . $name . ' expected type: "' . $defined_flag['type'] . '"');
+						throw new InvalidFlagTypeException('Option --' . $name . ' expected type: "' . $defined_flag[self::DEF_TYPE] . '"');
 					}
 				}
 			}
@@ -305,12 +311,12 @@ class Flags {
 					throw new InvalidFlagParamException('Unknown option: -' . $char);
 				}
 			} else {
-				$this->defined_short_flags[$char]['value'] = $value;
+				$this->defined_short_flags[$char][self::DEF_VALUE] = $value;
 			}
 		}
 
 		foreach( $this->defined_flags as $name => $data ) {
-			if( $data['value'] === null ) {
+			if( $data[self::DEF_VALUE] === null ) {
 				if( !$ignoreExceptions ) {
 					throw new MissingFlagParamException('Expected option --' . $name . ' missing.');
 				}
@@ -338,11 +344,11 @@ class Flags {
 		$validate = array(
 			self::TYPE_BOOL   => function ( &$val ) {
 				$val = strtolower((string)$val);
-				if( $val == "0" || $val == 'f' || $val == 'false' ) {
+				if( $val == '0' || $val == 'f' || $val == 'false' ) {
 					$val = false;
 
 					return true;
-				} elseif( $val == "1" || $val == 't' || $val == 'true' ) {
+				} elseif( $val == '1' || $val == 't' || $val == 'true' ) {
 					$val = true;
 
 					return true;
@@ -426,7 +432,7 @@ class Flags {
 					} else {
 						$getValue = $cleanArg;
 
-						if( isset($definedFlags[$cleanArg]) && $definedFlags[$cleanArg]['type'] != self::TYPE_BOOL ) {
+						if( isset($definedFlags[$cleanArg]) && $definedFlags[$cleanArg][self::DEF_TYPE] != self::TYPE_BOOL ) {
 							$forceValue = true;
 						}
 					}

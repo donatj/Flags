@@ -8,8 +8,8 @@ use donatj\Exceptions\MissingFlagParamException;
 
 class Flags {
 
-	private $defined_flags = array();
-	private $defined_short_flags = array();
+	private $definedFlags = array();
+	private $definedShortFlags = array();
 	private $arguments = array();
 	private $parsed = false;
 
@@ -53,7 +53,7 @@ class Flags {
 	 */
 	public function shorts() {
 		$out = array();
-		foreach( $this->defined_short_flags as $key => $data ) {
+		foreach( $this->definedShortFlags as $key => $data ) {
 			$out[$key] = $data[self::DEF_VALUE];
 		}
 
@@ -67,7 +67,7 @@ class Flags {
 	 */
 	public function longs() {
 		$out = array();
-		foreach( $this->defined_flags as $key => $data ) {
+		foreach( $this->definedFlags as $key => $data ) {
 			$out[$key] = $data[self::DEF_VALUE];
 		}
 
@@ -88,12 +88,12 @@ class Flags {
 	 * @return int
 	 */
 	public function &short( $letter, $usage = '' ) {
-		$this->defined_short_flags[$letter[0]] = array(
+		$this->definedShortFlags[$letter[0]] = array(
 			self::DEF_VALUE => 0,
 			self::DEF_USAGE => $usage,
 		);
 
-		return $this->defined_short_flags[$letter[0]]['value'];
+		return $this->definedShortFlags[$letter[0]]['value'];
 	}
 
 	/**
@@ -210,14 +210,14 @@ class Flags {
 	 */
 	private function &_storeFlag( $type, $name, $value, $usage ) {
 
-		$this->defined_flags[$name] = array(
+		$this->definedFlags[$name] = array(
 			self::DEF_TYPE     => $type,
 			self::DEF_USAGE    => $usage,
 			self::DEF_REQUIRED => $value === null,
 			self::DEF_VALUE    => $value,
 		);
 
-		return $this->defined_flags[$name][self::DEF_VALUE];
+		return $this->definedFlags[$name][self::DEF_VALUE];
 	}
 
 	/**
@@ -239,11 +239,11 @@ class Flags {
 		$final  = array();
 		$max    = 0;
 
-		foreach( $this->defined_short_flags as $char => $data ) {
+		foreach( $this->definedShortFlags as $char => $data ) {
 			$final["-{$char}"] = $data[self::DEF_USAGE];
 		}
 
-		foreach( $this->defined_flags as $flag => $data ) {
+		foreach( $this->definedFlags as $flag => $data ) {
 			$key         = "--{$flag}";
 			$final[$key] = ($data[self::DEF_REQUIRED] ?
 					"<{$data[self::DEF_TYPE]}> " :
@@ -284,15 +284,15 @@ class Flags {
 			array_shift($args);
 		}
 
-		list($longParams, $shortParams, $this->arguments) = $this->splitArguments($args, $this->defined_flags);
+		list($longParams, $shortParams, $this->arguments) = $this->splitArguments($args, $this->definedFlags);
 
 		foreach( $longParams as $name => $value ) {
-			if( !isset($this->defined_flags[$name]) ) {
+			if( !isset($this->definedFlags[$name]) ) {
 				if( !$ignoreExceptions ) {
 					throw new InvalidFlagParamException('Unknown option: --' . $name);
 				}
 			} else {
-				$defined_flag =& $this->defined_flags[$name];
+				$defined_flag =& $this->definedFlags[$name];
 
 				if( $this->validateType($defined_flag[self::DEF_TYPE], $value) ) {
 					$defined_flag[self::DEF_VALUE]  = $value;
@@ -306,16 +306,16 @@ class Flags {
 		}
 
 		foreach( $shortParams as $char => $value ) {
-			if( !isset($this->defined_short_flags[$char]) ) {
+			if( !isset($this->definedShortFlags[$char]) ) {
 				if( !$ignoreExceptions ) {
 					throw new InvalidFlagParamException('Unknown option: -' . $char);
 				}
 			} else {
-				$this->defined_short_flags[$char][self::DEF_VALUE] = $value;
+				$this->definedShortFlags[$char][self::DEF_VALUE] = $value;
 			}
 		}
 
-		foreach( $this->defined_flags as $name => $data ) {
+		foreach( $this->definedFlags as $name => $data ) {
 			if( $data[self::DEF_VALUE] === null ) {
 				if( !$ignoreExceptions ) {
 					throw new MissingFlagParamException('Expected option --' . $name . ' missing.');

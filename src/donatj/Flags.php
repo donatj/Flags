@@ -13,6 +13,12 @@ class Flags {
 	private $arguments = array();
 	private $parsed = false;
 
+	const TYPE_BOOL   = 'bool';
+	const TYPE_UINT   = 'uint';
+	const TYPE_INT    = 'int';
+	const TYPE_FLOAT  = 'float';
+	const TYPE_STRING = 'string';
+
 	/**
 	 * Returns the n'th command-line argument. `arg(0)` is the first remaining argument after flags have been processed.
 	 *
@@ -108,7 +114,7 @@ class Flags {
 	 * @return mixed A reference to the flags value
 	 */
 	public function &bool( $name, $value = null, $usage = '' ) {
-		return $this->_storeFlag('bool', $name, $value, $usage);
+		return $this->_storeFlag(self::TYPE_BOOL, $name, $value, $usage);
 	}
 
 	/**
@@ -126,7 +132,7 @@ class Flags {
 	 * @return mixed A reference to the flags value
 	 */
 	public function &float( $name, $value = null, $usage = '' ) {
-		return $this->_storeFlag('float', $name, $value, $usage);
+		return $this->_storeFlag(self::TYPE_FLOAT, $name, $value, $usage);
 	}
 
 	/**
@@ -146,7 +152,7 @@ class Flags {
 	 * @return mixed A reference to the flags value
 	 */
 	public function &int( $name, $value = null, $usage = '' ) {
-		return $this->_storeFlag('int', $name, $value, $usage);
+		return $this->_storeFlag(self::TYPE_INT, $name, $value, $usage);
 	}
 
 	/**
@@ -166,7 +172,7 @@ class Flags {
 	 * @return mixed A reference to the flags value
 	 */
 	public function &uint( $name, $value = null, $usage = '' ) {
-		return $this->_storeFlag('uint', $name, $value, $usage);
+		return $this->_storeFlag(self::TYPE_UINT, $name, $value, $usage);
 	}
 
 	/**
@@ -186,9 +192,8 @@ class Flags {
 	 * @return mixed A reference to the flags value
 	 */
 	public function &string( $name, $value = null, $usage = '' ) {
-		return $this->_storeFlag('string', $name, $value, $usage);
+		return $this->_storeFlag(self::TYPE_STRING, $name, $value, $usage);
 	}
-
 
 	/**
 	 * @param string $type
@@ -236,7 +241,7 @@ class Flags {
 			$key         = "--{$flag}";
 			$final[$key] = ($data['required'] ?
 					"<{$data['type']}> " :
-					($data['type'] == 'bool' ?
+					($data['type'] == self::TYPE_BOOL ?
 						'' :
 						"[{$data['type']}] "
 					)) . $data['usage'];
@@ -331,7 +336,7 @@ class Flags {
 	 */
 	private function validateType( $type, &$value ) {
 		$validate = array(
-			'bool'   => function ( &$val ) {
+			self::TYPE_BOOL   => function ( &$val ) {
 				$val = strtolower((string)$val);
 				if( $val == "0" || $val == 'f' || $val == 'false' ) {
 					$val = false;
@@ -345,7 +350,7 @@ class Flags {
 
 				return false;
 			},
-			'uint'   => function ( &$val ) {
+			self::TYPE_UINT   => function ( &$val ) {
 				if( abs(floatval($val)) == intval($val) ) {
 					$val = intval($val);
 
@@ -354,7 +359,7 @@ class Flags {
 
 				return false;
 			},
-			'int'    => function ( &$val ) {
+			self::TYPE_INT    => function ( &$val ) {
 				if( is_numeric($val) && floatval($val) == intval($val) ) {
 					$val = intval($val);
 
@@ -363,7 +368,7 @@ class Flags {
 
 				return false;
 			},
-			'float'  => function ( &$val ) {
+			self::TYPE_FLOAT  => function ( &$val ) {
 				if( is_numeric($val) ) {
 					$val = floatval($val);
 
@@ -372,7 +377,7 @@ class Flags {
 
 				return false;
 			},
-			'string' => function ( &$val ) {
+			self::TYPE_STRING => function ( &$val ) {
 				if( $val !== true ) {
 					$val = (string)$val;
 
@@ -421,7 +426,7 @@ class Flags {
 					} else {
 						$getValue = $cleanArg;
 
-						if( isset($definedFlags[$cleanArg]) && $definedFlags[$cleanArg]['type'] != 'bool' ) {
+						if( isset($definedFlags[$cleanArg]) && $definedFlags[$cleanArg]['type'] != self::TYPE_BOOL ) {
 							$forceValue = true;
 						}
 					}

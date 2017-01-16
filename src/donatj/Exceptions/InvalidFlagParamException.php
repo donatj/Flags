@@ -2,6 +2,6 @@
 
 namespace donatj\Exceptions;
 
-class InvalidFlagParamException extends \Exception {
+class InvalidFlagParamException extends AbstractFlagException {
 
 }

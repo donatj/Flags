@@ -13,16 +13,26 @@ class Flags {
 	private $arguments = array();
 	private $parsed = false;
 
+	/** @access private **/
 	const DEF_TYPE     = 'type';
+	/** @access private **/
 	const DEF_USAGE    = 'usage';
+	/** @access private **/
 	const DEF_REQUIRED = 'required';
+	/** @access private **/
 	const DEF_VALUE    = 'value';
+	/** @access private **/
 	const DEF_PARSED   = 'parsed';
 
+	/** @access private **/
 	const TYPE_BOOL   = 'bool';
+	/** @access private **/
 	const TYPE_UINT   = 'uint';
+	/** @access private **/
 	const TYPE_INT    = 'int';
+	/** @access private **/
 	const TYPE_FLOAT  = 'float';
+	/** @access private **/
 	const TYPE_STRING = 'string';
 
 	/**

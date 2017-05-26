@@ -86,9 +86,13 @@ Expected option --qux missing.
 
 ## Documentation
 
-### Class: Flags \[ `\donatj` \]
+### Class: \donatj\Flags
 
-#### Method: `Flags->arg($index)`
+#### Method: `Flags->arg`
+
+```php
+function arg($index)
+```
 
 Returns the n'th command-line argument. `arg(0)` is the first remaining argument after flags have been processed.
 
@@ -102,7 +106,11 @@ Returns the n'th command-line argument. `arg(0)` is the first remaining argument
 
 ---
 
-#### Method: `Flags->args()`
+#### Method: `Flags->args`
+
+```php
+function args()
+```
 
 Returns the non-flag command-line arguments.
 
@@ -112,7 +120,11 @@ Returns the non-flag command-line arguments.
 
 ---
 
-#### Method: `Flags->shorts()`
+#### Method: `Flags->shorts`
+
+```php
+function shorts()
+```
 
 Returns an array of short-flag call-counts indexed by character  
 `-v` would set the 'v' index to 1, whereas `-vvv` will set the 'v' index to 3
@@ -123,7 +135,11 @@ Returns an array of short-flag call-counts indexed by character
 
 ---
 
-#### Method: `Flags->longs()`
+#### Method: `Flags->longs`
+
+```php
+function longs()
+```
 
 Returns an array of long-flag values indexed by flag name
 
@@ -133,7 +149,11 @@ Returns an array of long-flag values indexed by flag name
 
 ---
 
-#### Method: `Flags->short($letter [, $usage = ''])`
+#### Method: `Flags->short`
+
+```php
+function short($letter [, $usage = ''])
+```
 
 Defines a short-flag of specified name, and usage string.  
 The return value is a reference to an integer variable that stores the number of times the short-flag was called.  
@@ -154,7 +174,11 @@ This means the value of the reference for v would be the following.
 
 ---
 
-#### Method: `Flags->bool($name [, $value = null [, $usage = '']])`
+#### Method: `Flags->bool`
+
+```php
+function bool($name [, $value = null [, $usage = '']])
+```
 
 Defines a bool long-flag of specified name, default value, and usage string.  
 The return value is a reference to a variable that stores the value of the flag.  
@@ -185,7 +209,11 @@ The return value is a reference to a variable that stores the value of the flag.
 
 ---
 
-#### Method: `Flags->float($name [, $value = null [, $usage = '']])`
+#### Method: `Flags->float`
+
+```php
+function float($name [, $value = null [, $usage = '']])
+```
 
 Defines a float long-flag of specified name, default value, and usage string.  
 The return value is a reference to a variable that stores the value of the flag.  
@@ -207,7 +235,11 @@ The return value is a reference to a variable that stores the value of the flag.
 
 ---
 
-#### Method: `Flags->int($name [, $value = null [, $usage = '']])`
+#### Method: `Flags->int`
+
+```php
+function int($name [, $value = null [, $usage = '']])
+```
 
 Defines an integer long-flag of specified name, default value, and usage string.  
 The return value is a reference to a variable that stores the value of the flag.  
@@ -231,7 +263,11 @@ Note: Float values trigger an error, rather than casting.
 
 ---
 
-#### Method: `Flags->uint($name [, $value = null [, $usage = '']])`
+#### Method: `Flags->uint`
+
+```php
+function uint($name [, $value = null [, $usage = '']])
+```
 
 Defines a unsigned integer long-flag of specified name, default value, and usage string.  
 The return value is a reference to a variable that stores the value of the flag.  
@@ -255,7 +291,11 @@ Note: Negative values trigger an error, rather than casting.
 
 ---
 
-#### Method: `Flags->string($name [, $value = null [, $usage = '']])`
+#### Method: `Flags->string`
+
+```php
+function string($name [, $value = null [, $usage = '']])
+```
 
 Defines a string long-flag of specified name, default value, and usage string.  
 The return value is a reference to a variable that stores the value of the flag.  
@@ -279,7 +319,11 @@ Examples
 
 ---
 
-#### Method: `Flags->getDefaults()`
+#### Method: `Flags->getDefaults`
+
+```php
+function getDefaults()
+```
 
 Returns the default values of all defined command-line flags as a formatted string.
 
@@ -297,7 +341,11 @@ Returns the default values of all defined command-line flags as a formatted stri
 
 ---
 
-#### Method: `Flags->parse([ $args = null [, $ignoreExceptions = false [, $skipFirstArgument = true]]])`
+#### Method: `Flags->parse`
+
+```php
+function parse([ $args = null [, $ignoreExceptions = false [, $skipFirstArgument = true]]])
+```
 
 Parses flag definitions from the argument list, which should include the command name.  
 Must be called after all flags are defined and before flags are accessed by the program.  
@@ -312,7 +360,11 @@ Will throw exceptions on Missing Require Flags, Unknown Flags or Incorrect Flag 
 
 ---
 
-#### Method: `Flags->parsed()`
+#### Method: `Flags->parsed`
+
+```php
+function parsed()
+```
 
 Returns true if the command-line flags have been parsed.
 

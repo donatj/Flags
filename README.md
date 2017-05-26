@@ -1,8 +1,10 @@
 # Flags
 
-[![Latest Stable Version](https://poser.pugx.org/donatj/flags/v/stable.png)](https://packagist.org/packages/donatj/flags)
-[![Total Downloads](https://poser.pugx.org/donatj/flags/downloads.png)](https://packagist.org/packages/donatj/flags)
-[![Build Status](https://travis-ci.org/donatj/Flags.png?branch=master)](https://travis-ci.org/donatj/Flags)
+[![Latest Stable Version](https://poser.pugx.org/donatj/flags/version)](https://packagist.org/packages/donatj/flags)
+[![Total Downloads](https://poser.pugx.org/donatj/flags/downloads)](https://packagist.org/packages/donatj/flags)
+[![License](https://poser.pugx.org/donatj/flags/license)](https://packagist.org/packages/donatj/flags)
+[![Build Status](https://travis-ci.org/donatj/Flags.svg?branch=master)](https://travis-ci.org/donatj/Flags)
+
 
 Flags is an argument parser inspired by the Go-lang [Flag](http://golang.org/pkg/flag/#Parsed) package, taking its methodology but attaching a **GNU-style** flag parser.
 
@@ -26,18 +28,14 @@ As well as the ` -- ` operator for absolute separation of arguments from optio
 
 ## Requirements
 
-- PHP 5.3+
+- **php**: >=5.3.0
 
 ## Installing
 
-Flags is available through Packagist via Composer
+Install the latest version with:
 
-```json
-{
-    "require": {
-        "donatj/flags": "1.*"
-    }
-}
+```bash
+composer require 'donatj/flags'
 ```
 
 ## Example

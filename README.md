@@ -88,7 +88,7 @@ Expected option --qux missing.
 
 ### Class: \donatj\Flags
 
-#### Method: `Flags->arg`
+#### Method: Flags->arg
 
 ```php
 function arg($index)
@@ -106,7 +106,7 @@ Returns the n'th command-line argument. `arg(0)` is the first remaining argument
 
 ---
 
-#### Method: `Flags->args`
+#### Method: Flags->args
 
 ```php
 function args()
@@ -120,7 +120,7 @@ Returns the non-flag command-line arguments.
 
 ---
 
-#### Method: `Flags->shorts`
+#### Method: Flags->shorts
 
 ```php
 function shorts()
@@ -135,7 +135,7 @@ Returns an array of short-flag call-counts indexed by character
 
 ---
 
-#### Method: `Flags->longs`
+#### Method: Flags->longs
 
 ```php
 function longs()
@@ -149,7 +149,7 @@ Returns an array of long-flag values indexed by flag name
 
 ---
 
-#### Method: `Flags->short`
+#### Method: Flags->short
 
 ```php
 function short($letter [, $usage = ''])
@@ -174,7 +174,7 @@ This means the value of the reference for v would be the following.
 
 ---
 
-#### Method: `Flags->bool`
+#### Method: Flags->bool
 
 ```php
 function bool($name [, $value = null [, $usage = '']])
@@ -209,7 +209,7 @@ The return value is a reference to a variable that stores the value of the flag.
 
 ---
 
-#### Method: `Flags->float`
+#### Method: Flags->float
 
 ```php
 function float($name [, $value = null [, $usage = '']])
@@ -235,7 +235,7 @@ The return value is a reference to a variable that stores the value of the flag.
 
 ---
 
-#### Method: `Flags->int`
+#### Method: Flags->int
 
 ```php
 function int($name [, $value = null [, $usage = '']])
@@ -263,7 +263,7 @@ Note: Float values trigger an error, rather than casting.
 
 ---
 
-#### Method: `Flags->uint`
+#### Method: Flags->uint
 
 ```php
 function uint($name [, $value = null [, $usage = '']])
@@ -291,7 +291,7 @@ Note: Negative values trigger an error, rather than casting.
 
 ---
 
-#### Method: `Flags->string`
+#### Method: Flags->string
 
 ```php
 function string($name [, $value = null [, $usage = '']])
@@ -319,7 +319,7 @@ Examples
 
 ---
 
-#### Method: `Flags->getDefaults`
+#### Method: Flags->getDefaults
 
 ```php
 function getDefaults()
@@ -341,7 +341,7 @@ Returns the default values of all defined command-line flags as a formatted stri
 
 ---
 
-#### Method: `Flags->parse`
+#### Method: Flags->parse
 
 ```php
 function parse([ $args = null [, $ignoreExceptions = false [, $skipFirstArgument = true]]])
@@ -360,7 +360,7 @@ Will throw exceptions on Missing Require Flags, Unknown Flags or Incorrect Flag 
 
 ---
 
-#### Method: `Flags->parsed`
+#### Method: Flags->parsed
 
 ```php
 function parsed()

@@ -48,7 +48,7 @@ Expected option --qux missing.
 				</source>
 			</section>
 			<section title="Documentation">
-				<file name="src/donatj/Flags.php" />
+				<file name="src/Flags.php" />
 			</section>
 		</section>
 	</docpage>

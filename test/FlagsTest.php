@@ -453,7 +453,33 @@ class FlagsTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(count($longs), $longCount);
 		$this->assertEquals(count($shorts), $shortCount);
+	}
 
+
+	/**
+	 * Test that an empty string e.g. `foo.php --foo ""` does not explode
+	 */
+	public function testEmptyStringValueRegression() {
+		$flags = new Flags();
+
+		$foo =& $flags->string('foo', 'test');
+		$flags->parse(array( 'souplex', '--foo', '' ));
+
+		$this->assertSame($foo, '');
+	}
+
+	/**
+	 * Test that an empty string e.g. `foo.php --foo ""` does not explode but rather returns an exception.
+	 *
+	 * In a future refractor we'll ideally be able to use a value of "-" but that's not in the cards right now.
+	 *
+	 * @expectedException \donatj\Exceptions\InvalidFlagParamException
+	 */
+	public function testEmptyStringValueRegression2() {
+		$flags = new Flags();
+
+		$flags->string('foo', 'test');
+		$flags->parse(array( 'fooplex', '-', 'sass' ));
 	}
 
 

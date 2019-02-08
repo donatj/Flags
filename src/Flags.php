@@ -423,7 +423,7 @@ class Flags {
 		$getValue   = false;
 		$startArgs  = false;
 		foreach( $args as $arg ) {
-			if( $arg[0] == '-' && !$startArgs && !$forceValue ) {
+			if( isset($arg[0]) && $arg[0] == '-' && !$startArgs && !$forceValue ) {
 				$cleanArg = ltrim($arg, '- ');
 
 				if( $getValue ) {
@@ -432,9 +432,9 @@ class Flags {
 
 				$getValue = false;
 
-				if( $arg == '--' ) {
+				if( $arg === '--' ) {
 					$startArgs = true;
-				} elseif( $arg[1] == '-' ) {
+				} elseif( isset($arg[1]) && $arg[1] === '-' ) {
 					$split = explode('=', $arg, 2);
 
 					if( count($split) > 1 ) {

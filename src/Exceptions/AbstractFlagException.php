@@ -2,6 +2,6 @@
 
 namespace donatj\Exceptions;
 
-abstract class AbstractFlagException extends \Exception {
+abstract class AbstractFlagException extends \RuntimeException {
 
 }

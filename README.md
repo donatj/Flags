@@ -86,6 +86,22 @@ Expected option --qux missing.
 
 ### Class: \donatj\Flags
 
+#### Method: Flags->__construct
+
+```php
+function __construct([ $args = null [, $skipFirstArgument = true]])
+```
+
+Flags constructor.
+
+##### Parameters:
+
+- ***array*** `$args` - The arguments to parse, defaults to $_SERVER['argv']
+- ***bool*** `$skipFirstArgument` - Setting to false causes the first argument to be parsed as an parameter rather
+    than the command.
+
+---
+
 #### Method: Flags->arg
 
 ```php
@@ -342,7 +358,7 @@ Returns the default values of all defined command-line flags as a formatted stri
 #### Method: Flags->parse
 
 ```php
-function parse([ $args = null [, $ignoreExceptions = false [, $skipFirstArgument = true]]])
+function parse([ $args = null [, $ignoreExceptions = false [, $skipFirstArgument = null]]])
 ```
 
 Parses flag definitions from the argument list, which should include the command name.  
@@ -352,9 +368,11 @@ Will throw exceptions on Missing Require Flags, Unknown Flags or Incorrect Flag 
 
 ##### Parameters:
 
-- ***array*** `$args` - The arguments to parse, defaults to $GLOBALS['argv']
-- ***bool*** `$ignoreExceptions` - Setting to true causes parsing to continue even after an exception has been thrown.
-- ***bool*** `$skipFirstArgument` - Setting to false causes the first argument to be parsed as an parameter rather than the command.
+- ***array*** `$args` - The arguments to parse. Defaults to arguments defined in the constructor.
+- ***bool*** `$ignoreExceptions` - Setting to true causes parsing to continue even after an exception has been
+    thrown.
+- ***bool*** `$skipFirstArgument` - Option to parse the first argument as an parameter rather than the command.
+    Defaults to constructor value
 
 ---
 

@@ -258,7 +258,7 @@ class FlagsTest extends \PHPUnit_Framework_TestCase {
 
 		# ====
 
-		$GLOBALS['argv'] = array('test.php', '--a', '7');
+		$_SERVER['argv'] = array('test.php', '--a', '7');
 		$flags  = new Flags();
 		$a      = & $flags->int('a');
 		$flags->parse();

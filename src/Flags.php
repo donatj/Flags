@@ -8,6 +8,12 @@ use donatj\Exceptions\MissingFlagParamException;
 
 class Flags {
 
+	/** @var array | null */
+	protected $args;
+
+	/** @var bool */
+	protected $skipFirstArgument;
+
 	private $definedFlags = array();
 	private $definedShortFlags = array();
 	private $arguments = array();
@@ -34,6 +40,22 @@ class Flags {
 	const TYPE_FLOAT  = 'float';
 	/** @access private */
 	const TYPE_STRING = 'string';
+
+	/**
+	 * Flags constructor.
+	 *
+	 * @param array $args The arguments to parse, defaults to $_SERVER['argv']
+	 * @param bool  $skipFirstArgument Setting to false causes the first argument to be parsed as an parameter rather
+	 *     than the command.
+	 */
+	public function __construct( array $args = null, $skipFirstArgument = true ) {
+		if( $args === null && isset($_SERVER['argv']) ) {
+			$args = (array)$_SERVER['argv'];
+		}
+
+		$this->args              = $args;
+		$this->skipFirstArgument = $skipFirstArgument;
+	}
 
 	/**
 	 * Returns the n'th command-line argument. `arg(0)` is the first remaining argument after flags have been processed.
@@ -277,17 +299,22 @@ class Flags {
 	 *
 	 * Will throw exceptions on Missing Require Flags, Unknown Flags or Incorrect Flag Types
 	 *
-	 * @param array $args The arguments to parse, defaults to $GLOBALS['argv']
-	 * @param bool  $ignoreExceptions Setting to true causes parsing to continue even after an exception has been thrown.
-	 * @param bool  $skipFirstArgument Setting to false causes the first argument to be parsed as an parameter rather than the command.
+	 * @param array $args The arguments to parse. Defaults to arguments defined in the constructor.
+	 * @param bool  $ignoreExceptions Setting to true causes parsing to continue even after an exception has been
+	 *     thrown.
+	 * @param bool  $skipFirstArgument Option to parse the first argument as an parameter rather than the command.
+	 *     Defaults to constructor value
 	 * @throws Exceptions\MissingFlagParamException
 	 * @throws Exceptions\InvalidFlagParamException
 	 * @throws Exceptions\InvalidFlagTypeException
 	 */
-	public function parse( array $args = null, $ignoreExceptions = false, $skipFirstArgument = true ) {
-
+	public function parse( array $args = null, $ignoreExceptions = false, $skipFirstArgument = null ) {
 		if( $args === null ) {
-			$args = $GLOBALS['argv'];
+			$args = $this->args;
+		}
+
+		if($skipFirstArgument === null) {
+			$skipFirstArgument = $this->skipFirstArgument;
 		}
 
 		if( $skipFirstArgument ) {

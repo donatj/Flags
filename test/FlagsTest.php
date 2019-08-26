@@ -233,9 +233,7 @@ class FlagsTest extends \PHPUnit_Framework_TestCase {
 			$this->assertSame($flags->arg(3), null);
 		}
 
-
 		# ====
-
 
 		$flags  = new Flags();
 		$capx   = & $flags->short('X');
@@ -244,7 +242,6 @@ class FlagsTest extends \PHPUnit_Framework_TestCase {
 		$s      = & $flags->short('s');
 		$d      = & $flags->short('d');
 		$qm     = & $flags->short('?');
-
 
 		$flags->parse(explode(' ', 'main.php -Xassd?'));
 
@@ -259,10 +256,9 @@ class FlagsTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals($flags->shorts(), array( 'X' => 1, 'x' => 0, 'a' => 1, 's' => 2, 'd' => 1, '?' => 1 ));
 
-
 		# ====
 
-		$GLOBALS['argv'] = array('test.php','--a', '7');
+		$GLOBALS['argv'] = array('test.php', '--a', '7');
 		$flags  = new Flags();
 		$a      = & $flags->int('a');
 		$flags->parse();
@@ -291,12 +287,12 @@ class FlagsTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @expectedException \donatj\Exceptions\InvalidFlagParamException
 	 */
-	function testParseExceptionInvalidFlagParamException() {
+	public function testParseExceptionInvalidFlagParamException() {
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php --fake=what'));
 	}
 
-	function testNotParseExceptionInvalidFlagParamException() {
+	public function testNotParseExceptionInvalidFlagParamException() {
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php --fake=what'), true);
 	}
@@ -304,12 +300,12 @@ class FlagsTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @expectedException \donatj\Exceptions\InvalidFlagParamException
 	 */
-	function testParseExceptionInvalidFlagParamException2() {
+	public function testParseExceptionInvalidFlagParamException2() {
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php --fake what'));
 	}
 
-	function testNotParseExceptionInvalidFlagParamException2() {
+	public function testNotParseExceptionInvalidFlagParamException2() {
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php --fake what'), true);
 	}
@@ -317,12 +313,12 @@ class FlagsTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @expectedException \donatj\Exceptions\InvalidFlagParamException
 	 */
-	function testParseExceptionInvalidFlagParamException3() {
+	public function testParseExceptionInvalidFlagParamException3() {
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php --fake'));
 	}
 
-	function testNotParseExceptionInvalidFlagParamException3() {
+	public function testNotParseExceptionInvalidFlagParamException3() {
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php --fake'), true);
 	}
@@ -330,12 +326,12 @@ class FlagsTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @expectedException \donatj\Exceptions\InvalidFlagParamException
 	 */
-	function testParseExceptionInvalidFlagParamException4() {
+	public function testParseExceptionInvalidFlagParamException4() {
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php -fake'));
 	}
 
-	function testNotParseExceptionInvalidFlagParamException4() {
+	public function testNotParseExceptionInvalidFlagParamException4() {
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php -fake'), true);
 	}
@@ -343,12 +339,12 @@ class FlagsTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @expectedException \donatj\Exceptions\InvalidFlagParamException
 	 */
-	function testParseExceptionInvalidFlagParamException5() {
+	public function testParseExceptionInvalidFlagParamException5() {
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php -v'));
 	}
 
-	function testNotParseExceptionInvalidFlagParamException5() {
+	public function testNotParseExceptionInvalidFlagParamException5() {
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php -v'), true);
 	}
@@ -356,13 +352,13 @@ class FlagsTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @expectedException \donatj\Exceptions\MissingFlagParamException
 	 */
-	function testParseExceptionMissingFlagParamException() {
+	public function testParseExceptionMissingFlagParamException() {
 		$flags = new Flags();
 		$flags->string('blah');
 		$flags->parse(explode(' ', 'test.php'));
 	}
 
-	function testNotParseExceptionMissingFlagParamException() {
+	public function testNotParseExceptionMissingFlagParamException() {
 		$flags = new Flags();
 		$flags->string('blah');
 		$flags->parse(explode(' ', 'test.php'), true);
@@ -371,20 +367,19 @@ class FlagsTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @expectedException \donatj\Exceptions\MissingFlagParamException
 	 */
-	function testParseExceptionMissingFlagParamException2() {
+	public function testParseExceptionMissingFlagParamException2() {
 		$flags = new Flags();
 		$flags->bool('foo');
 		$flags->bool('bar');
 		$flags->parse(explode(' ', 'test.php --foo'));
 	}
 
-	function testNotParseExceptionMissingFlagParamException2() {
+	public function testNotParseExceptionMissingFlagParamException2() {
 		$flags = new Flags();
 		$flags->bool('foo');
 		$flags->bool('bar');
 		$flags->parse(explode(' ', 'test.php --foo'), true);
 	}
-
 
 	public function testGetDefaults() {
 
@@ -455,7 +450,6 @@ class FlagsTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(count($shorts), $shortCount);
 	}
 
-
 	/**
 	 * Test that an empty string e.g. `foo.php --foo ""` does not explode
 	 */
@@ -481,6 +475,5 @@ class FlagsTest extends \PHPUnit_Framework_TestCase {
 		$flags->string('foo', 'test');
 		$flags->parse(array( 'fooplex', '-', 'sass' ));
 	}
-
 
 }

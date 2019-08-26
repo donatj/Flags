@@ -341,7 +341,7 @@ class Flags {
 	 *
 	 * @return bool
 	 */
-	function parsed() {
+	public function parsed() {
 		return $this->parsed;
 	}
 
@@ -358,7 +358,8 @@ class Flags {
 					$val = false;
 
 					return true;
-				} elseif( $val == '1' || $val == 't' || $val == 'true' ) {
+				}
+				if( $val == '1' || $val == 't' || $val == 'true' ) {
 					$val = true;
 
 					return true;

@@ -14,32 +14,32 @@ class Flags {
 	/** @var bool */
 	protected $skipFirstArgument;
 
-	private $definedFlags = array();
-	private $definedShortFlags = array();
-	private $arguments = array();
+	private $definedFlags = [];
+	private $definedShortFlags = [];
+	private $arguments = [];
 	private $parsed = false;
 
 	/** @access private */
-	const DEF_TYPE     = 'type';
+	private const DEF_TYPE = 'type';
 	/** @access private */
-	const DEF_USAGE    = 'usage';
+	private const DEF_USAGE = 'usage';
 	/** @access private */
-	const DEF_REQUIRED = 'required';
+	private const DEF_REQUIRED = 'required';
 	/** @access private */
-	const DEF_VALUE    = 'value';
+	private const DEF_VALUE = 'value';
 	/** @access private */
-	const DEF_PARSED   = 'parsed';
+	private const DEF_PARSED = 'parsed';
 
 	/** @access private */
-	const TYPE_BOOL   = 'bool';
+	private const TYPE_BOOL = 'bool';
 	/** @access private */
-	const TYPE_UINT   = 'uint';
+	private const TYPE_UINT = 'uint';
 	/** @access private */
-	const TYPE_INT    = 'int';
+	private const TYPE_INT = 'int';
 	/** @access private */
-	const TYPE_FLOAT  = 'float';
+	private const TYPE_FLOAT = 'float';
 	/** @access private */
-	const TYPE_STRING = 'string';
+	private const TYPE_STRING = 'string';
 
 	/**
 	 * Flags constructor.
@@ -84,7 +84,7 @@ class Flags {
 	 * @return array
 	 */
 	public function shorts() {
-		$out = array();
+		$out = [];
 		foreach( $this->definedShortFlags as $key => $data ) {
 			$out[$key] = $data[self::DEF_VALUE];
 		}
@@ -98,7 +98,7 @@ class Flags {
 	 * @return array
 	 */
 	public function longs() {
-		$out = array();
+		$out = [];
 		foreach( $this->definedFlags as $key => $data ) {
 			$out[$key] = $data[self::DEF_VALUE];
 		}
@@ -120,10 +120,10 @@ class Flags {
 	 * @return int
 	 */
 	public function &short( $letter, $usage = '' ) {
-		$this->definedShortFlags[$letter[0]] = array(
+		$this->definedShortFlags[$letter[0]] = [
 			self::DEF_VALUE => 0,
 			self::DEF_USAGE => $usage,
-		);
+		];
 
 		return $this->definedShortFlags[$letter[0]]['value'];
 	}
@@ -242,12 +242,12 @@ class Flags {
 	 */
 	private function &_storeFlag( $type, $name, $value, $usage ) {
 
-		$this->definedFlags[$name] = array(
+		$this->definedFlags[$name] = [
 			self::DEF_TYPE     => $type,
 			self::DEF_USAGE    => $usage,
 			self::DEF_REQUIRED => $value === null,
 			self::DEF_VALUE    => $value,
-		);
+		];
 
 		return $this->definedFlags[$name][self::DEF_VALUE];
 	}
@@ -268,7 +268,7 @@ class Flags {
 	public function getDefaults() {
 
 		$output = '';
-		$final  = array();
+		$final  = [];
 		$max    = 0;
 
 		foreach( $this->definedShortFlags as $char => $data ) {
@@ -313,7 +313,7 @@ class Flags {
 			$args = $this->args;
 		}
 
-		if($skipFirstArgument === null) {
+		if( $skipFirstArgument === null ) {
 			$skipFirstArgument = $this->skipFirstArgument;
 		}
 
@@ -321,7 +321,7 @@ class Flags {
 			array_shift($args);
 		}
 
-		list($longParams, $shortParams, $this->arguments) = $this->splitArguments($args, $this->definedFlags);
+		[ $longParams, $shortParams, $this->arguments ] = $this->splitArguments($args, $this->definedFlags);
 
 		foreach( $longParams as $name => $value ) {
 			if( !isset($this->definedFlags[$name]) ) {
@@ -378,7 +378,7 @@ class Flags {
 	 * @return bool
 	 */
 	private function validateType( $type, &$value ) {
-		$validate = array(
+		$validate = [
 			self::TYPE_BOOL   => function ( &$val ) {
 				$val = strtolower((string)$val);
 				if( $val == '0' || $val == 'f' || $val == 'false' ) {
@@ -430,7 +430,7 @@ class Flags {
 
 				return false;
 			},
-		);
+		];
 
 		$test = $validate[$type];
 
@@ -443,9 +443,9 @@ class Flags {
 	 * @return array
 	 */
 	protected function splitArguments( array $args, array $definedFlags ) {
-		$longParams  = array();
-		$shortParams = array();
-		$arguments   = array();
+		$longParams  = [];
+		$shortParams = [];
+		$arguments   = [];
 
 		$forceValue = false;
 		$getValue   = false;
@@ -492,10 +492,10 @@ class Flags {
 		if( $getValue ) {
 			$longParams[$getValue] = true;
 
-			return array( $longParams, $shortParams, $arguments );
+			return [ $longParams, $shortParams, $arguments ];
 		}
 
-		return array( $longParams, $shortParams, $arguments );
+		return [ $longParams, $shortParams, $arguments ];
 	}
 
 }

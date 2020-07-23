@@ -2,428 +2,439 @@
 
 namespace donatj\tests\Flags;
 
+
+use donatj\Exceptions\InvalidFlagParamException;
+use donatj\Exceptions\InvalidFlagTypeException;
+use donatj\Exceptions\MissingFlagParamException;
 use donatj\Flags;
+use PHPUnit\Framework\TestCase;
 
-class FlagsTest extends \PHPUnit_Framework_TestCase {
+class FlagsTest extends TestCase {
 
-	public function testBool() {
+	public function testBool() : void {
 		$flags = new Flags();
-		$bool  = & $flags->bool('bool');
+		$bool  = &$flags->bool('bool');
 
 		$flags->parse(explode(' ', 'test.php --bool'));
-		$this->assertSame($bool, true);
+		self::assertTrue($bool);
 
-		$options = array( 0 => array( 'true', 't', '1' ), 1 => array( 'false', 'f', '0' ) );
+		$options = [ 0 => [ 'true', 't', '1' ], 1 => [ 'false', 'f', '0' ] ];
 
-		foreach( array( '=', ' ' ) as $sep ) {
+		foreach( [ '=', ' ' ] as $sep ) {
 			foreach( $options as $bool => $values ) {
 				foreach( $values as $value ) {
 					$flags->parse(explode(' ', 'test.php --bool' . $sep . $value));
-					$this->assertSame($bool, (bool)$bool);
+					self::assertSame($bool, (bool)$bool);
 				}
 			}
 		}
 
 		$flags->parse(explode(' ', 'test.php --bool -- argument'));
-		$this->assertSame($bool, true);
+		self::assertTrue($bool);
 	}
 
-	/**
-	 * @expectedException \donatj\Exceptions\InvalidFlagTypeException
-	 */
-	public function testBoolException() {
+	public function testBoolException() : void {
+		$this->expectException(InvalidFlagTypeException::class);
+
 		$flags = new Flags();
 		$flags->bool('bool');
 		$flags->parse(explode(' ', 'test.php --bool=10'));
 	}
 
-	/**
-	 * @expectedException \donatj\Exceptions\InvalidFlagTypeException
-	 */
-	public function testBoolException2() {
+	public function testBoolException2() : void {
+		$this->expectException(InvalidFlagTypeException::class);
+
 		$flags = new Flags();
 		$flags->bool('bool');
 		$flags->parse(explode(' ', 'test.php --bool string'));
 	}
 
-	public function testFloat() {
+	public function testFloat() : void {
 		$flags = new Flags();
-		$uint  = & $flags->float('float');
+		$uint  = &$flags->float('float');
 
-		$values = array( 4, 4.2, '4.', '-.4', '4.0', .4, -4, 0, 1000, '-012' );
+		$values = [ 4, 4.2, '4.', '-.4', '4.0', .4, -4, 0, 1000, '-012' ];
 
-		foreach( array( '=', ' ' ) as $sep ) {
+		foreach( [ '=', ' ' ] as $sep ) {
 			foreach( $values as $value ) {
 				$flags->parse(explode(' ', 'test.php --float' . $sep . $value));
-				$this->assertSame($uint, floatval($value));
+				self::assertSame($uint, floatval($value));
 			}
 		}
 	}
 
-	/**
-	 * @expectedException \donatj\Exceptions\InvalidFlagTypeException
-	 */
-	public function testFloatException() {
+	public function testFloatException() : void {
+		$this->expectException(InvalidFlagTypeException::class);
+
 		$flags = new Flags();
 		$flags->float('float');
 		$flags->parse(explode(' ', 'test.php --float=spiders'));
 	}
 
-	/**
-	 * @expectedException \donatj\Exceptions\InvalidFlagTypeException
-	 */
-	public function testFloatException2() {
+	public function testFloatException2() : void {
+		$this->expectException(InvalidFlagTypeException::class);
+
 		$flags = new Flags();
 		$flags->float('float');
 		$flags->parse(explode(' ', 'test.php --float'));
 	}
 
-	public function testInt() {
+	public function testInt() : void {
 		$flags = new Flags();
-		$int   = & $flags->int('int');
+		$int   = &$flags->int('int');
 
-		$values = array( 4, '4.', '4.0', -4, 0, 1000, '-012' );
+		$values = [ 4, '4.', '4.0', -4, 0, 1000, '-012' ];
 
-		foreach( array( '=', ' ' ) as $sep ) {
+		foreach( [ '=', ' ' ] as $sep ) {
 			foreach( $values as $value ) {
 				$flags->parse(explode(' ', 'test.php --int' . $sep . $value));
-				$this->assertSame($int, intval($value));
+				self::assertSame($int, intval($value));
 			}
 		}
 	}
 
-	/**
-	 * @expectedException \donatj\Exceptions\InvalidFlagTypeException
-	 */
-	public function testIntException() {
+	public function testIntException() : void {
+		$this->expectException(InvalidFlagTypeException::class);
+
 		$flags = new Flags();
 		$flags->int('int');
 		$flags->parse(explode(' ', 'test.php --int=spiders'));
 	}
 
-	/**
-	 * @expectedException \donatj\Exceptions\InvalidFlagTypeException
-	 */
-	public function testIntException2() {
+	public function testIntException2() : void {
+		$this->expectException(InvalidFlagTypeException::class);
+
 		$flags = new Flags();
 		$flags->int('int');
 		$flags->parse(explode(' ', 'test.php --int=1.1'));
 	}
 
-	/**
-	 * @expectedException \donatj\Exceptions\InvalidFlagTypeException
-	 */
-	public function testIntException3() {
+	public function testIntException3() : void {
+		$this->expectException(InvalidFlagTypeException::class);
+
 		$flags = new Flags();
 		$flags->int('int');
 		$flags->parse(explode(' ', 'test.php --int'));
 	}
 
-	public function testUint() {
+	public function testUint() : void {
 		$flags = new Flags();
-		$bool  = & $flags->uint('uint');
+		$bool  = &$flags->uint('uint');
 
-		$values = array( 4, '4.', '4.0', 0, 1000, 12 );
+		$values = [ 4, '4.', '4.0', 0, 1000, 12 ];
 
-		foreach( array( '=', ' ' ) as $sep ) {
+		foreach( [ '=', ' ' ] as $sep ) {
 			foreach( $values as $value ) {
 				$flags->parse(explode(' ', 'test.php --uint' . $sep . $value));
-				$this->assertSame($bool, abs(intval($value)));
+				self::assertSame($bool, abs(intval($value)));
 			}
 		}
 	}
 
-	/**
-	 * @expectedException \donatj\Exceptions\InvalidFlagTypeException
-	 */
-	public function testUintException() {
+	public function testUintException() : void {
+		$this->expectException(InvalidFlagTypeException::class);
+
 		$flags = new Flags();
 		$flags->uint('uint');
 		$flags->parse(explode(' ', 'test.php --uint=-2'));
 	}
 
-	/**
-	 * @expectedException \donatj\Exceptions\InvalidFlagTypeException
-	 */
-	public function testUintException2() {
+	public function testUintException2() : void {
+		$this->expectException(InvalidFlagTypeException::class);
+
 		$flags = new Flags();
 		$flags->uint('uint');
 		$flags->parse(explode(' ', 'test.php --uint=2.2'));
 	}
 
-	public function testString() {
+	public function testString() : void {
 		$flags  = new Flags();
-		$string = & $flags->string('string');
-		$values = array( 4, '4.', '4.0', 0, 1000, 12, "what", "funky fresh", "hot=dog" );
+		$string = &$flags->string('string');
+		$values = [ 4, '4.', '4.0', 0, 1000, 12, "what", "funky fresh", "hot=dog" ];
 
 		foreach( $values as $value ) {
-			$flags->parse(array( 'test.php', '--string=' . $value ));
-			$this->assertSame($string, strval($value));
+			$flags->parse([ 'test.php', '--string=' . $value ]);
+			self::assertSame($string, strval($value));
 
-			$flags->parse(array( 'test.php', '--string', $value ));
-			$this->assertSame($string, strval($value));
+			$flags->parse([ 'test.php', '--string', $value ]);
+			self::assertSame($string, strval($value));
 		}
-
 	}
 
-	/**
-	 * @expectedException \donatj\Exceptions\InvalidFlagTypeException
-	 */
-	public function testStringException() {
+	public function testStringException() : void {
+		$this->expectException(InvalidFlagTypeException::class);
+
 		$flags = new Flags();
 		$flags->string('string');
 		$flags->parse(explode(' ', 'test.php --string'));
 	}
 
-	function testParseProvider(){
-		return array(
-			array( 'test.php --sponges=false --help -v argument1 --pie 59 argument2 --what=14 -vv --int1 7 --int2=-4 --last -- --argument_that_looks_like_a_param', true ),
-			array( '--sponges=false --help -v argument1 --pie 59 argument2 --what=14 -vv --int1 7 --int2=-4 --last -- --argument_that_looks_like_a_param', false ),
-		);
+	public function parseProvider() : array {
+		return [
+			[ 'test.php --sponges=false --help -v argument1 --pie 59 argument2 --what=14 -vv --int1 7 --int2=-4 --last -- --argument_that_looks_like_a_param', true ],
+			[ '--sponges=false --help -v argument1 --pie 59 argument2 --what=14 -vv --int1 7 --int2=-4 --last -- --argument_that_looks_like_a_param', false ],
+		];
 	}
 
 	/**
-	 * @dataProvider testParseProvider
+	 * @dataProvider parseProvider
 	 */
-	public function testParse( $arguments, $skipFirst ) {
+	public function testParse( string $arguments, bool $skipFirst ) : void {
 		$argParts = explode(' ', $arguments);
 
-		foreach(array(0,1,2) as $useConstructor) {
+		foreach( [ 0, 1, 2 ] as $useConstructor ) {
 			if( $useConstructor === 0 ) {
 				$flags = new Flags($argParts, $skipFirst);
 			} elseif( $useConstructor === 1 ) {
 				$flags = new Flags();
 			} elseif( $useConstructor === 2 ) {
-				$flags = new Flags(array( '--this=is', 'trash', 'data' ), !$skipFirst);
+				$flags = new Flags([ '--this=is', 'trash', 'data' ], !$skipFirst);
+			} else {
+				throw new \OutOfBoundsException('unexpected loop');
 			}
 
-			$sponges = & $flags->bool('sponges');
-			$what    = & $flags->uint('what');
-			$int1    = & $flags->int('int1');
-			$int2    = & $flags->int('int2');
-			$pie     = & $flags->string('pie');
-			$cat     = & $flags->string('cat', 'Maine Coon');
-			$help    = & $flags->bool('help', false);
-			$last    = & $flags->bool('last', false);
-			$verbose = & $flags->short('v');
-			$all     = & $flags->short('a');
+			$sponges = &$flags->bool('sponges');
+			$what    = &$flags->uint('what');
+			$int1    = &$flags->int('int1');
+			$int2    = &$flags->int('int2');
+			$pie     = &$flags->string('pie');
+			$cat     = &$flags->string('cat', 'Maine Coon');
+			$help    = &$flags->bool('help', false);
+			$last    = &$flags->bool('last', false);
+			$verbose = &$flags->short('v');
+			$all     = &$flags->short('a');
 
-			if($useConstructor !== 0) {
+			if( $useConstructor !== 0 ) {
 				$flags->parse($argParts, false, $skipFirst);
-			}else{
+			} else {
 				$flags->parse();
 			}
 
 			$longs = $flags->longs();
-			$this->assertFalse($sponges);
-			$this->assertFalse($longs['sponges']);
-			$this->assertSame($what, 14);
-			$this->assertSame($longs['what'], 14);
-			$this->assertSame($int1, 7);
-			$this->assertSame($longs['int1'], 7);
-			$this->assertSame($int2, -4);
-			$this->assertSame($longs['int2'], -4);
-			$this->assertSame($pie, '59');
-			$this->assertSame($longs['pie'], '59');
-			$this->assertSame($cat, 'Maine Coon');
-			$this->assertSame($longs['cat'], 'Maine Coon');
-			$this->assertTrue($help);
-			$this->assertTrue($longs['help']);
-			$this->assertTrue($last);
-			$this->assertTrue($longs['last']);
+			self::assertFalse($sponges);
+			self::assertFalse($longs['sponges']);
+			self::assertSame($what, 14);
+			self::assertSame($longs['what'], 14);
+			self::assertSame($int1, 7);
+			self::assertSame($longs['int1'], 7);
+			self::assertSame($int2, -4);
+			self::assertSame($longs['int2'], -4);
+			self::assertSame($pie, '59');
+			self::assertSame($longs['pie'], '59');
+			self::assertSame($cat, 'Maine Coon');
+			self::assertSame($longs['cat'], 'Maine Coon');
+			self::assertTrue($help);
+			self::assertTrue($longs['help']);
+			self::assertTrue($last);
+			self::assertTrue($longs['last']);
 
 			$shorts = $flags->shorts();
-			$this->assertSame($verbose, 3);
-			$this->assertSame($shorts['v'], 3);
-			$this->assertSame($all, 0);
-			$this->assertSame($shorts['a'], 0);
+			self::assertSame($verbose, 3);
+			self::assertSame($shorts['v'], 3);
+			self::assertSame($all, 0);
+			self::assertSame($shorts['a'], 0);
 
-			$this->assertEquals(array(
+			self::assertEquals([
 				0 => 'argument1',
 				1 => 'argument2',
 				2 => '--argument_that_looks_like_a_param',
-			), $flags->args());
+			], $flags->args());
 
-			$this->assertSame($flags->arg(0), 'argument1');
-			$this->assertSame($flags->arg(1), 'argument2');
-			$this->assertSame($flags->arg(2), '--argument_that_looks_like_a_param');
-			$this->assertNull($flags->arg(3));
+			self::assertSame($flags->arg(0), 'argument1');
+			self::assertSame($flags->arg(1), 'argument2');
+			self::assertSame($flags->arg(2), '--argument_that_looks_like_a_param');
+			self::assertNull($flags->arg(3));
 		}
 	}
 
-	function testParse2(){
+	public function testParse2() : void {
 		$flags  = new Flags();
-		$capx   = & $flags->short('X');
-		$lowerx = & $flags->short('x');
-		$a      = & $flags->short('a');
-		$s      = & $flags->short('s');
-		$d      = & $flags->short('d');
-		$qm     = & $flags->short('?');
+		$capx   = &$flags->short('X');
+		$lowerx = &$flags->short('x');
+		$a      = &$flags->short('a');
+		$s      = &$flags->short('s');
+		$d      = &$flags->short('d');
+		$qm     = &$flags->short('?');
 
 		$flags->parse(explode(' ', 'main.php -Xassd?'));
 
-		$this->assertSame($capx, 1);
-		$this->assertSame($lowerx, 0);
-		$this->assertSame($a, 1);
-		$this->assertSame($s, 2);
-		$this->assertSame($d, 1);
-		$this->assertSame($qm, 1);
+		self::assertSame($capx, 1);
+		self::assertSame($lowerx, 0);
+		self::assertSame($a, 1);
+		self::assertSame($s, 2);
+		self::assertSame($d, 1);
+		self::assertSame($qm, 1);
 
-		$this->assertEquals($flags->longs(), array());
+		self::assertEquals([], $flags->longs());
 
-		$this->assertEquals($flags->shorts(), array( 'X' => 1, 'x' => 0, 'a' => 1, 's' => 2, 'd' => 1, '?' => 1 ));
+		self::assertEquals([ 'X' => 1, 'x' => 0, 'a' => 1, 's' => 2, 'd' => 1, '?' => 1 ], $flags->shorts());
 
 		# ====
 
-		$_SERVER['argv'] = array('test.php', '--a', '7');
-		$flags  = new Flags();
-		$a      = & $flags->int('a');
+		$_SERVER['argv'] = [ 'test.php', '--a', '7' ];
+		$flags           = new Flags();
+		$a               = &$flags->int('a');
 		$flags->parse();
 
-		$this->assertSame($a, 7);
-
+		self::assertSame($a, 7);
 	}
 
-	public function testParsed() {
+	public function testParsed() : void {
 		$flags = new Flags();
-		$this->assertSame(false, $flags->parsed());
+		self::assertFalse($flags->parsed());
 
-		try{
+		try {
 			$flags->parse(explode(' ', 'test.php --failtoparse=true'));
-			$this->fail('An exception should have been thrown.');
-		}catch (\Exception $e) {
+			self::fail('An exception should have been thrown.');
+		} catch( \Exception $e ) {
 			//This is expected to fail. We're simply making sure it didn't parse.
 		}
 
-		$this->assertSame(false, $flags->parsed());
+		self::assertFalse($flags->parsed());
 
 		$flags->parse(explode(' ', 'test.php a b c'));
-		$this->assertSame(true, $flags->parsed());
+		self::assertTrue($flags->parsed());
 	}
 
-	/**
-	 * @expectedException \donatj\Exceptions\InvalidFlagParamException
-	 */
-	public function testParseExceptionInvalidFlagParamException() {
+	public function testParseExceptionInvalidFlagParamException() : void {
+		$this->expectException(InvalidFlagParamException::class);
+
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php --fake=what'));
 	}
 
-	public function testNotParseExceptionInvalidFlagParamException() {
+	/**
+	 * @doesNotPerformAssertions
+	 */
+	public function testNotParseExceptionInvalidFlagParamException() : void {
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php --fake=what'), true);
 	}
 
-	/**
-	 * @expectedException \donatj\Exceptions\InvalidFlagParamException
-	 */
-	public function testParseExceptionInvalidFlagParamException2() {
+	public function testParseExceptionInvalidFlagParamException2() : void {
+		$this->expectException(InvalidFlagParamException::class);
+
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php --fake what'));
 	}
 
-	public function testNotParseExceptionInvalidFlagParamException2() {
+	/**
+	 * @doesNotPerformAssertions
+	 */
+	public function testNotParseExceptionInvalidFlagParamException2() : void {
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php --fake what'), true);
 	}
 
-	/**
-	 * @expectedException \donatj\Exceptions\InvalidFlagParamException
-	 */
-	public function testParseExceptionInvalidFlagParamException3() {
+	public function testParseExceptionInvalidFlagParamException3() : void {
+		$this->expectException(InvalidFlagParamException::class);
+
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php --fake'));
 	}
 
-	public function testNotParseExceptionInvalidFlagParamException3() {
+	/**
+	 * @doesNotPerformAssertions
+	 */
+	public function testNotParseExceptionInvalidFlagParamException3() : void {
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php --fake'), true);
 	}
 
 	/**
-	 * @expectedException \donatj\Exceptions\InvalidFlagParamException
+	 * @doesNotPerformAssertions
 	 */
-	public function testParseExceptionInvalidFlagParamException4() {
+	public function testParseExceptionInvalidFlagParamException4() : void {
+		$this->expectException(InvalidFlagParamException::class);
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php -fake'));
 	}
 
-	public function testNotParseExceptionInvalidFlagParamException4() {
+	/**
+	 * @doesNotPerformAssertions
+	 */
+	public function testNotParseExceptionInvalidFlagParamException4() : void {
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php -fake'), true);
 	}
 
-	/**
-	 * @expectedException \donatj\Exceptions\InvalidFlagParamException
-	 */
-	public function testParseExceptionInvalidFlagParamException5() {
+	public function testParseExceptionInvalidFlagParamException5() : void {
+		$this->expectException(InvalidFlagParamException::class);
+
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php -v'));
 	}
 
-	public function testNotParseExceptionInvalidFlagParamException5() {
+	/**
+	 * @doesNotPerformAssertions
+	 */
+	public function testNotParseExceptionInvalidFlagParamException5() : void {
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php -v'), true);
 	}
 
-	/**
-	 * @expectedException \donatj\Exceptions\MissingFlagParamException
-	 */
-	public function testParseExceptionMissingFlagParamException() {
+	public function testParseExceptionMissingFlagParamException() : void {
+		$this->expectException(MissingFlagParamException::class);
+
 		$flags = new Flags();
 		$flags->string('blah');
 		$flags->parse(explode(' ', 'test.php'));
 	}
 
-	public function testNotParseExceptionMissingFlagParamException() {
+	/**
+	 * @doesNotPerformAssertions
+	 */
+	public function testNotParseExceptionMissingFlagParamException() : void {
 		$flags = new Flags();
 		$flags->string('blah');
 		$flags->parse(explode(' ', 'test.php'), true);
 	}
 
-	/**
-	 * @expectedException \donatj\Exceptions\MissingFlagParamException
-	 */
-	public function testParseExceptionMissingFlagParamException2() {
+	public function testParseExceptionMissingFlagParamException2() : void {
+		$this->expectException(MissingFlagParamException::class);
+
 		$flags = new Flags();
 		$flags->bool('foo');
 		$flags->bool('bar');
 		$flags->parse(explode(' ', 'test.php --foo'));
 	}
 
-	public function testNotParseExceptionMissingFlagParamException2() {
+	/**
+	 * @doesNotPerformAssertions
+	 */
+	public function testNotParseExceptionMissingFlagParamException2() : void {
 		$flags = new Flags();
 		$flags->bool('foo');
 		$flags->bool('bar');
 		$flags->parse(explode(' ', 'test.php --foo'), true);
 	}
 
-	public function testGetDefaults() {
+	public function testGetDefaults() : void {
 
 		$flags = new Flags();
 
-		$longs = array(
-			array( 'bool', 'foo', false, 'Enable the foos' ),
-			array( 'string', 'bar', 'string', 'Baz text to display' ),
-			array( 'int', 'baz', -10, 'How many bazs' ),
-			array( 'uint', 'quux', 10, 'How many quuxi' ),
-			array( 'float', 'thud', 10.1, 'How many thuds' ),
+		$longs = [
+			[ 'bool', 'foo', false, 'Enable the foos' ],
+			[ 'string', 'bar', 'string', 'Baz text to display' ],
+			[ 'int', 'baz', -10, 'How many bazs' ],
+			[ 'uint', 'quux', 10, 'How many quuxi' ],
+			[ 'float', 'thud', 10.1, 'How many thuds' ],
 
-			array( 'bool', 'xfoo', null, 'Enable the foos' ),
-			array( 'string', 'xbar', null, 'Baz text to display' ),
-			array( 'int', 'xbaz', null, 'How many bazs' ),
-			array( 'uint', 'xquux', null, 'How many quuxi' ),
-			array( 'float', 'xthud', null, 'How many thuds' ),
-		);
+			[ 'bool', 'xfoo', null, 'Enable the foos' ],
+			[ 'string', 'xbar', null, 'Baz text to display' ],
+			[ 'int', 'xbaz', null, 'How many bazs' ],
+			[ 'uint', 'xquux', null, 'How many quuxi' ],
+			[ 'float', 'xthud', null, 'How many thuds' ],
+		];
 
 		foreach( $longs as $data ) {
 			$flags->{$data[0]}($data[1], $data[2], $data[3]);
 		}
 
-		$shorts = array(
-			array( 'v', 'verbosity, more v\'s = more verbose' ),
-			array( 'a', 'verbosity, more v\'s = more verbose' ),
-		);
+		$shorts = [
+			[ 'v', 'verbosity, more v\'s = more verbose' ],
+			[ 'a', 'verbosity, more v\'s = more verbose' ],
+		];
 
 		foreach( $shorts as $data ) {
 			$flags->short($data[0], $data[1]);
@@ -433,19 +444,19 @@ class FlagsTest extends \PHPUnit_Framework_TestCase {
 		$shortCount = 0;
 
 		preg_match_all('/^\s*(?P<long>-)?-(?P<key>[a-z]+)\s+(?:(?P<optional>\[[a-z]+\])|(?P<required><[a-z]+>))?\s+(?P<msg>.*)/m', $flags->getDefaults(), $result, PREG_PATTERN_ORDER);
-		for( $i = 0; $i < count($result[0]); $i += 1 ) {
+		for( $i = 0; $i < count($result[0]); $i++ ) {
 			if( $result['long'][$i] === '-' ) {
 				$longCount++;
 
 				foreach( $longs as $long ) {
-					if( $long[1] == $result['key'][$i] ) {
+					if( $long[1] === $result['key'][$i] ) {
 						if( $long[2] !== null ) {
-							$this->assertTrue(isset($result['optional'][$i][0]) || $long[0] == 'bool');
+							self::assertTrue(isset($result['optional'][$i][0]) || $long[0] === 'bool');
 						} else {
-							$this->assertTrue(isset($result['required'][$i][0]) || $long[0] == 'bool');
+							self::assertTrue(isset($result['required'][$i][0]) || $long[0] === 'bool');
 						}
 
-						$this->assertEquals($long[3], $result['msg'][$i]);
+						self::assertEquals($long[3], $result['msg'][$i]);
 						break;
 					}
 				}
@@ -453,44 +464,43 @@ class FlagsTest extends \PHPUnit_Framework_TestCase {
 				$shortCount++;
 
 				foreach( $shorts as $short ) {
-					if( $short[0] == $result['key'][$i] ) {
-						$this->assertEquals($short[1], $result['msg'][$i]);
+					if( $short[0] === $result['key'][$i] ) {
+						self::assertEquals($short[1], $result['msg'][$i]);
 
 						break;
 					}
 				}
-
 			}
 		}
 
-		$this->assertEquals(count($longs), $longCount);
-		$this->assertEquals(count($shorts), $shortCount);
+		self::assertEquals(count($longs), $longCount);
+		self::assertEquals(count($shorts), $shortCount);
 	}
 
 	/**
 	 * Test that an empty string e.g. `foo.php --foo ""` does not explode
 	 */
-	public function testEmptyStringValueRegression() {
+	public function testEmptyStringValueRegression() : void {
 		$flags = new Flags();
 
 		$foo =& $flags->string('foo', 'test');
-		$flags->parse(array( 'souplex', '--foo', '' ));
+		$flags->parse([ 'souplex', '--foo', '' ]);
 
-		$this->assertSame($foo, '');
+		self::assertSame($foo, '');
 	}
 
 	/**
 	 * Test that an empty string e.g. `foo.php --foo ""` does not explode but rather returns an exception.
 	 *
 	 * In a future refractor we'll ideally be able to use a value of "-" but that's not in the cards right now.
-	 *
-	 * @expectedException \donatj\Exceptions\InvalidFlagParamException
 	 */
-	public function testEmptyStringValueRegression2() {
+	public function testEmptyStringValueRegression2() : void {
+		$this->expectException(InvalidFlagParamException::class);
+
 		$flags = new Flags();
 
 		$flags->string('foo', 'test');
-		$flags->parse(array( 'fooplex', '-', 'sass' ));
+		$flags->parse([ 'fooplex', '-', 'sass' ]);
 	}
 
 }

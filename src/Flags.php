@@ -48,9 +48,9 @@ class Flags {
 	 * @param bool  $skipFirstArgument Setting to false causes the first argument to be parsed as an parameter rather
 	 *     than the command.
 	 */
-	public function __construct( array $args = null, $skipFirstArgument = true ) {
+	public function __construct( array $args = null, bool $skipFirstArgument = true ) {
 		if( $args === null && isset($_SERVER['argv']) ) {
-			$args = (array)$_SERVER['argv'];
+			$args = $_SERVER['argv'];
 		}
 
 		$this->args              = $args;
@@ -61,9 +61,9 @@ class Flags {
 	 * Returns the n'th command-line argument. `arg(0)` is the first remaining argument after flags have been processed.
 	 *
 	 * @param int $index
-	 * @return string
+	 * @return string|null
 	 */
-	public function arg( $index ) {
+	public function arg( int $index ) : ?string {
 		return isset($this->arguments[$index]) ? $this->arguments[$index] : null;
 	}
 
@@ -72,7 +72,7 @@ class Flags {
 	 *
 	 * @return string[] Array of argument strings
 	 */
-	public function args() {
+	public function args() : array {
 		return $this->arguments;
 	}
 
@@ -83,7 +83,7 @@ class Flags {
 	 *
 	 * @return array
 	 */
-	public function shorts() {
+	public function shorts() : array {
 		$out = [];
 		foreach( $this->definedShortFlags as $key => $data ) {
 			$out[$key] = $data[self::DEF_VALUE];
@@ -97,7 +97,7 @@ class Flags {
 	 *
 	 * @return array
 	 */
-	public function longs() {
+	public function longs() : array {
 		$out = [];
 		foreach( $this->definedFlags as $key => $data ) {
 			$out[$key] = $data[self::DEF_VALUE];
@@ -119,7 +119,7 @@ class Flags {
 	 * @param string $usage The usage description
 	 * @return int
 	 */
-	public function &short( $letter, $usage = '' ) {
+	public function &short( string $letter, string $usage = '' ) : int {
 		$this->definedShortFlags[$letter[0]] = [
 			self::DEF_VALUE => 0,
 			self::DEF_USAGE => $usage,
@@ -151,8 +151,8 @@ class Flags {
 	 * @param string $usage The usage description
 	 * @return mixed A reference to the flags value
 	 */
-	public function &bool( $name, $value = null, $usage = '' ) {
-		return $this->_storeFlag(self::TYPE_BOOL, $name, $value, $usage);
+	public function &bool( string $name, $value = null, string $usage = '' ) {
+		return $this->storeFlag(self::TYPE_BOOL, $name, $value, $usage);
 	}
 
 	/**
@@ -169,8 +169,8 @@ class Flags {
 	 * @param string $usage The usage description
 	 * @return mixed A reference to the flags value
 	 */
-	public function &float( $name, $value = null, $usage = '' ) {
-		return $this->_storeFlag(self::TYPE_FLOAT, $name, $value, $usage);
+	public function &float( string $name, $value = null, string $usage = '' ) {
+		return $this->storeFlag(self::TYPE_FLOAT, $name, $value, $usage);
 	}
 
 	/**
@@ -189,8 +189,8 @@ class Flags {
 	 * @param string $usage The usage description
 	 * @return mixed A reference to the flags value
 	 */
-	public function &int( $name, $value = null, $usage = '' ) {
-		return $this->_storeFlag(self::TYPE_INT, $name, $value, $usage);
+	public function &int( string $name, $value = null, string $usage = '' ) {
+		return $this->storeFlag(self::TYPE_INT, $name, $value, $usage);
 	}
 
 	/**
@@ -209,8 +209,8 @@ class Flags {
 	 * @param string $usage The usage description
 	 * @return mixed A reference to the flags value
 	 */
-	public function &uint( $name, $value = null, $usage = '' ) {
-		return $this->_storeFlag(self::TYPE_UINT, $name, $value, $usage);
+	public function &uint( string $name, $value = null, string $usage = '' ) {
+		return $this->storeFlag(self::TYPE_UINT, $name, $value, $usage);
 	}
 
 	/**
@@ -229,8 +229,8 @@ class Flags {
 	 * @param string $usage The usage description
 	 * @return mixed A reference to the flags value
 	 */
-	public function &string( $name, $value = null, $usage = '' ) {
-		return $this->_storeFlag(self::TYPE_STRING, $name, $value, $usage);
+	public function &string( string $name, $value = null, string $usage = '' ) {
+		return $this->storeFlag(self::TYPE_STRING, $name, $value, $usage);
 	}
 
 	/**
@@ -240,7 +240,7 @@ class Flags {
 	 * @param string $usage
 	 * @return mixed
 	 */
-	private function &_storeFlag( $type, $name, $value, $usage ) {
+	private function &storeFlag( string $type, string $name, $value, string $usage ) {
 
 		$this->definedFlags[$name] = [
 			self::DEF_TYPE     => $type,
@@ -265,7 +265,7 @@ class Flags {
 	 *
 	 * @return string
 	 */
-	public function getDefaults() {
+	public function getDefaults() : string {
 
 		$output = '';
 		$final  = [];
@@ -308,7 +308,7 @@ class Flags {
 	 * @throws Exceptions\InvalidFlagParamException
 	 * @throws Exceptions\InvalidFlagTypeException
 	 */
-	public function parse( array $args = null, $ignoreExceptions = false, $skipFirstArgument = null ) {
+	public function parse( array $args = null, bool $ignoreExceptions = false, bool $skipFirstArgument = null ) : void {
 		if( $args === null ) {
 			$args = $this->args;
 		}
@@ -368,7 +368,7 @@ class Flags {
 	 *
 	 * @return bool
 	 */
-	public function parsed() {
+	public function parsed() : bool {
 		return $this->parsed;
 	}
 
@@ -377,7 +377,7 @@ class Flags {
 	 * @param mixed  $value
 	 * @return bool
 	 */
-	private function validateType( $type, &$value ) {
+	private function validateType( string $type, &$value ) : bool {
 		$validate = [
 			self::TYPE_BOOL   => function ( &$val ) {
 				$val = strtolower((string)$val);
@@ -442,7 +442,7 @@ class Flags {
 	 * @param array $definedFlags
 	 * @return array
 	 */
-	protected function splitArguments( array $args, array $definedFlags ) {
+	protected function splitArguments( array $args, array $definedFlags ) : array {
 		$longParams  = [];
 		$shortParams = [];
 		$arguments   = [];

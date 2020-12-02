@@ -4,7 +4,7 @@
 			<badge-poser type="version" />
 			<badge-poser type="downloads" />
 			<badge-poser type="license" />
-			<badge-travis name="donatj/Flags" />
+			<badge-github-action name="donatj/Flags" workflow="CI" />
 			<text><![CDATA[
 Flags is an argument parser inspired by the Go-lang [Flag](http://golang.org/pkg/flag/#Parsed) package, taking its methodology but attaching a **GNU-style** flag parser.
 

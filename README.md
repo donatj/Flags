@@ -3,7 +3,7 @@
 [![Latest Stable Version](https://poser.pugx.org/donatj/flags/version)](https://packagist.org/packages/donatj/flags)
 [![Total Downloads](https://poser.pugx.org/donatj/flags/downloads)](https://packagist.org/packages/donatj/flags)
 [![License](https://poser.pugx.org/donatj/flags/license)](https://packagist.org/packages/donatj/flags)
-[![Build Status](https://travis-ci.org/donatj/Flags.svg?branch=master)](https://travis-ci.org/donatj/Flags)
+[![Build Status](https://github.com/donatj/Flags/workflows/CI/badge.svg?)](https://github.com/donatj/Flags/actions?query=workflow%3ACI)
 
 
 Flags is an argument parser inspired by the Go-lang [Flag](http://golang.org/pkg/flag/#Parsed) package, taking its methodology but attaching a **GNU-style** flag parser.
@@ -89,7 +89,7 @@ Expected option --qux missing.
 #### Method: Flags->__construct
 
 ```php
-function __construct([ $args = null [, $skipFirstArgument = true]])
+function __construct([ array $args = null [, $skipFirstArgument = true]])
 ```
 
 Flags constructor.
@@ -98,7 +98,7 @@ Flags constructor.
 
 - ***array*** `$args` - The arguments to parse, defaults to $_SERVER['argv']
 - ***bool*** `$skipFirstArgument` - Setting to false causes the first argument to be parsed as an parameter rather
-    than the command.
+than the command.
 
 ---
 
@@ -141,6 +141,7 @@ function shorts()
 ```
 
 Returns an array of short-flag call-counts indexed by character  
+  
 `-v` would set the 'v' index to 1, whereas `-vvv` will set the 'v' index to 3
 
 ##### Returns:
@@ -170,6 +171,7 @@ function short($letter [, $usage = ''])
 ```
 
 Defines a short-flag of specified name, and usage string.  
+  
 The return value is a reference to an integer variable that stores the number of times the short-flag was called.  
   
 This means the value of the reference for v would be the following.  
@@ -195,6 +197,7 @@ function bool($name [, $value = null [, $usage = '']])
 ```
 
 Defines a bool long-flag of specified name, default value, and usage string.  
+  
 The return value is a reference to a variable that stores the value of the flag.  
 
 ##### Examples
@@ -230,6 +233,7 @@ function float($name [, $value = null [, $usage = '']])
 ```
 
 Defines a float long-flag of specified name, default value, and usage string.  
+  
 The return value is a reference to a variable that stores the value of the flag.  
 
 ##### Examples
@@ -256,6 +260,7 @@ function int($name [, $value = null [, $usage = '']])
 ```
 
 Defines an integer long-flag of specified name, default value, and usage string.  
+  
 The return value is a reference to a variable that stores the value of the flag.  
   
 Note: Float values trigger an error, rather than casting.  
@@ -284,6 +289,7 @@ function uint($name [, $value = null [, $usage = '']])
 ```
 
 Defines a unsigned integer long-flag of specified name, default value, and usage string.  
+  
 The return value is a reference to a variable that stores the value of the flag.  
   
 Note: Negative values trigger an error, rather than casting.  
@@ -312,6 +318,7 @@ function string($name [, $value = null [, $usage = '']])
 ```
 
 Defines a string long-flag of specified name, default value, and usage string.  
+  
 The return value is a reference to a variable that stores the value of the flag.  
   
 Examples  
@@ -339,15 +346,17 @@ Examples
 function getDefaults()
 ```
 
-Returns the default values of all defined command-line flags as a formatted string.
+Returns the default values of all defined command-line flags as a formatted string.  
 
 ##### Example
 
-              -v   Output in verbose mode  
-     --testsuite   [string] Which test suite to run.  
-     --bootstrap   [string] A "bootstrap" PHP file that is run before the specs.  
-          --help   Display this help message.  
-       --version   Display this applications version.
+```  
+           -v   Output in verbose mode  
+  --testsuite   [string] Which test suite to run.  
+  --bootstrap   [string] A "bootstrap" PHP file that is run before the specs.  
+       --help   Display this help message.  
+    --version   Display this applications version.  
+```
 
 ##### Returns:
 
@@ -358,10 +367,11 @@ Returns the default values of all defined command-line flags as a formatted stri
 #### Method: Flags->parse
 
 ```php
-function parse([ $args = null [, $ignoreExceptions = false [, $skipFirstArgument = null]]])
+function parse([ array $args = null [, $ignoreExceptions = false [, $skipFirstArgument = null]]])
 ```
 
 Parses flag definitions from the argument list, which should include the command name.  
+  
 Must be called after all flags are defined and before flags are accessed by the program.  
   
 Will throw exceptions on Missing Require Flags, Unknown Flags or Incorrect Flag Types
@@ -370,9 +380,9 @@ Will throw exceptions on Missing Require Flags, Unknown Flags or Incorrect Flag 
 
 - ***array*** `$args` - The arguments to parse. Defaults to arguments defined in the constructor.
 - ***bool*** `$ignoreExceptions` - Setting to true causes parsing to continue even after an exception has been
-    thrown.
+thrown.
 - ***bool*** `$skipFirstArgument` - Option to parse the first argument as an parameter rather than the command.
-    Defaults to constructor value
+Defaults to constructor value
 
 ---
 

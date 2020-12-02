@@ -257,11 +257,13 @@ class Flags {
 	 *
 	 * Example:
 	 *
-	 *               -v   Output in verbose mode
-	 *      --testsuite   [string] Which test suite to run.
-	 *      --bootstrap   [string] A "bootstrap" PHP file that is run before the specs.
-	 *           --help   Display this help message.
-	 *        --version   Display this applications version.
+	 * ```
+	 *            -v   Output in verbose mode
+	 *   --testsuite   [string] Which test suite to run.
+	 *   --bootstrap   [string] A "bootstrap" PHP file that is run before the specs.
+	 *        --help   Display this help message.
+	 *     --version   Display this applications version.
+	 * ```
 	 *
 	 * @return string
 	 */

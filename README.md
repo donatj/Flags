@@ -69,7 +69,6 @@ try {
 The by-reference `= &` allows the value to be updated from the *default* to the argument value once the `parse()` method has been triggered. This is inspired by the Go Flag packages use of pointers
 
 ```
-
 bash-3.2$ php example/example.php
 Expected option --qux missing.
         -v   verbosity
@@ -77,8 +76,6 @@ Expected option --qux missing.
      --bar   [uint] Number of bars
      --baz   [string] What to name the baz
      --qux   <bool>
-
-
 				
 ```
 

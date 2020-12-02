@@ -11,7 +11,7 @@
 	],
 	"require-dev": {
 		"donatj/drop": "*",
-		"phpunit/phpunit": "4.*"
+		"phpunit/phpunit": "~4|~9"
 	},
 	"license": "MIT",
 	"authors": [

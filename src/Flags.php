@@ -355,10 +355,8 @@ class Flags {
 		}
 
 		foreach( $this->definedFlags as $name => $data ) {
-			if( $data[self::DEF_VALUE] === null ) {
-				if( !$ignoreExceptions ) {
-					throw new MissingFlagParamException('Expected option --' . $name . ' missing.');
-				}
+			if( ($data[self::DEF_VALUE] === null) && !$ignoreExceptions ) {
+				throw new MissingFlagParamException('Expected option --' . $name . ' missing.');
 			}
 		}
 
@@ -397,8 +395,8 @@ class Flags {
 				return false;
 			},
 			self::TYPE_UINT   => function ( &$val ) {
-				if( abs(floatval($val)) == intval($val) ) {
-					$val = intval($val);
+				if( abs((float)$val) == (int)$val ) {
+					$val = (int)$val;
 
 					return true;
 				}

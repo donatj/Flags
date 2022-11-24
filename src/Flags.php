@@ -453,7 +453,7 @@ class Flags {
 		$getValue   = false;
 		$startArgs  = false;
 		foreach( $args as $arg ) {
-			if( isset($arg[0]) && $arg[0] == '-' && !$startArgs && !$forceValue ) {
+			if( isset($arg[0]) && $arg[0] == '-' && !$startArgs && !$forceValue && $arg !== '-' ) {
 				$cleanArg = ltrim($arg, '- ');
 
 				if( $getValue ) {

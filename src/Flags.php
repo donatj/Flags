@@ -152,7 +152,7 @@ class Flags {
 	 * @return mixed A reference to the flags value
 	 */
 	public function &bool( $name, $value = null, $usage = '' ) {
-		return $this->_storeFlag(self::TYPE_BOOL, $name, $value, $usage);
+		return $this->storeFlag(self::TYPE_BOOL, $name, $value, $usage);
 	}
 
 	/**
@@ -170,7 +170,7 @@ class Flags {
 	 * @return mixed A reference to the flags value
 	 */
 	public function &float( $name, $value = null, $usage = '' ) {
-		return $this->_storeFlag(self::TYPE_FLOAT, $name, $value, $usage);
+		return $this->storeFlag(self::TYPE_FLOAT, $name, $value, $usage);
 	}
 
 	/**
@@ -190,7 +190,7 @@ class Flags {
 	 * @return mixed A reference to the flags value
 	 */
 	public function &int( $name, $value = null, $usage = '' ) {
-		return $this->_storeFlag(self::TYPE_INT, $name, $value, $usage);
+		return $this->storeFlag(self::TYPE_INT, $name, $value, $usage);
 	}
 
 	/**
@@ -210,7 +210,7 @@ class Flags {
 	 * @return mixed A reference to the flags value
 	 */
 	public function &uint( $name, $value = null, $usage = '' ) {
-		return $this->_storeFlag(self::TYPE_UINT, $name, $value, $usage);
+		return $this->storeFlag(self::TYPE_UINT, $name, $value, $usage);
 	}
 
 	/**
@@ -230,7 +230,7 @@ class Flags {
 	 * @return mixed A reference to the flags value
 	 */
 	public function &string( $name, $value = null, $usage = '' ) {
-		return $this->_storeFlag(self::TYPE_STRING, $name, $value, $usage);
+		return $this->storeFlag(self::TYPE_STRING, $name, $value, $usage);
 	}
 
 	/**
@@ -240,7 +240,7 @@ class Flags {
 	 * @param string $usage
 	 * @return mixed
 	 */
-	private function &_storeFlag( $type, $name, $value, $usage ) {
+	private function &storeFlag( $type, $name, $value, $usage ) {
 
 		$this->definedFlags[$name] = array(
 			self::DEF_TYPE     => $type,

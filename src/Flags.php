@@ -48,7 +48,7 @@ class Flags {
 	 * @param bool  $skipFirstArgument Setting to false causes the first argument to be parsed as an parameter rather
 	 *     than the command.
 	 */
-	public function __construct( array $args = null, $skipFirstArgument = true ) {
+	public function __construct(  $args = null, $skipFirstArgument = true ) {
 		if( $args === null && isset($_SERVER['argv']) ) {
 			$args = (array)$_SERVER['argv'];
 		}
@@ -310,7 +310,7 @@ class Flags {
 	 * @throws Exceptions\InvalidFlagParamException
 	 * @throws Exceptions\InvalidFlagTypeException
 	 */
-	public function parse( array $args = null, $ignoreExceptions = false, $skipFirstArgument = null ) {
+	public function parse( $args = null, $ignoreExceptions = false, $skipFirstArgument = null ) {
 		if( $args === null ) {
 			$args = $this->args;
 		}

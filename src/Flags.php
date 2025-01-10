@@ -44,11 +44,11 @@ class Flags {
 	/**
 	 * Flags constructor.
 	 *
-	 * @param array $args The arguments to parse, defaults to $_SERVER['argv']
+	 * @param array|null $args The arguments to parse, defaults to $_SERVER['argv']
 	 * @param bool  $skipFirstArgument Setting to false causes the first argument to be parsed as an parameter rather
 	 *     than the command.
 	 */
-	public function __construct(  $args = null, $skipFirstArgument = true ) {
+	public function __construct( ?array $args = null, $skipFirstArgument = true ) {
 		if( $args === null && isset($_SERVER['argv']) ) {
 			$args = (array)$_SERVER['argv'];
 		}
@@ -301,7 +301,7 @@ class Flags {
 	 *
 	 * Will throw exceptions on Missing Require Flags, Unknown Flags or Incorrect Flag Types
 	 *
-	 * @param array $args The arguments to parse. Defaults to arguments defined in the constructor.
+	 * @param array|null $args The arguments to parse. Defaults to arguments defined in the constructor.
 	 * @param bool  $ignoreExceptions Setting to true causes parsing to continue even after an exception has been
 	 *     thrown.
 	 * @param bool  $skipFirstArgument Option to parse the first argument as an parameter rather than the command.
@@ -310,7 +310,7 @@ class Flags {
 	 * @throws Exceptions\InvalidFlagParamException
 	 * @throws Exceptions\InvalidFlagTypeException
 	 */
-	public function parse( $args = null, $ignoreExceptions = false, $skipFirstArgument = null ) {
+	public function parse( ?array $args = null, $ignoreExceptions = false, $skipFirstArgument = null ) {
 		if( $args === null ) {
 			$args = $this->args;
 		}

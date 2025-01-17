@@ -14,41 +14,41 @@ class Flags {
 	/** @var bool */
 	protected $skipFirstArgument;
 
-	private $definedFlags = array();
-	private $definedShortFlags = array();
-	private $arguments = array();
+	private $definedFlags = [];
+	private $definedShortFlags = [];
+	private $arguments = [];
 	private $parsed = false;
 
 	/** @access private */
-	const DEF_TYPE     = 'type';
+	const DEF_TYPE = 'type';
 	/** @access private */
-	const DEF_USAGE    = 'usage';
+	const DEF_USAGE = 'usage';
 	/** @access private */
 	const DEF_REQUIRED = 'required';
 	/** @access private */
-	const DEF_VALUE    = 'value';
+	const DEF_VALUE = 'value';
 	/** @access private */
-	const DEF_PARSED   = 'parsed';
+	const DEF_PARSED = 'parsed';
 
 	/** @access private */
-	const TYPE_BOOL   = 'bool';
+	const TYPE_BOOL = 'bool';
 	/** @access private */
-	const TYPE_UINT   = 'uint';
+	const TYPE_UINT = 'uint';
 	/** @access private */
-	const TYPE_INT    = 'int';
+	const TYPE_INT = 'int';
 	/** @access private */
-	const TYPE_FLOAT  = 'float';
+	const TYPE_FLOAT = 'float';
 	/** @access private */
 	const TYPE_STRING = 'string';
 
 	/**
 	 * Flags constructor.
 	 *
-	 * @param array $args The arguments to parse, defaults to $_SERVER['argv']
-	 * @param bool  $skipFirstArgument Setting to false causes the first argument to be parsed as an parameter rather
-	 *     than the command.
+	 * @param array|null $args The arguments to parse, defaults to $_SERVER['argv']
+	 * @param bool       $skipFirstArgument Setting to false causes the first argument to be parsed as an parameter
+	 *     rather than the command.
 	 */
-	public function __construct( array $args = null, $skipFirstArgument = true ) {
+	public function __construct( ?array $args = null, $skipFirstArgument = true ) {
 		if( $args === null && isset($_SERVER['argv']) ) {
 			$args = (array)$_SERVER['argv'];
 		}
@@ -84,7 +84,7 @@ class Flags {
 	 * @return array
 	 */
 	public function shorts() {
-		$out = array();
+		$out = [];
 		foreach( $this->definedShortFlags as $key => $data ) {
 			$out[$key] = $data[self::DEF_VALUE];
 		}
@@ -98,7 +98,7 @@ class Flags {
 	 * @return array
 	 */
 	public function longs() {
-		$out = array();
+		$out = [];
 		foreach( $this->definedFlags as $key => $data ) {
 			$out[$key] = $data[self::DEF_VALUE];
 		}
@@ -120,10 +120,10 @@ class Flags {
 	 * @return int
 	 */
 	public function &short( $letter, $usage = '' ) {
-		$this->definedShortFlags[$letter[0]] = array(
+		$this->definedShortFlags[$letter[0]] = [
 			self::DEF_VALUE => 0,
 			self::DEF_USAGE => $usage,
-		);
+		];
 
 		return $this->definedShortFlags[$letter[0]]['value'];
 	}
@@ -242,12 +242,12 @@ class Flags {
 	 */
 	private function &storeFlag( $type, $name, $value, $usage ) {
 
-		$this->definedFlags[$name] = array(
+		$this->definedFlags[$name] = [
 			self::DEF_TYPE     => $type,
 			self::DEF_USAGE    => $usage,
 			self::DEF_REQUIRED => $value === null,
 			self::DEF_VALUE    => $value,
-		);
+		];
 
 		return $this->definedFlags[$name][self::DEF_VALUE];
 	}
@@ -270,7 +270,7 @@ class Flags {
 	public function getDefaults() {
 
 		$output = '';
-		$final  = array();
+		$final  = [];
 		$max    = 0;
 
 		foreach( $this->definedShortFlags as $char => $data ) {
@@ -301,21 +301,21 @@ class Flags {
 	 *
 	 * Will throw exceptions on Missing Require Flags, Unknown Flags or Incorrect Flag Types
 	 *
-	 * @param array $args The arguments to parse. Defaults to arguments defined in the constructor.
-	 * @param bool  $ignoreExceptions Setting to true causes parsing to continue even after an exception has been
+	 * @param array|null $args The arguments to parse. Defaults to arguments defined in the constructor.
+	 * @param bool       $ignoreExceptions Setting to true causes parsing to continue even after an exception has been
 	 *     thrown.
-	 * @param bool  $skipFirstArgument Option to parse the first argument as an parameter rather than the command.
+	 * @param bool       $skipFirstArgument Option to parse the first argument as an parameter rather than the command.
 	 *     Defaults to constructor value
 	 * @throws Exceptions\MissingFlagParamException
 	 * @throws Exceptions\InvalidFlagParamException
 	 * @throws Exceptions\InvalidFlagTypeException
 	 */
-	public function parse( array $args = null, $ignoreExceptions = false, $skipFirstArgument = null ) {
+	public function parse( ?array $args = null, $ignoreExceptions = false, $skipFirstArgument = null ) {
 		if( $args === null ) {
 			$args = $this->args;
 		}
 
-		if($skipFirstArgument === null) {
+		if( $skipFirstArgument === null ) {
 			$skipFirstArgument = $this->skipFirstArgument;
 		}
 
@@ -323,7 +323,7 @@ class Flags {
 			array_shift($args);
 		}
 
-		list($longParams, $shortParams, $this->arguments) = $this->splitArguments($args, $this->definedFlags);
+		[ $longParams, $shortParams, $this->arguments ] = $this->splitArguments($args, $this->definedFlags);
 
 		foreach( $longParams as $name => $value ) {
 			if( !isset($this->definedFlags[$name]) ) {
@@ -377,8 +377,8 @@ class Flags {
 	 * @param mixed  $value
 	 * @return bool
 	 */
-	private function validateType( $type, &$value ) {
-		$validate = array(
+	private function validateType( $type, &$value ) : bool {
+		$validate = [
 			self::TYPE_BOOL   => function ( &$val ) {
 				$val = strtolower((string)$val);
 				if( $val == '0' || $val == 'f' || $val == 'false' ) {
@@ -430,7 +430,7 @@ class Flags {
 
 				return false;
 			},
-		);
+		];
 
 		$test = $validate[$type];
 
@@ -442,10 +442,10 @@ class Flags {
 	 * @param array $definedFlags
 	 * @return array
 	 */
-	protected function splitArguments( array $args, array $definedFlags ) {
-		$longParams  = array();
-		$shortParams = array();
-		$arguments   = array();
+	protected function splitArguments( array $args, array $definedFlags ) : array {
+		$longParams  = [];
+		$shortParams = [];
+		$arguments   = [];
 
 		$forceValue = false;
 		$getValue   = false;
@@ -492,10 +492,10 @@ class Flags {
 		if( $getValue ) {
 			$longParams[$getValue] = true;
 
-			return array( $longParams, $shortParams, $arguments );
+			return [ $longParams, $shortParams, $arguments ];
 		}
 
-		return array( $longParams, $shortParams, $arguments );
+		return [ $longParams, $shortParams, $arguments ];
 	}
 
 }

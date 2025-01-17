@@ -3,7 +3,7 @@
 [![Latest Stable Version](https://poser.pugx.org/donatj/flags/version)](https://packagist.org/packages/donatj/flags)
 [![Total Downloads](https://poser.pugx.org/donatj/flags/downloads)](https://packagist.org/packages/donatj/flags)
 [![License](https://poser.pugx.org/donatj/flags/license)](https://packagist.org/packages/donatj/flags)
-[![Build Status](https://github.com/donatj/Flags/workflows/CI/badge.svg?)](https://github.com/donatj/Flags/actions?query=workflow%3ACI)
+[![ci.yml](https://github.com/donatj/Flags/actions/workflows/ci.yml/badge.svg)](https://github.com/donatj/Flags/actions/workflows/ci.yml)
 
 
 Flags is an argument parser inspired by the Go-lang [Flag](http://golang.org/pkg/flag/#Parsed) package, taking its methodology but attaching a **GNU-style** flag parser.
@@ -28,7 +28,7 @@ As well as the ` -- ` operator for absolute separation of arguments from optio
 
 ## Requirements
 
-- **php**: >=5.3.0
+- **php**: >=7.1.0
 
 ## Installing
 
@@ -81,21 +81,21 @@ Expected option --qux missing.
 
 ## Documentation
 
-### Class: \donatj\Flags
+### Class: donatj\Flags
 
 #### Method: Flags->__construct
 
 ```php
-function __construct([ array $args = null [, $skipFirstArgument = true]])
+function __construct([ ?array $args = null [, $skipFirstArgument = true]])
 ```
 
 Flags constructor.
 
 ##### Parameters:
 
-- ***array*** `$args` - The arguments to parse, defaults to $_SERVER['argv']
-- ***bool*** `$skipFirstArgument` - Setting to false causes the first argument to be parsed as an parameter rather
-than the command.
+- ***array*** | ***null*** `$args` - The arguments to parse, defaults to $_SERVER['argv']
+- ***bool*** `$skipFirstArgument` - Setting to false causes the first argument to be parsed as an parameter
+rather than the command.
 
 ---
 
@@ -364,7 +364,7 @@ Returns the default values of all defined command-line flags as a formatted stri
 #### Method: Flags->parse
 
 ```php
-function parse([ array $args = null [, $ignoreExceptions = false [, $skipFirstArgument = null]]])
+function parse([ ?array $args = null [, $ignoreExceptions = false [, $skipFirstArgument = null]]])
 ```
 
 Parses flag definitions from the argument list, which should include the command name.  
@@ -375,11 +375,17 @@ Will throw exceptions on Missing Require Flags, Unknown Flags or Incorrect Flag 
 
 ##### Parameters:
 
-- ***array*** `$args` - The arguments to parse. Defaults to arguments defined in the constructor.
+- ***array*** | ***null*** `$args` - The arguments to parse. Defaults to arguments defined in the constructor.
 - ***bool*** `$ignoreExceptions` - Setting to true causes parsing to continue even after an exception has been
 thrown.
 - ***bool*** `$skipFirstArgument` - Option to parse the first argument as an parameter rather than the command.
 Defaults to constructor value
+
+**Throws**: `\donatj\Exceptions\MissingFlagParamException`
+
+**Throws**: `\donatj\Exceptions\InvalidFlagParamException`
+
+**Throws**: `\donatj\Exceptions\InvalidFlagTypeException`
 
 ---
 

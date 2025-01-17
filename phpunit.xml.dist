@@ -1,4 +1,8 @@
 <phpunit bootstrap="vendor/autoload.php">
+	<php>
+		<ini name="error_reporting" value="E_ALL" />
+	</php>
+
 	<testsuites>
 		<testsuite name="Application">
 			<directory>test</directory>

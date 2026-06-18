@@ -28,7 +28,7 @@ As well as the ` -- ` operator for absolute separation of arguments from optio
 
 ## Requirements
 
-- **php**: >=7.1.0
+- **php**: >=7.4.0
 
 ## Installing
 

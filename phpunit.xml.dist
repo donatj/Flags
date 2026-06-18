@@ -9,7 +9,9 @@
 		</testsuite>
 	</testsuites>
 
-	<logging>
-		<log type="coverage-clover" target="clover.xml"/>
-	</logging>
+	<coverage>
+		<report>
+			<clover outputFile="clover.xml"/>
+		</report>
+	</coverage>
 </phpunit>

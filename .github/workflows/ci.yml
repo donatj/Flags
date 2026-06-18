@@ -26,7 +26,7 @@ jobs:
           extensions: sockets, json, curl
 
       - name: Install dependencies with composer
-        run: composer update
+        run: composer install
 
       - name: Run tests
         run: ./vendor/bin/phpunit

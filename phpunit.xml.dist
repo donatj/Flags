@@ -10,8 +10,8 @@
 	</testsuites>
 
 	<coverage>
-		<report>
-			<clover outputFile="clover.xml"/>
-		</report>
+		<include>
+			<directory suffix=".php">./src</directory>
+		</include>
 	</coverage>
 </phpunit>

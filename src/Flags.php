@@ -247,7 +247,7 @@ class Flags {
 	 * @param string $usage
 	 * @return mixed
 	 */
-	private function &storeFlag( $type, $name, $value, $usage ) : mixed {
+	private function &storeFlag( $type, $name, $value, $usage ) {
 
 		$this->definedFlags[$name] = [
 			self::DEF_TYPE     => $type,

@@ -3,3 +3,4 @@ vendor/
 .idea/
 clover.xml
 phpunit.xml
+*.cache

@@ -23,10 +23,12 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: sockets, json, curl
 
       - name: Install dependencies with composer
         run: composer install
 
       - name: Run tests
         run: ./vendor/bin/phpunit
+
+      - name: Run static analysis
+        run: ./vendor/bin/phpstan

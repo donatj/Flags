@@ -11,7 +11,8 @@
 	],
 	"require-dev": {
 		"donatj/drop": "*",
-		"phpunit/phpunit": "^9 || ^10"
+		"phpunit/phpunit": "^9 || ^10",
+		"phpstan/phpstan": "^2.2"
 	},
 	"license": "MIT",
 	"authors": [

@@ -5,19 +5,26 @@ namespace donatj;
 use donatj\Exceptions\InvalidFlagParamException;
 use donatj\Exceptions\InvalidFlagTypeException;
 use donatj\Exceptions\MissingFlagParamException;
+use function PHPStan\dumpType;
 
 class Flags {
 
-	/** @var array | null */
-	protected $args;
+	/** @var list<string> */
+	protected array $args ;
 
 	/** @var bool */
-	protected $skipFirstArgument;
-
-	private $definedFlags = [];
-	private $definedShortFlags = [];
-	private $arguments = [];
-	private $parsed = false;
+	protected bool $skipFirstArgument;
+	/**
+	 * @var array<string,array{type: string, usage: string, required: bool, value: mixed}>
+	 */
+	private array $definedFlags = [];
+	/**
+	 * @var array<string,array{value:int,usage:string}>
+	 */
+	private array $definedShortFlags = [];
+	/** @var list<string> */
+	private array $arguments = [];
+	private bool $parsed = false;
 
 	/** @access private */
 	const DEF_TYPE = 'type';
@@ -44,7 +51,7 @@ class Flags {
 	/**
 	 * Flags constructor.
 	 *
-	 * @param array|null $args The arguments to parse, defaults to $_SERVER['argv']
+	 * @param array<string>|null $args The arguments to parse, defaults to $_SERVER['argv']
 	 * @param bool       $skipFirstArgument Setting to false causes the first argument to be parsed as an parameter
 	 *     rather than the command.
 	 */
@@ -53,17 +60,17 @@ class Flags {
 			$args = (array)$_SERVER['argv'];
 		}
 
-		$this->args              = $args;
-		$this->skipFirstArgument = $skipFirstArgument;
+		$this->args              = array_values($args ?? []); // @phpstan-ignore assign.propertyType (this is fine for now)
+		$this->skipFirstArgument = (bool)$skipFirstArgument;
 	}
 
 	/**
 	 * Returns the n'th command-line argument. `arg(0)` is the first remaining argument after flags have been processed.
 	 *
 	 * @param int $index
-	 * @return string
+	 * @return string|null
 	 */
-	public function arg( $index ) {
+	public function arg( $index ) : ?string {
 		return isset($this->arguments[$index]) ? $this->arguments[$index] : null;
 	}
 
@@ -72,7 +79,7 @@ class Flags {
 	 *
 	 * @return string[] Array of argument strings
 	 */
-	public function args() {
+	public function args() : array {
 		return $this->arguments;
 	}
 
@@ -81,9 +88,9 @@ class Flags {
 	 *
 	 * `-v` would set the 'v' index to 1, whereas `-vvv` will set the 'v' index to 3
 	 *
-	 * @return array
+	 * @return array<string,int> map of short value to instances
 	 */
-	public function shorts() {
+	public function shorts() : array {
 		$out = [];
 		foreach( $this->definedShortFlags as $key => $data ) {
 			$out[$key] = $data[self::DEF_VALUE];
@@ -95,9 +102,9 @@ class Flags {
 	/**
 	 * Returns an array of long-flag values indexed by flag name
 	 *
-	 * @return array
+	 * @return array<string,mixed>
 	 */
-	public function longs() {
+	public function longs() : array {
 		$out = [];
 		foreach( $this->definedFlags as $key => $data ) {
 			$out[$key] = $data[self::DEF_VALUE];
@@ -240,7 +247,7 @@ class Flags {
 	 * @param string $usage
 	 * @return mixed
 	 */
-	private function &storeFlag( $type, $name, $value, $usage ) {
+	private function &storeFlag( $type, $name, $value, $usage ) : mixed {
 
 		$this->definedFlags[$name] = [
 			self::DEF_TYPE     => $type,
@@ -301,7 +308,7 @@ class Flags {
 	 *
 	 * Will throw exceptions on Missing Require Flags, Unknown Flags or Incorrect Flag Types
 	 *
-	 * @param array|null $args The arguments to parse. Defaults to arguments defined in the constructor.
+	 * @param array<string>|null $args The arguments to parse. Defaults to arguments defined in the constructor.
 	 * @param bool       $ignoreExceptions Setting to true causes parsing to continue even after an exception has been
 	 *     thrown.
 	 * @param bool       $skipFirstArgument Option to parse the first argument as an parameter rather than the command.
@@ -310,9 +317,11 @@ class Flags {
 	 * @throws Exceptions\InvalidFlagParamException
 	 * @throws Exceptions\InvalidFlagTypeException
 	 */
-	public function parse( ?array $args = null, $ignoreExceptions = false, $skipFirstArgument = null ) {
+	public function parse( ?array $args = null, $ignoreExceptions = false, $skipFirstArgument = null ) : void {
 		if( $args === null ) {
 			$args = $this->args;
+		}else{
+			$args = array_values($args);
 		}
 
 		if( $skipFirstArgument === null ) {
@@ -368,7 +377,7 @@ class Flags {
 	 *
 	 * @return bool
 	 */
-	public function parsed() {
+	public function parsed() : bool {
 		return $this->parsed;
 	}
 
@@ -379,7 +388,7 @@ class Flags {
 	 */
 	private function validateType( $type, &$value ) : bool {
 		$validate = [
-			self::TYPE_BOOL   => function ( &$val ) {
+			self::TYPE_BOOL   => function( &$val ) {
 				$val = strtolower((string)$val);
 				if( $val == '0' || $val == 'f' || $val == 'false' ) {
 					$val = false;
@@ -394,7 +403,7 @@ class Flags {
 
 				return false;
 			},
-			self::TYPE_UINT   => function ( &$val ) {
+			self::TYPE_UINT   => function( &$val ) {
 				if( abs((float)$val) == (int)$val ) {
 					$val = (int)$val;
 
@@ -403,7 +412,7 @@ class Flags {
 
 				return false;
 			},
-			self::TYPE_INT    => function ( &$val ) {
+			self::TYPE_INT    => function( &$val ) {
 				if( is_numeric($val) && floatval($val) == intval($val) ) {
 					$val = intval($val);
 
@@ -412,7 +421,7 @@ class Flags {
 
 				return false;
 			},
-			self::TYPE_FLOAT  => function ( &$val ) {
+			self::TYPE_FLOAT  => function( &$val ) {
 				if( is_numeric($val) ) {
 					$val = floatval($val);
 
@@ -421,7 +430,7 @@ class Flags {
 
 				return false;
 			},
-			self::TYPE_STRING => function ( &$val ) {
+			self::TYPE_STRING => function( &$val ) {
 				if( $val !== true ) {
 					$val = (string)$val;
 
@@ -438,9 +447,9 @@ class Flags {
 	}
 
 	/**
-	 * @param array $args
-	 * @param array $definedFlags
-	 * @return array
+	 * @param list<string> $args
+	 * @param array<string,array{type: string, usage: string, required: bool, value: mixed}> $definedFlags
+	 * @return array{array<0|string, string|true>, array<non-empty-string, int<1, max>>, list<string>}
 	 */
 	protected function splitArguments( array $args, array $definedFlags ) : array {
 		$longParams  = [];
@@ -451,7 +460,7 @@ class Flags {
 		$getValue   = false;
 		$startArgs  = false;
 		foreach( $args as $arg ) {
-			if( isset($arg[0]) && $arg[0] == '-' && !$startArgs && !$forceValue && $arg !== '-' ) {
+			if( isset($arg[0]) && $arg[0] === '-' && !$startArgs && !$forceValue && $arg !== '-' ) {
 				$cleanArg = ltrim($arg, '- ');
 
 				if( $getValue ) {
@@ -470,7 +479,7 @@ class Flags {
 					} else {
 						$getValue = $cleanArg;
 
-						if( isset($definedFlags[$cleanArg]) && $definedFlags[$cleanArg][self::DEF_TYPE] != self::TYPE_BOOL ) {
+						if( isset($definedFlags[$cleanArg]) && $definedFlags[$cleanArg][self::DEF_TYPE] !== self::TYPE_BOOL ) {
 							$forceValue = true;
 						}
 					}

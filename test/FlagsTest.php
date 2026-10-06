@@ -42,13 +42,15 @@ class FlagsTest extends TestCase {
 		$flags->parse(explode(' ', 'test.php --bool=10'));
 	}
 
-	public function testBoolDoesNotConsumeSpaceSeparatedValue() : void {
-		$flags = new Flags();
-		$bool  = &$flags->bool('bool');
-		$flags->parse(explode(' ', 'test.php --bool soup'));
+	public function testBoolDoesNotConsumeSpaceSeparatedValues() : void {
+		foreach( [ 'soup', 'false', 'true' ] as $argument ) {
+			$flags = new Flags();
+			$bool  = &$flags->bool('bool');
+			$flags->parse([ 'test.php', '--bool', $argument ]);
 
-		$this->assertTrue($bool);
-		$this->assertSame([ 'soup' ], $flags->args());
+			$this->assertTrue($bool);
+			$this->assertSame([ $argument ], $flags->args());
+		}
 	}
 
 	public function testFloat() : void {

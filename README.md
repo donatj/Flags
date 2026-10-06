@@ -86,12 +86,12 @@ Expected option --qux missing.
 #### Method: Flags->__construct
 
 ```php
-function __construct([ ?array $args = null [, $skipFirstArgument = true]])
+function __construct(?array $args = null, $skipFirstArgument = true)
 ```
 
 Flags constructor.
 
-##### Parameters:
+##### Parameters
 
 - ***array*** | ***null*** `$args` - The arguments to parse, defaults to $_SERVER['argv']
 - ***bool*** `$skipFirstArgument` - Setting to false causes the first argument to be parsed as an parameter
@@ -107,11 +107,11 @@ function arg($index)
 
 Returns the n'th command-line argument. `arg(0)` is the first remaining argument after flags have been processed.
 
-##### Parameters:
+##### Parameters
 
 - ***int*** `$index`
 
-##### Returns:
+##### Return Value
 
 - ***string***
 
@@ -125,7 +125,7 @@ function args()
 
 Returns the non-flag command-line arguments.
 
-##### Returns:
+##### Return Value
 
 - ***string[]*** - Array of argument strings
 
@@ -141,7 +141,7 @@ Returns an array of short-flag call-counts indexed by character
   
 `-v` would set the 'v' index to 1, whereas `-vvv` will set the 'v' index to 3
 
-##### Returns:
+##### Return Value
 
 - ***array***
 
@@ -155,7 +155,7 @@ function longs()
 
 Returns an array of long-flag values indexed by flag name
 
-##### Returns:
+##### Return Value
 
 - ***array***
 
@@ -164,7 +164,7 @@ Returns an array of long-flag values indexed by flag name
 #### Method: Flags->short
 
 ```php
-function short($letter [, $usage = ''])
+function short($letter, $usage = '')
 ```
 
 Defines a short-flag of specified name, and usage string.  
@@ -176,12 +176,12 @@ This means the value of the reference for v would be the following.
     -v => 1  
     -vvv => 3
 
-##### Parameters:
+##### Parameters
 
 - ***string*** `$letter` - The character of the short-flag to define
 - ***string*** `$usage` - The usage description
 
-##### Returns:
+##### Return Value
 
 - ***int***
 
@@ -190,7 +190,7 @@ This means the value of the reference for v would be the following.
 #### Method: Flags->bool
 
 ```php
-function bool($name [, $value = null [, $usage = '']])
+function bool($name, $value = null, $usage = '')
 ```
 
 Defines a bool long-flag of specified name, default value, and usage string.  
@@ -211,13 +211,13 @@ The return value is a reference to a variable that stores the value of the flag.
      --mybool [false|f|0]  
        [not calling --mybool and having the default false]
 
-##### Parameters:
+##### Parameters
 
 - ***string*** `$name` - The name of the long-flag to define
 - ***mixed*** `$value` - The default value - usually false for bool - which if null marks the flag required
 - ***string*** `$usage` - The usage description
 
-##### Returns:
+##### Return Value
 
 - ***mixed*** - A reference to the flags value
 
@@ -226,7 +226,7 @@ The return value is a reference to a variable that stores the value of the flag.
 #### Method: Flags->float
 
 ```php
-function float($name [, $value = null [, $usage = '']])
+function float($name, $value = null, $usage = '')
 ```
 
 Defines a float long-flag of specified name, default value, and usage string.  
@@ -238,13 +238,13 @@ The return value is a reference to a variable that stores the value of the flag.
     --myfloat=1.1  
     --myfloat 1.1
 
-##### Parameters:
+##### Parameters
 
 - ***string*** `$name` - The name of the long-flag to define
 - ***mixed*** `$value` - The default value which if null marks the flag required
 - ***string*** `$usage` - The usage description
 
-##### Returns:
+##### Return Value
 
 - ***mixed*** - A reference to the flags value
 
@@ -253,7 +253,7 @@ The return value is a reference to a variable that stores the value of the flag.
 #### Method: Flags->int
 
 ```php
-function int($name [, $value = null [, $usage = '']])
+function int($name, $value = null, $usage = '')
 ```
 
 Defines an integer long-flag of specified name, default value, and usage string.  
@@ -267,13 +267,13 @@ Note: Float values trigger an error, rather than casting.
     --myinteger=1  
     --myinteger 1
 
-##### Parameters:
+##### Parameters
 
 - ***string*** `$name` - The name of the long-flag to define
 - ***mixed*** `$value` - The default value which if null marks the flag required
 - ***string*** `$usage` - The usage description
 
-##### Returns:
+##### Return Value
 
 - ***mixed*** - A reference to the flags value
 
@@ -282,7 +282,7 @@ Note: Float values trigger an error, rather than casting.
 #### Method: Flags->uint
 
 ```php
-function uint($name [, $value = null [, $usage = '']])
+function uint($name, $value = null, $usage = '')
 ```
 
 Defines a unsigned integer long-flag of specified name, default value, and usage string.  
@@ -296,13 +296,13 @@ Note: Negative values trigger an error, rather than casting.
     --myinteger=1  
     --myinteger 1
 
-##### Parameters:
+##### Parameters
 
 - ***string*** `$name` - The name of the long-flag to define
 - ***mixed*** `$value` - The default value which if null marks the flag required
 - ***string*** `$usage` - The usage description
 
-##### Returns:
+##### Return Value
 
 - ***mixed*** - A reference to the flags value
 
@@ -311,7 +311,7 @@ Note: Negative values trigger an error, rather than casting.
 #### Method: Flags->string
 
 ```php
-function string($name [, $value = null [, $usage = '']])
+function string($name, $value = null, $usage = '')
 ```
 
 Defines a string long-flag of specified name, default value, and usage string.  
@@ -325,13 +325,13 @@ Examples
     --mystring vermouth  
     --mystring "blind jazz singers"
 
-##### Parameters:
+##### Parameters
 
 - ***string*** `$name` - The name of the long-flag to define
 - ***mixed*** `$value` - The default value which if null marks the flag required
 - ***string*** `$usage` - The usage description
 
-##### Returns:
+##### Return Value
 
 - ***mixed*** - A reference to the flags value
 
@@ -355,7 +355,7 @@ Returns the default values of all defined command-line flags as a formatted stri
     --version   Display this applications version.  
 ```
 
-##### Returns:
+##### Return Value
 
 - ***string***
 
@@ -364,7 +364,11 @@ Returns the default values of all defined command-line flags as a formatted stri
 #### Method: Flags->parse
 
 ```php
-function parse([ ?array $args = null [, $ignoreExceptions = false [, $skipFirstArgument = null]]])
+function parse(
+	?array $args = null,
+	$ignoreExceptions = false,
+	$skipFirstArgument = null,
+)
 ```
 
 Parses flag definitions from the argument list, which should include the command name.  
@@ -373,7 +377,7 @@ Must be called after all flags are defined and before flags are accessed by the 
   
 Will throw exceptions on Missing Require Flags, Unknown Flags or Incorrect Flag Types
 
-##### Parameters:
+##### Parameters
 
 - ***array*** | ***null*** `$args` - The arguments to parse. Defaults to arguments defined in the constructor.
 - ***bool*** `$ignoreExceptions` - Setting to true causes parsing to continue even after an exception has been
@@ -397,6 +401,6 @@ function parsed()
 
 Returns true if the command-line flags have been parsed.
 
-##### Returns:
+##### Return Value
 
 - ***bool***

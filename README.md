@@ -202,13 +202,11 @@ The return value is a reference to a variable that stores the value of the flag.
 ##### Truth-y
 
      --mybool=[true|t|1]  
-     --mybool [true|t|1]  
      --mybool  
 
 ##### False-y
 
      --mybool=[false|f|0]  
-     --mybool [false|f|0]  
        [not calling --mybool and having the default false]
 
 ##### Parameters

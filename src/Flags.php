@@ -312,7 +312,7 @@ class Flags {
 	 */
 	public function parse( ?array $args = null, $ignoreExceptions = false, $skipFirstArgument = null ) {
 		if( $args === null ) {
-			$args = $this->args;
+			$args = $this->args ?? [];
 		}
 
 		if( $skipFirstArgument === null ) {

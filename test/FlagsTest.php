@@ -371,6 +371,18 @@ class FlagsTest extends TestCase {
 		$flags->parse(explode(' ', 'test.php'));
 	}
 
+	public function testParseWithoutArguments() : void {
+		$flags = new class extends Flags {
+			public function clearArguments() : void {
+				$this->args = null;
+			}
+		};
+		$flags->clearArguments();
+		$flags->parse();
+
+		$this->assertTrue($flags->parsed());
+	}
+
 	public function testNotParseExceptionMissingFlagParamException() : void {
 		$this->expectNotToPerformAssertions();
 

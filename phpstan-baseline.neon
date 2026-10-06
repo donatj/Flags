@@ -1,0 +1,79 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Method donatj\\Flags\:\:__construct\(\) has parameter \$args with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Flags.php
+
+		-
+			message: '#^Method donatj\\Flags\:\:longs\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Flags.php
+
+		-
+			message: '#^Method donatj\\Flags\:\:parse\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Flags.php
+
+		-
+			message: '#^Method donatj\\Flags\:\:parse\(\) has parameter \$args with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Flags.php
+
+		-
+			message: '#^Method donatj\\Flags\:\:shorts\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Flags.php
+
+		-
+			message: '#^Method donatj\\Flags\:\:splitArguments\(\) has parameter \$args with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Flags.php
+
+		-
+			message: '#^Method donatj\\Flags\:\:splitArguments\(\) has parameter \$definedFlags with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Flags.php
+
+		-
+			message: '#^Method donatj\\Flags\:\:splitArguments\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Flags.php
+
+		-
+			message: '#^Property donatj\\Flags\:\:\$args type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Flags.php
+
+		-
+			message: '#^Property donatj\\Flags\:\:\$arguments has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: src/Flags.php
+
+		-
+			message: '#^Property donatj\\Flags\:\:\$definedFlags has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: src/Flags.php
+
+		-
+			message: '#^Property donatj\\Flags\:\:\$definedShortFlags has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: src/Flags.php
+
+		-
+			message: '#^Property donatj\\Flags\:\:\$parsed has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: src/Flags.php

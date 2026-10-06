@@ -33,3 +33,6 @@ jobs:
 
       - name: Verify documentation
         run: ./vendor/bin/mddoc --dry-run=true
+
+      - name: Run static analysis
+        run: ./vendor/bin/phpstan

@@ -11,7 +11,8 @@
 	],
 	"require-dev": {
 		"donatj/drop": "*",
-		"phpunit/phpunit": "^9 || ^10"
+		"phpunit/phpunit": "^9 || ^10",
+		"donatj/mddoc": "^0.13.0"
 	},
 	"license": "MIT",
 	"authors": [

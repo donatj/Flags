@@ -1,5 +1,6 @@
 <mddoc>
-	<docpage target="README.md" autoloader="psr0" autoloader-root="src">
+	<docpage target="README.md">
+		<autoloader type="psr0" root="src" />
 		<section title="Flags">
 			<badge-poser type="version" />
 			<badge-poser type="downloads" />

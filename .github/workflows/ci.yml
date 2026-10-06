@@ -26,7 +26,10 @@ jobs:
           extensions: sockets, json, curl
 
       - name: Install dependencies with composer
-        run: composer install
+        run: COMPOSER_ROOT_VERSION=1.6.x-dev composer install
 
       - name: Run tests
         run: ./vendor/bin/phpunit
+
+      - name: Verify documentation
+        run: ./vendor/bin/mddoc --dry-run=true

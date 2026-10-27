@@ -10,10 +10,10 @@
 		"gnu-style"
 	],
 	"require-dev": {
+		"corpus/php-cs-fixer-config": "^0.1.1",
 		"donatj/drop": "*",
-		"phpunit/phpunit": "^9 || ^10",
 		"donatj/mddoc": "=0.14.1",
-		"corpus/php-cs-fixer-config": "^0.1.1"
+		"phpunit/phpunit": "^9 || ^10"
 	},
 	"license": "MIT",
 	"authors": [
@@ -31,5 +31,8 @@
 		"psr-4": {
 			"donatj\\": "src/"
 		}
+	},
+	"config": {
+		"sort-packages": true
 	}
 }

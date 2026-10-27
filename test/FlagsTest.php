@@ -17,14 +17,16 @@ class FlagsTest extends TestCase {
 		$flags->parse(explode(' ', 'test.php --bool'));
 		$this->assertTrue($bool);
 
-		$options = [ 0 => [ 'true', 't', '1' ], 1 => [ 'false', 'f', '0' ] ];
+		$options = [
+			[ true, [ 'true', 't', '1' ] ],
+			[ false, [ 'false', 'f', '0' ] ],
+		];
 
-		foreach( [ '=', ' ' ] as $sep ) {
-			foreach( $options as $bool => $values ) {
-				foreach( $values as $value ) {
-					$flags->parse(explode(' ', 'test.php --bool' . $sep . $value));
-					$this->assertSame($bool, (bool)$bool);
-				}
+		foreach( $options as [ $expected, $values ] ) {
+			foreach( $values as $value ) {
+				$flags->parse(explode(' ', 'test.php --bool=' . $value . ' soup'));
+				$this->assertSame($expected, $bool);
+				$this->assertSame([ 'soup' ], $flags->args());
 			}
 		}
 
@@ -40,12 +42,15 @@ class FlagsTest extends TestCase {
 		$flags->parse(explode(' ', 'test.php --bool=10'));
 	}
 
-	public function testBoolException2() : void {
-		$this->expectException(InvalidFlagTypeException::class);
+	public function testBoolDoesNotConsumeSpaceSeparatedValues() : void {
+		foreach( [ 'soup', 'false', 'true' ] as $argument ) {
+			$flags = new Flags();
+			$bool  = &$flags->bool('bool');
+			$flags->parse([ 'test.php', '--bool', $argument ]);
 
-		$flags = new Flags();
-		$flags->bool('bool');
-		$flags->parse(explode(' ', 'test.php --bool string'));
+			$this->assertTrue($bool);
+			$this->assertSame([ $argument ], $flags->args());
+		}
 	}
 
 	public function testFloat() : void {

@@ -137,13 +137,11 @@ class Flags {
 	 * Truth-y:
 	 *
 	 *      --mybool=[true|t|1]
-	 *      --mybool [true|t|1]
 	 *      --mybool
 	 *
 	 * False-y:
 	 *
 	 *      --mybool=[false|f|0]
-	 *      --mybool [false|f|0]
 	 *        [not calling --mybool and having the default false]
 	 *
 	 * @param string $name The name of the long-flag to define
@@ -467,10 +465,12 @@ class Flags {
 
 					if( count($split) > 1 ) {
 						$longParams[ltrim(reset($split), '- ')] = end($split);
+					} elseif( isset($definedFlags[$cleanArg]) && $definedFlags[$cleanArg][self::DEF_TYPE] === self::TYPE_BOOL ) {
+						$longParams[$cleanArg] = true;
 					} else {
 						$getValue = $cleanArg;
 
-						if( isset($definedFlags[$cleanArg]) && $definedFlags[$cleanArg][self::DEF_TYPE] != self::TYPE_BOOL ) {
+						if( isset($definedFlags[$cleanArg]) && $definedFlags[$cleanArg][self::DEF_TYPE] !== self::TYPE_BOOL ) {
 							$forceValue = true;
 						}
 					}

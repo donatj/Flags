@@ -6,7 +6,7 @@
 [![ci.yml](https://github.com/donatj/Flags/actions/workflows/ci.yml/badge.svg)](https://github.com/donatj/Flags/actions/workflows/ci.yml)
 
 
-Flags is an argument parser inspired by the Go-lang [Flag](http://golang.org/pkg/flag/#Parsed) package, taking its methodology but attaching a **GNU-style** flag parser.
+Flags is an argument parser inspired by the Go [Flag](http://golang.org/pkg/flag/#Parsed) package, taking its methodology but attaching a **GNU-style** flag parser.
 
 ---
 

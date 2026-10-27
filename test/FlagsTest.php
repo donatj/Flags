@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class FlagsTest extends TestCase {
 
-	public function testBool() : void {
+	public function testBool(): void {
 		$flags = new Flags();
 		$bool  = &$flags->bool('bool');
 
@@ -32,7 +32,7 @@ class FlagsTest extends TestCase {
 		$this->assertTrue($bool);
 	}
 
-	public function testBoolException() : void {
+	public function testBoolException(): void {
 		$this->expectException(InvalidFlagTypeException::class);
 
 		$flags = new Flags();
@@ -40,7 +40,7 @@ class FlagsTest extends TestCase {
 		$flags->parse(explode(' ', 'test.php --bool=10'));
 	}
 
-	public function testBoolException2() : void {
+	public function testBoolException2(): void {
 		$this->expectException(InvalidFlagTypeException::class);
 
 		$flags = new Flags();
@@ -48,7 +48,7 @@ class FlagsTest extends TestCase {
 		$flags->parse(explode(' ', 'test.php --bool string'));
 	}
 
-	public function testFloat() : void {
+	public function testFloat(): void {
 		$flags = new Flags();
 		$uint  = &$flags->float('float');
 
@@ -62,7 +62,7 @@ class FlagsTest extends TestCase {
 		}
 	}
 
-	public function testFloatException() : void {
+	public function testFloatException(): void {
 		$this->expectException(InvalidFlagTypeException::class);
 
 		$flags = new Flags();
@@ -70,7 +70,7 @@ class FlagsTest extends TestCase {
 		$flags->parse(explode(' ', 'test.php --float=spiders'));
 	}
 
-	public function testFloatException2() : void {
+	public function testFloatException2(): void {
 		$this->expectException(InvalidFlagTypeException::class);
 
 		$flags = new Flags();
@@ -78,7 +78,7 @@ class FlagsTest extends TestCase {
 		$flags->parse(explode(' ', 'test.php --float'));
 	}
 
-	public function testInt() : void {
+	public function testInt(): void {
 		$flags = new Flags();
 		$int   = &$flags->int('int');
 
@@ -92,7 +92,7 @@ class FlagsTest extends TestCase {
 		}
 	}
 
-	public function testIntException() : void {
+	public function testIntException(): void {
 		$this->expectException(InvalidFlagTypeException::class);
 
 		$flags = new Flags();
@@ -100,7 +100,7 @@ class FlagsTest extends TestCase {
 		$flags->parse(explode(' ', 'test.php --int=spiders'));
 	}
 
-	public function testIntException2() : void {
+	public function testIntException2(): void {
 		$this->expectException(InvalidFlagTypeException::class);
 
 		$flags = new Flags();
@@ -108,7 +108,7 @@ class FlagsTest extends TestCase {
 		$flags->parse(explode(' ', 'test.php --int=1.1'));
 	}
 
-	public function testIntException3() : void {
+	public function testIntException3(): void {
 		$this->expectException(InvalidFlagTypeException::class);
 
 		$flags = new Flags();
@@ -116,7 +116,7 @@ class FlagsTest extends TestCase {
 		$flags->parse(explode(' ', 'test.php --int'));
 	}
 
-	public function testUint() : void {
+	public function testUint(): void {
 		$flags = new Flags();
 		$bool  = &$flags->uint('uint');
 
@@ -130,7 +130,7 @@ class FlagsTest extends TestCase {
 		}
 	}
 
-	public function testUintException() : void {
+	public function testUintException(): void {
 		$this->expectException(InvalidFlagTypeException::class);
 
 		$flags = new Flags();
@@ -138,7 +138,7 @@ class FlagsTest extends TestCase {
 		$flags->parse(explode(' ', 'test.php --uint=-2'));
 	}
 
-	public function testUintException2() : void {
+	public function testUintException2(): void {
 		$this->expectException(InvalidFlagTypeException::class);
 
 		$flags = new Flags();
@@ -146,7 +146,7 @@ class FlagsTest extends TestCase {
 		$flags->parse(explode(' ', 'test.php --uint=2.2'));
 	}
 
-	public function testString() : void {
+	public function testString(): void {
 		$flags  = new Flags();
 		$string = &$flags->string('string');
 		$values = [ 4, '4.', '4.0', 0, 1000, 12, "what", "funky fresh", "hot=dog" ];
@@ -160,7 +160,7 @@ class FlagsTest extends TestCase {
 		}
 	}
 
-	public function testStringException() : void {
+	public function testStringException(): void {
 		$this->expectException(InvalidFlagTypeException::class);
 
 		$flags = new Flags();
@@ -168,7 +168,7 @@ class FlagsTest extends TestCase {
 		$flags->parse(explode(' ', 'test.php --string'));
 	}
 
-	public static function parseProvider() : array {
+	public static function parseProvider(): array {
 		return [
 			[ 'test.php --sponges=false --help -v argument1 --pie 59 argument2 --what=14 -vv --int1 7 --int2=-4 --last -- --argument_that_looks_like_a_param', true ],
 			[ '--sponges=false --help -v argument1 --pie 59 argument2 --what=14 -vv --int1 7 --int2=-4 --last -- --argument_that_looks_like_a_param', false ],
@@ -178,7 +178,7 @@ class FlagsTest extends TestCase {
 	/**
 	 * @dataProvider parseProvider
 	 */
-	public function testParse( string $arguments, bool $skipFirst ) : void {
+	public function testParse( string $arguments, bool $skipFirst ): void {
 		$argParts = explode(' ', $arguments);
 
 		foreach( [ 0, 1, 2 ] as $useConstructor ) {
@@ -266,7 +266,7 @@ class FlagsTest extends TestCase {
 
 		$this->assertEquals([ 'X' => 1, 'x' => 0, 'a' => 1, 's' => 2, 'd' => 1, '?' => 1 ], $flags->shorts());
 
-		# ====
+		// ====
 
 		$_SERVER['argv'] = [ 'test.php', '--a', '7' ];
 		$flags           = new Flags();
@@ -276,7 +276,7 @@ class FlagsTest extends TestCase {
 		$this->assertSame($a, 7);
 	}
 
-	public function testParsed() : void {
+	public function testParsed(): void {
 		$flags = new Flags();
 		$this->assertFalse($flags->parsed());
 
@@ -284,7 +284,7 @@ class FlagsTest extends TestCase {
 			$flags->parse(explode(' ', 'test.php --failtoparse=true'));
 			$this->fail('An exception should have been thrown.');
 		} catch( \Exception $e ) {
-			//This is expected to fail. We're simply making sure it didn't parse.
+			// This is expected to fail. We're simply making sure it didn't parse.
 		}
 
 		$this->assertSame(false, $flags->parsed());
@@ -293,77 +293,77 @@ class FlagsTest extends TestCase {
 		$this->assertSame(true, $flags->parsed());
 	}
 
-	public function testParseExceptionInvalidFlagParamException() : void {
+	public function testParseExceptionInvalidFlagParamException(): void {
 		$this->expectException(InvalidFlagParamException::class);
 
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php --fake=what'));
 	}
 
-	public function testNotParseExceptionInvalidFlagParamException() : void {
+	public function testNotParseExceptionInvalidFlagParamException(): void {
 		$this->expectNotToPerformAssertions();
 
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php --fake=what'), true);
 	}
 
-	public function testParseExceptionInvalidFlagParamException2() : void {
+	public function testParseExceptionInvalidFlagParamException2(): void {
 		$this->expectException(InvalidFlagParamException::class);
 
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php --fake what'));
 	}
 
-	public function testNotParseExceptionInvalidFlagParamException2() : void {
+	public function testNotParseExceptionInvalidFlagParamException2(): void {
 		$this->expectNotToPerformAssertions();
 
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php --fake what'), true);
 	}
 
-	public function testParseExceptionInvalidFlagParamException3() : void {
+	public function testParseExceptionInvalidFlagParamException3(): void {
 		$this->expectException(InvalidFlagParamException::class);
 
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php --fake'));
 	}
 
-	public function testNotParseExceptionInvalidFlagParamException3() : void {
+	public function testNotParseExceptionInvalidFlagParamException3(): void {
 		$this->expectNotToPerformAssertions();
 
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php --fake'), true);
 	}
 
-	public function testParseExceptionInvalidFlagParamException4() : void {
+	public function testParseExceptionInvalidFlagParamException4(): void {
 		$this->expectException(InvalidFlagParamException::class);
 
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php -fake'));
 	}
 
-	public function testNotParseExceptionInvalidFlagParamException4() : void {
+	public function testNotParseExceptionInvalidFlagParamException4(): void {
 		$this->expectNotToPerformAssertions();
 
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php -fake'), true);
 	}
 
-	public function testParseExceptionInvalidFlagParamException5() : void {
+	public function testParseExceptionInvalidFlagParamException5(): void {
 		$this->expectException(InvalidFlagParamException::class);
 
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php -v'));
 	}
 
-	public function testNotParseExceptionInvalidFlagParamException5() : void {
+	public function testNotParseExceptionInvalidFlagParamException5(): void {
 		$this->expectNotToPerformAssertions();
 
 		$flags = new Flags();
 		$flags->parse(explode(' ', 'test.php -v'), true);
 	}
 
-	public function testParseExceptionMissingFlagParamException() : void {
+	public function testParseExceptionMissingFlagParamException(): void {
 		$this->expectException(MissingFlagParamException::class);
 
 		$flags = new Flags();
@@ -371,7 +371,7 @@ class FlagsTest extends TestCase {
 		$flags->parse(explode(' ', 'test.php'));
 	}
 
-	public function testNotParseExceptionMissingFlagParamException() : void {
+	public function testNotParseExceptionMissingFlagParamException(): void {
 		$this->expectNotToPerformAssertions();
 
 		$flags = new Flags();
@@ -379,7 +379,7 @@ class FlagsTest extends TestCase {
 		$flags->parse(explode(' ', 'test.php'), true);
 	}
 
-	public function testParseExceptionMissingFlagParamException2() : void {
+	public function testParseExceptionMissingFlagParamException2(): void {
 		$this->expectException(MissingFlagParamException::class);
 
 		$flags = new Flags();
@@ -388,7 +388,7 @@ class FlagsTest extends TestCase {
 		$flags->parse(explode(' ', 'test.php --foo'));
 	}
 
-	public function testNotParseExceptionMissingFlagParamException2() : void {
+	public function testNotParseExceptionMissingFlagParamException2(): void {
 		$this->expectNotToPerformAssertions();
 
 		$flags = new Flags();
@@ -397,7 +397,7 @@ class FlagsTest extends TestCase {
 		$flags->parse(explode(' ', 'test.php --foo'), true);
 	}
 
-	public function testGetDefaults() : void {
+	public function testGetDefaults(): void {
 
 		$flags = new Flags();
 
@@ -468,7 +468,7 @@ class FlagsTest extends TestCase {
 	/**
 	 * Test that an empty string e.g. `foo.php --foo ""` does not explode
 	 */
-	public function testEmptyStringValueRegression() : void {
+	public function testEmptyStringValueRegression(): void {
 		$flags = new Flags();
 
 		$foo =& $flags->string('foo', 'test');
@@ -477,7 +477,7 @@ class FlagsTest extends TestCase {
 		$this->assertSame($foo, '');
 	}
 
-	public function testHandleArgumentSingleDash() : void {
+	public function testHandleArgumentSingleDash(): void {
 		$flags = new Flags();
 
 		$flags->string('foo', 'test');

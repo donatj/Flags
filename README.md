@@ -6,7 +6,7 @@
 [![ci.yml](https://github.com/donatj/Flags/actions/workflows/ci.yml/badge.svg)](https://github.com/donatj/Flags/actions/workflows/ci.yml)
 
 
-Flags is an argument parser inspired by the Go-lang [Flag](http://golang.org/pkg/flag/#Parsed) package, taking its methodology but attaching a **GNU-style** flag parser.
+Flags is an argument parser inspired by the Go [Flag](http://golang.org/pkg/flag/#Parsed) package, taking its methodology but attaching a **GNU-style** flag parser.
 
 ---
 
@@ -64,6 +64,7 @@ try {
 } catch( Exception $e ) {
 	die($e->getMessage() . PHP_EOL . $flags->getDefaults() . PHP_EOL);
 }
+
 ```
 
 The by-reference `= &` allows the value to be updated from the *default* to the argument value once the `parse()` method has been triggered. This is inspired by the Go Flag packages use of pointers

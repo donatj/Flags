@@ -8,7 +8,7 @@ use donatj\Exceptions\MissingFlagParamException;
 
 class Flags {
 
-	/** @var array | null */
+	/** @var array|null */
 	protected $args;
 
 	/** @var bool */
@@ -44,9 +44,9 @@ class Flags {
 	/**
 	 * Flags constructor.
 	 *
-	 * @param array|null $args The arguments to parse, defaults to $_SERVER['argv']
+	 * @param array|null $args              The arguments to parse, defaults to $_SERVER['argv']
 	 * @param bool       $skipFirstArgument Setting to false causes the first argument to be parsed as an parameter
-	 *     rather than the command.
+	 *                                      rather than the command.
 	 */
 	public function __construct( ?array $args = null, $skipFirstArgument = true ) {
 		if( $args === null && isset($_SERVER['argv']) ) {
@@ -64,7 +64,7 @@ class Flags {
 	 * @return string
 	 */
 	public function arg( $index ) {
-		return isset($this->arguments[$index]) ? $this->arguments[$index] : null;
+		return $this->arguments[$index] ?? null;
 	}
 
 	/**
@@ -116,7 +116,7 @@ class Flags {
 	 *     -vvv => 3
 	 *
 	 * @param string $letter The character of the short-flag to define
-	 * @param string $usage The usage description
+	 * @param string $usage  The usage description
 	 * @return int
 	 */
 	public function &short( $letter, $usage = '' ) {
@@ -146,7 +146,7 @@ class Flags {
 	 *      --mybool [false|f|0]
 	 *        [not calling --mybool and having the default false]
 	 *
-	 * @param string $name The name of the long-flag to define
+	 * @param string $name  The name of the long-flag to define
 	 * @param mixed  $value The default value - usually false for bool - which if null marks the flag required
 	 * @param string $usage The usage description
 	 * @return mixed A reference to the flags value
@@ -164,7 +164,7 @@ class Flags {
 	 *     --myfloat=1.1
 	 *     --myfloat 1.1
 	 *
-	 * @param string $name The name of the long-flag to define
+	 * @param string $name  The name of the long-flag to define
 	 * @param mixed  $value The default value which if null marks the flag required
 	 * @param string $usage The usage description
 	 * @return mixed A reference to the flags value
@@ -184,7 +184,7 @@ class Flags {
 	 *     --myinteger=1
 	 *     --myinteger 1
 	 *
-	 * @param string $name The name of the long-flag to define
+	 * @param string $name  The name of the long-flag to define
 	 * @param mixed  $value The default value which if null marks the flag required
 	 * @param string $usage The usage description
 	 * @return mixed A reference to the flags value
@@ -204,7 +204,7 @@ class Flags {
 	 *     --myinteger=1
 	 *     --myinteger 1
 	 *
-	 * @param string $name The name of the long-flag to define
+	 * @param string $name  The name of the long-flag to define
 	 * @param mixed  $value The default value which if null marks the flag required
 	 * @param string $usage The usage description
 	 * @return mixed A reference to the flags value
@@ -224,7 +224,7 @@ class Flags {
 	 *     --mystring vermouth
 	 *     --mystring "blind jazz singers"
 	 *
-	 * @param string $name The name of the long-flag to define
+	 * @param string $name  The name of the long-flag to define
 	 * @param mixed  $value The default value which if null marks the flag required
 	 * @param string $usage The usage description
 	 * @return mixed A reference to the flags value
@@ -236,9 +236,7 @@ class Flags {
 	/**
 	 * @param string $type
 	 * @param string $name
-	 * @param mixed  $value
 	 * @param string $usage
-	 * @return mixed
 	 */
 	private function &storeFlag( $type, $name, $value, $usage ) {
 
@@ -301,11 +299,11 @@ class Flags {
 	 *
 	 * Will throw exceptions on Missing Require Flags, Unknown Flags or Incorrect Flag Types
 	 *
-	 * @param array|null $args The arguments to parse. Defaults to arguments defined in the constructor.
-	 * @param bool       $ignoreExceptions Setting to true causes parsing to continue even after an exception has been
-	 *     thrown.
+	 * @param array|null $args              The arguments to parse. Defaults to arguments defined in the constructor.
+	 * @param bool       $ignoreExceptions  Setting to true causes parsing to continue even after an exception has been
+	 *                                      thrown.
 	 * @param bool       $skipFirstArgument Option to parse the first argument as an parameter rather than the command.
-	 *     Defaults to constructor value
+	 *                                      Defaults to constructor value
 	 * @throws Exceptions\MissingFlagParamException
 	 * @throws Exceptions\InvalidFlagParamException
 	 * @throws Exceptions\InvalidFlagTypeException
@@ -374,10 +372,8 @@ class Flags {
 
 	/**
 	 * @param string $type
-	 * @param mixed  $value
-	 * @return bool
 	 */
-	private function validateType( $type, &$value ) : bool {
+	private function validateType( $type, &$value ): bool {
 		$validate = [
 			self::TYPE_BOOL   => function ( &$val ) {
 				$val = strtolower((string)$val);
@@ -437,12 +433,7 @@ class Flags {
 		return $test($value);
 	}
 
-	/**
-	 * @param array $args
-	 * @param array $definedFlags
-	 * @return array
-	 */
-	protected function splitArguments( array $args, array $definedFlags ) : array {
+	protected function splitArguments( array $args, array $definedFlags ): array {
 		$longParams  = [];
 		$shortParams = [];
 		$arguments   = [];
